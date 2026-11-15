@@ -41,6 +41,16 @@
 - [ ] 🟠 Install and test the VPK on a physical Vita.
 - [ ] 🟠 Verify suspend/resume and resource recovery.
 
+## Phase 0.5 — Define the node ecosystem
+
+- [x] Draft the versioned Node API and lifecycle contract.
+- [x] Add a machine-readable node manifest schema.
+- [x] Document the independent PSBBV Media product and Kodi compatibility strategy.
+- [ ] Add schema validation and negative manifest tests to CI.
+- [ ] Implement host-side manifest parsing and duplicate-ID rejection.
+- [ ] Implement built-in node registration and effective availability checks.
+- [ ] Verify lifecycle, cancellation, and suspend/resume behavior on Vita.
+
 ## Phase 1 — Make the UI feel finished
 
 - [ ] Reusable panels, cards, labels, focus states, and layout primitives.
@@ -64,7 +74,7 @@
 - [ ] 🎮 Games
 - [ ] 🧰 Applications
 - [ ] 🌐 Network
-- [ ] 🎵 Media
+- [ ] 🎵 Media — see [PSBBV Media Blueprint](MEDIA_NODE_BLUEPRINT.md)
 - [ ] ⬇️ Downloads
 - [ ] ⚙️ System
 
