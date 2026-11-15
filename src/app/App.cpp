@@ -8,6 +8,7 @@
 #include <vita2d.h>
 
 #include "psbbv/navigation/ChannelRegistry.hpp"
+#include "psbbv/navigation/UiState.hpp"
 #include "psbbv/ui/Theme.hpp"
 
 namespace psbbv {
@@ -26,175 +27,44 @@ constexpr std::array<const char*, 3> MenuItems{{
 
 App::App(vita2d_pgf* font) noexcept
     : font_(font),
-      previousButtons_(0),
-      selectedChannel_(0),
-      selectedMenuItem_(0),
-      channelOpen_(false),
-      applicationMenuOpen_(false),
-      aboutOpen_(false),
-      shouldQuit_(false) {
+      state_(),
+      touchWasDown_(false) {
 }
 
-void App::update(
-    std::uint32_t buttons,
-    int touchX,
-    int touchY
-) noexcept {
-    const std::uint32_t pressed = buttons & ~previousButtons_;
-    previousButtons_ = buttons;
-
-    if (touchX >= 0 && touchY >= 0) {
-        handleTouch(touchX, touchY);
-    }
-
-    if (shouldQuit_) {
-        return;
-    }
-
-    if ((pressed & SCE_CTRL_START) != 0) {
-        applicationMenuOpen_ = !applicationMenuOpen_;
-        aboutOpen_ = false;
-        return;
-    }
-
-    if (applicationMenuOpen_) {
-        if ((pressed & SCE_CTRL_UP) != 0) {
-            selectedMenuItem_ =
-                (selectedMenuItem_ + MenuItems.size() - 1) % MenuItems.size();
-        }
-
-        if ((pressed & SCE_CTRL_DOWN) != 0) {
-            selectedMenuItem_ = (selectedMenuItem_ + 1) % MenuItems.size();
-        }
-
-        if ((pressed & SCE_CTRL_CIRCLE) != 0) {
-            applicationMenuOpen_ = false;
-        }
-
-        if ((pressed & SCE_CTRL_CROSS) != 0) {
-            activateMenuItem();
-        }
-
-        return;
-    }
-
-    if (aboutOpen_) {
-        if ((pressed & (SCE_CTRL_CIRCLE | SCE_CTRL_CROSS)) != 0) {
-            aboutOpen_ = false;
-        }
-        return;
-    }
-
-    if (channelOpen_) {
-        if ((pressed & SCE_CTRL_CIRCLE) != 0) {
-            channelOpen_ = false;
-        }
-        return;
-    }
-
-    const std::size_t channelCount = navigation::channelCount();
-    if (channelCount == 0) {
-        selectedChannel_ = 0;
-        return;
-    }
-
-    if ((pressed & SCE_CTRL_UP) != 0) {
-        selectedChannel_ = (selectedChannel_ + channelCount - 1) % channelCount;
-    }
-
-    if ((pressed & SCE_CTRL_DOWN) != 0) {
-        selectedChannel_ = (selectedChannel_ + 1) % channelCount;
-    }
-
-    if ((pressed & SCE_CTRL_CROSS) != 0) {
-        channelOpen_ = true;
-    }
+void App::update(std::uint32_t buttons, int touchX, int touchY) noexcept {
+    state_.update(buttons);
+    const bool touchDown = touchX >= 0 && touchY >= 0;
+    if (touchDown && !touchWasDown_) handleTouch(touchX, touchY);
+    touchWasDown_ = touchDown;
 }
 
-bool App::shouldQuit() const noexcept {
-    return shouldQuit_;
-}
-
-void App::activateMenuItem() noexcept {
-    switch (selectedMenuItem_) {
-        case 0:
-            applicationMenuOpen_ = false;
-            break;
-        case 1:
-            applicationMenuOpen_ = false;
-            aboutOpen_ = true;
-            break;
-        case 2:
-            shouldQuit_ = true;
-            break;
-        default:
-            selectedMenuItem_ = 0;
-            applicationMenuOpen_ = false;
-            break;
-    }
-}
+bool App::shouldQuit() const noexcept { return state_.shouldQuit(); }
 
 void App::handleTouch(int x, int y) noexcept {
-    if (applicationMenuOpen_) {
-        constexpr int menuLeft = 320;
-        constexpr int menuRight = 640;
-        constexpr int firstItemTop = 238;
-        constexpr int itemHeight = 48;
-
-        if (x >= menuLeft && x <= menuRight &&
-            y >= firstItemTop &&
-            y < firstItemTop + itemHeight * static_cast<int>(MenuItems.size())) {
-            selectedMenuItem_ =
-                static_cast<std::size_t>((y - firstItemTop) / itemHeight);
-            activateMenuItem();
-        } else {
-            applicationMenuOpen_ = false;
-        }
+    using navigation::View;
+    if (state_.view() == View::Menu) {
+        constexpr int left=320, right=640, top=238, height=48;
+        if (x>=left && x<=right && y>=top && y<top+height*3)
+            state_.activateMenuItem(static_cast<std::size_t>((y-top)/height));
+        else state_.back();
         return;
     }
-
-    if (aboutOpen_) {
-        aboutOpen_ = false;
+    if (state_.view() == View::About) { state_.back(); return; }
+    if (state_.view() == View::Channel) {
+        if (y>=480 && x<=180) state_.back();
         return;
     }
-
-    if (channelOpen_) {
-        if (y >= 480 && x <= 180) {
-            channelOpen_ = false;
-        }
+    constexpr int left=28, right=232, top=137, height=56;
+    const std::size_t count=navigation::channelCount();
+    if (x>=left && x<=right && y>=top && y<top+height*static_cast<int>(count)) {
+        state_.openChannel(static_cast<std::size_t>((y-top)/height));
         return;
     }
-
-    // Tapping a channel both focuses and opens it.
-    constexpr int navigationLeft = 28;
-    constexpr int navigationRight = 232;
-    constexpr int firstRowTop = 137;
-    constexpr int rowHeight = 56;
-    if (x >= navigationLeft && x <= navigationRight &&
-        y >= firstRowTop &&
-        y < firstRowTop + rowHeight * static_cast<int>(navigation::channelCount())) {
-        selectedChannel_ =
-            static_cast<std::size_t>((y - firstRowTop) / rowHeight);
-        channelOpen_ = true;
-        return;
-    }
-
-    // The three landing-page cards are direct shortcuts to their corresponding channels.
-    if (y >= 354 && y <= 430 && x >= 305 && x <= 889) {
-        const int relativeX = x - 305;
-        if (relativeX < 184) {
-            selectedChannel_ = 0;
-        } else if (relativeX >= 201 && relativeX < 385) {
-            selectedChannel_ = 1;
-        } else if (relativeX >= 402 && relativeX < 586) {
-            selectedChannel_ = navigation::channelIndex(navigation::ChannelId::System);
-            if (selectedChannel_ >= navigation::channelCount()) {
-                return;
-            }
-        } else {
-            return;
-        }
-        channelOpen_ = true;
+    if (y>=354 && y<=430 && x>=305 && x<=889) {
+        const int rel=x-305;
+        if (rel<184) state_.openChannel(navigation::channelIndex(navigation::ChannelId::Games));
+        else if (rel>=201 && rel<385) state_.openChannel(navigation::channelIndex(navigation::ChannelId::Applications));
+        else if (rel>=402 && rel<586) state_.openChannel(navigation::channelIndex(navigation::ChannelId::System));
     }
 }
 
@@ -226,17 +96,16 @@ void App::render() const noexcept {
     renderHeader();
     renderNavigation();
 
-    if (aboutOpen_) {
-        renderAbout();
-    } else if (channelOpen_) {
-        renderChannel();
-    } else {
-        renderHome();
+    switch (state_.view()) {
+        case navigation::View::Home: renderHome(); break;
+        case navigation::View::Channel: renderChannel(); break;
+        case navigation::View::About: renderAbout(); break;
+        case navigation::View::Menu: renderHome(); break;
     }
 
     renderFooter();
 
-    if (applicationMenuOpen_) {
+    if (state_.view() == navigation::View::Menu) {
         renderApplicationMenu();
     }
 }
@@ -268,7 +137,7 @@ void App::renderNavigation() const noexcept {
         }
 
         const int y = 137 + static_cast<int>(i) * 56;
-        const bool selected = i == selectedChannel_;
+        const bool selected = i == state_.selectedChannel();
 
         if (selected) {
             vita2d_draw_rectangle(28, y, 202, 45, PanelSelected);
@@ -330,7 +199,7 @@ void App::renderChannel() const noexcept {
     using namespace ui::theme;
 
     const navigation::ChannelDefinition* channel =
-        navigation::channelAt(selectedChannel_);
+        navigation::channelAt(state_.selectedChannel());
     if (channel == nullptr) {
         renderHome();
         return;
@@ -397,7 +266,7 @@ void App::renderApplicationMenu() const noexcept {
 
     for (std::size_t i = 0; i < MenuItems.size(); ++i) {
         const int y = 238 + static_cast<int>(i) * 48;
-        const bool selected = i == selectedMenuItem_;
+        const bool selected = i == state_.selectedMenuItem();
 
         if (selected) {
             vita2d_draw_rectangle(320, y, 320, 40, PanelSelected);
@@ -421,12 +290,12 @@ void App::renderFooter() const noexcept {
 
     vita2d_draw_rectangle(28, 492, 896, 1, Border);
 
-    if (applicationMenuOpen_) {
+    if (state_.view() == navigation::View::Menu) {
         drawText(32, 524, TextSecondary, 0.48f, "D-PAD  SELECT");
         drawText(196, 524, TextSecondary, 0.48f, "CROSS  CONFIRM");
-    } else if (aboutOpen_) {
+    } else if (state_.view() == navigation::View::About) {
         drawText(32, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
-    } else if (channelOpen_) {
+    } else if (state_.view() == navigation::View::Channel) {
         drawText(32, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
     } else {
         drawText(32, 524, TextSecondary, 0.48f, "D-PAD  NAVIGATE");
