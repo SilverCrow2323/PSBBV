@@ -9,7 +9,8 @@ on:
       - "CMakeLists.txt"
       - "src/**"
       - "include/**"
-      - "tests/**"\n      - "schemas/**"
+      - "tests/**"
+      - "schemas/**"
       - "sce_sys/**"
       - ".github/workflows/build-vita.yml"
   pull_request:
