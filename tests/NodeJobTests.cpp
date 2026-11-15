@@ -6,7 +6,7 @@
 
 namespace {
 void require(bool condition, const char* message) {
-    if (!condition) { std::cerr << "FAIL: " << message << '\\n'; std::exit(EXIT_FAILURE); }
+    if (!condition) { std::cerr << "FAIL: " << message << '\n'; std::exit(EXIT_FAILURE); }
 }
 }
 
@@ -57,6 +57,6 @@ int main() {
     require(cancelNodeJob(queued).ok() && queued.state == NodeJobState::Cancelled,
             "queued job can be cancelled before execution");
 
-    std::cout << "PSBBV node jobs: all checks passed.\\n";
+    std::cout << "PSBBV node jobs: all checks passed.\n";
     return EXIT_SUCCESS;
 }
