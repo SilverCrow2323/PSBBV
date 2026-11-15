@@ -9,6 +9,7 @@
 
 #include "psbbv/navigation/ChannelRegistry.hpp"
 #include "psbbv/navigation/UiState.hpp"
+#include "psbbv/nodes/NodeRegistry.hpp"
 #include "psbbv/ui/Theme.hpp"
 
 namespace psbbv {
@@ -208,20 +209,23 @@ void App::renderChannel() const noexcept {
         return;
     }
 
-    const char* availability = "PLANNED";
-    switch (channel->availability) {
-        case navigation::ChannelAvailability::Implemented:
-            availability = "READY";
-            break;
-        case navigation::ChannelAvailability::Planned:
-            availability = "PLANNED";
-            break;
-        case navigation::ChannelAvailability::Unavailable:
-            availability = "UNAVAILABLE";
-            break;
-        case navigation::ChannelAvailability::Disabled:
-            availability = "DISABLED";
-            break;
+    const nodes::NodeDefinition* node = nodes::findNode(channel->nodeId);
+    const nodes::NodeAvailability status = node == nullptr
+        ? nodes::NodeAvailability::Unavailable
+        : nodes::effectiveAvailability(
+            *node,
+            nodes::HostApiMajor,
+            nodes::HostApiMinor,
+            nodes::NodePlatform::Vita
+        );
+
+    const char* availability = "UNAVAILABLE";
+    switch (status) {
+        case nodes::NodeAvailability::Ready: availability = "READY"; break;
+        case nodes::NodeAvailability::Planned: availability = "PLANNED"; break;
+        case nodes::NodeAvailability::Unavailable: availability = "UNAVAILABLE"; break;
+        case nodes::NodeAvailability::Disabled: availability = "DISABLED"; break;
+        case nodes::NodeAvailability::Error: availability = "ERROR"; break;
     }
 
     vita2d_draw_rectangle(270, 118, 654, 347, Panel);
