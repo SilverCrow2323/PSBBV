@@ -38,7 +38,20 @@ target_compile_options(PSBBV PRIVATE
 
 target_link_libraries(PSBBV PRIVATE
     vita2d
+    SceDisplay_stub
+    SceGxm_stub
+    SceSysmodule_stub
+    SceCtrl_stub
     SceTouch_stub
+    ScePgf_stub
+    ScePvf_stub
+    SceCommonDialog_stub
+    SceAppMgr_stub
+    freetype
+    png
+    jpeg
+    z
+    m
     stdc++
 )
 
