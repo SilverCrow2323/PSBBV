@@ -1,4 +1,17 @@
-# Roadmap
+<div align="center">
+<img src="assets/spdw-factory-mark.svg" alt="SPDW Factory" width="160">
+
+**SPDW FACTORY / FIELD NOTES**
+
+### 🛠️ PSBBV Roadmap
+
+*Build milestones and release gates.*
+
+[OPEN THE VISUAL GUIDE ↗](roadmap.html) · [PROJECT HOME](index.html)
+</div>
+
+---
+
 
 This roadmap describes intended work. A milestone is complete only when its acceptance criteria are met and recorded against the repository.
 
