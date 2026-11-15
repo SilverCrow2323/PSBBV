@@ -110,7 +110,7 @@ No node receives unrestricted filesystem or network access by default. Credentia
 
 The PSBBV Core now contains a compile-time built-in registry for the six stable node IDs. The six Home channels carry matching stable Node IDs, and the channel detail view derives its status from the registry's effective API/platform availability result. It records the Node API version, supported platform mask, category, and declared availability. Host-side tests cover stable IDs, uniqueness, lookup, planned-state preservation, API-major/minor rejection, platform rejection, and disabled/unavailable/error states.
 
-This is a registry and compatibility gate only. It does not parse external manifests, load node code, grant permissions, or execute jobs. All six registered nodes remain `planned`.
+The Core now also has a bounded C++ manifest parser for the metadata subset used by the Vita built-in host. It rejects oversized input, malformed structure, duplicate top-level fields, unknown fields, missing required fields, unsupported API values and unsupported runtime/platform declarations. A separate identity gate accepts only manifests matching a node already compiled into the host, including its stable ID, category, API version and platform. This is not a dynamic loader: it cannot register arbitrary third-party code, grant permissions, or execute jobs. All six registered nodes remain `planned`.
 
 ## Runtime strategy — do not skip the hardware reality check
 
@@ -121,7 +121,8 @@ External native modules, dynamic loading, scripting runtimes, and process isolat
 ## Acceptance gates
 
 - [x] Built-in registry validates stable IDs and compatibility states in host tests.\n- [x] Manifest schema validates known-good and rejects malformed descriptors.
-- [ ] Duplicate node IDs are rejected deterministically.
+- [x] Duplicate manifest fields are rejected deterministically; duplicate compiled-in node IDs are covered by registry tests.
+- [x] Manifest identity must match an existing compiled-in node before it passes the built-in gate.
 - [ ] Unsupported API major versions produce an explicit unavailable state.
 - [ ] Missing capabilities do not crash or block Home.
 - [ ] Node jobs can be cancelled and report typed terminal results.
