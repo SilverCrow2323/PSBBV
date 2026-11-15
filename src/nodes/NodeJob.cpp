@@ -11,12 +11,12 @@ bool terminal(NodeJobState state) noexcept {
 void copyMessage(char* destination, const char* source) noexcept {
     std::size_t i = 0;
     if (source != nullptr) {
-        while (i + 1 < NodeJobMessageCapacity && source[i] != '\\0') {
+        while (i + 1 < NodeJobMessageCapacity && source[i] != '\0') {
             destination[i] = source[i];
             ++i;
         }
     }
-    destination[i] = '\\0';
+    destination[i] = '\0';
 }
 NodeJobOperation invalidTransition() noexcept {
     return {NodeJobError::InvalidTransition};
