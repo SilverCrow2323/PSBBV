@@ -172,7 +172,7 @@ void App::handleTouch(int x, int y) noexcept {
     constexpr int rowHeight = 56;
     if (x >= navigationLeft && x <= navigationRight &&
         y >= firstRowTop &&
-        y < firstRowTop + rowHeight * static_cast<int>(Channels.size())) {
+        y < firstRowTop + rowHeight * static_cast<int>(navigation::channelCount())) {
         selectedChannel_ =
             static_cast<std::size_t>((y - firstRowTop) / rowHeight);
         channelOpen_ = true;
