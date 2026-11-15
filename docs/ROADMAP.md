@@ -48,7 +48,8 @@
 - [x] Document the independent PSBBV Media product and Kodi compatibility strategy.
 - [x] Validate manifest schema JSON syntax in CI.
 - [x] Add standards-compliant JSON Schema validation and positive/negative manifest fixtures.
-- [ ] Implement host-side manifest parsing and duplicate-ID rejection.
+- [x] Implement bounded host-side manifest parsing and built-in identity gating.
+- [x] Reject duplicate/unknown top-level manifest fields and malformed or unsupported descriptors.
 - [x] Register six built-in node identities with API/platform compatibility checks and explicit effective availability.
 - [x] Establish separate Media, Games, Applications, Network, Downloads and System repositories with provisional manifests and pinned schema-validation CI.
 - [x] Add a central ecosystem ownership and integration map.
