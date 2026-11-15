@@ -20,8 +20,6 @@ Keep key content inside a consistent safe area. Touch targets need room. Dense g
 
 ## 🎛️ The PSBBV palette
 
-| Token | Colour | Hex | Use |
-|---|---|---|---|
 | Token | Hex | Use |
 |---|---|---|
 | Background | `#080A0E` | Main canvas |
