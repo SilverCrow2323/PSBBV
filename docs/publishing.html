@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d4ff43">
+<title>Publish the field guide · PSBBV / SPDW Factory</title>
+<link rel="icon" href="assets/spdw-factory-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/spdw-docs.css">
+<script defer src="assets/spdw-docs.js"></script>
+</head>
+<body>
+<div class="shell">
+<div class="topline"><span>SPDW FACTORY / FIELD NOTES</span><span class="right">PSBBV · DOCUMENTATION DEPLOYMENT</span></div>
+<aside class="sidebar">
+<a class="brand" href="index.html"><span class="brand-mark">SP</span><span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">Documentation lab</span></span></a>
+<div class="nav-label">Start here</div>
+<a class="nav-link" href="index.html"><span class="nav-icon">⌂</span>Project home</a>
+<div class="nav-label">The manual</div>
+<a class="nav-link" href="product.html"><span class="nav-icon">✳</span>Product brief</a>
+<a class="nav-link" href="architecture.html"><span class="nav-icon">⌘</span>Architecture</a>
+<a class="nav-link" href="design.html"><span class="nav-icon">◈</span>Design language</a>
+<a class="nav-link" href="roadmap.html"><span class="nav-icon">↗</span>Roadmap</a>
+<a class="nav-link" href="testing.html"><span class="nav-icon">✓</span>Hardware tests</a>
+<div class="nav-label">Publishing</div>
+<a class="nav-link active" href="publishing.html"><span class="nav-icon">🚀</span>Publish the guide</a>
+<div class="sidebar-bottom"><div class="sidebar-note"><strong>One-time setup.</strong><span>After Pages is enabled, pushes to main can publish the documentation site.</span></div></div>
+</aside>
+<main class="content">
+<div class="mobile-head"><a class="brand" href="index.html"><span class="brand-mark">SP</span><span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">PSBBV field notes</span></span></a><button class="mobile-toggle" data-nav-toggle aria-expanded="false">☰ Menu</button></div>
+<div class="breadcrumb"><a href="index.html">Project home</a><span class="slash">/</span><span>Publishing</span></div>
+<section class="hero">
+<span class="eyebrow">SPDW / delivery lane</span>
+<h1>THE DOCS DESERVE <em>DAYLIGHT.</em></h1>
+<p>The field guide is a static site. One repository setting lets GitHub Pages publish the docs folder whenever the project is updated on main.</p>
+<div class="hero-actions"><a class="button primary" href="https://github.com/SilverCrow2323/PSBBV/settings/pages">Open Pages settings ↗</a><a class="button secondary" href="index.html">Back to the guide</a></div>
+<div class="meta-row"><span class="pill acid">Static HTML</span><span class="pill dark">No framework build step</span><span class="pill dark">GitHub Actions deploy</span></div>
+</section>
+<section class="section">
+<div class="section-head"><div><div class="kicker">One-time setup</div><h2>Flip the switch. That's the whole ritual.</h2></div><p>This cannot be preconfigured through the current repository connection. It takes one manual setting in GitHub.</p></div>
+<div class="grid two">
+<article class="card acid"><div class="card-icon">1️⃣</div><h3>Open repository settings</h3><p>Go to Settings → Pages in SilverCrow2323/PSBBV.</p></article>
+<article class="card cyan"><div class="card-icon">2️⃣</div><h3>Choose GitHub Actions</h3><p>Under Build and deployment, set Source to GitHub Actions and save.</p></article>
+<article class="card violet"><div class="card-icon">3️⃣</div><h3>Merge to main</h3><p>The SPDW Documentation workflow runs when the docs or workflow changes reach main.</p></article>
+<article class="card coral"><div class="card-icon">4️⃣</div><h3>Check the deployment</h3><p>Open Actions and confirm the Pages deployment completed successfully.</p></article>
+</div>
+</section>
+<section class="section prose">
+<div class="kicker">Preview before publishing</div>
+<h2>Want to check the site locally?</h2>
+<pre><code>python3 -m http.server 8000 --directory docs</code></pre>
+<p>Open the local server address printed by Python and browse the index page. The portal uses local CSS, JavaScript and SVG assets. No external frontend framework is required.</p>
+<div class="callout warn"><div class="callout-icon">⚠</div><div><strong>Publishing does not certify the product</strong><p>A hosted manual does not mean PSBBV is a release. Channel features, VPK installation, suspend/resume and real hardware checks retain their own acceptance gates.</p></div></div>
+</section>
+<footer class="doc-footer"><span><strong>SPDW FACTORY</strong> — The docs are part of the product.</span><span><a href="index.html">Back to project home ↑</a></span></footer>
+</main>
+</div>
+</body>
+</html>
