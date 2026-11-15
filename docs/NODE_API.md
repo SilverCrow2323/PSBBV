@@ -106,6 +106,12 @@ No node receives unrestricted filesystem or network access by default. Credentia
 - Unknown optional manifest fields may be ignored; unknown required capabilities must cause a clear unavailable state.
 - Every event and persisted node-owned data format must be versioned.
 
+## Current implementation slice
+
+The PSBBV Core now contains a compile-time built-in registry for the six stable node IDs. It records the Node API version, supported platform mask, category, and declared availability. Host-side tests cover stable IDs, uniqueness, lookup, planned-state preservation, API-major/minor rejection, platform rejection, and disabled/unavailable/error states.
+
+This is a registry and compatibility gate only. It does not parse external manifests, load node code, grant permissions, or execute jobs. All six registered nodes remain `planned`.
+
 ## Runtime strategy — do not skip the hardware reality check
 
 The first Vita milestone should register built-in nodes compiled into the PSBBV application. This is the simplest auditable route for a constrained homebrew target.
@@ -114,7 +120,7 @@ External native modules, dynamic loading, scripting runtimes, and process isolat
 
 ## Acceptance gates
 
-- [ ] Manifest schema validates known-good and rejects malformed descriptors.
+- [x] Built-in registry validates stable IDs and compatibility states in host tests.\n- [ ] Manifest schema validates known-good and rejects malformed descriptors.
 - [ ] Duplicate node IDs are rejected deterministically.
 - [ ] Unsupported API major versions produce an explicit unavailable state.
 - [ ] Missing capabilities do not crash or block Home.
