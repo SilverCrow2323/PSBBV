@@ -11,9 +11,11 @@ The goal is not to recreate PSBBN pixel-for-pixel or to build another convention
 
 ## Project status
 
-PSBBV is in its foundation stage. The repository currently establishes the native application architecture, rendering baseline, input loop, design direction, and Vita build pipeline.
+PSBBV is at the **product and architecture foundation stage**. The repository currently contains project documentation only; the native application, rendering loop, input handling, VPK packaging and automated build pipeline have not yet been implemented.
 
-The first interface milestone targets the Vita's native **960 × 544** display and provides a navigable set of channel entry points. Channel functionality will be implemented incrementally; entries that are not implemented yet are presentation scaffolding, not claims of working services.
+The first implementation milestone is a standalone Vita homebrew application for the native **960 × 544** display, with physical controls and touch navigation. Channel entries that are not implemented must be presented honestly as planned or unavailable.
+
+See [the Product Brief](docs/PRODUCT_BRIEF.md) for scope and acceptance criteria, and [the Architecture](docs/ARCHITECTURE.md) for the intended runtime boundaries.
 
 ## Core principles
 
@@ -24,88 +26,53 @@ The first interface milestone targets the Vita's native **960 × 544** display a
 - **Offline-capable:** core navigation must remain useful without a network connection.
 - **Honest functionality:** unfinished features must be clearly identified and must never masquerade as working services.
 
-## Technology
+## Technology direction
 
 - C++17
-- VitaSDK (supported release channel: 2026.08)
+- VitaSDK
 - CMake
-- libvita2d for GPU-accelerated 2D rendering
+- A small native rendering backend
 - Vita system APIs for lifecycle and controller input
 
-The renderer is intentionally small. The project will add dependencies only when they solve a concrete product requirement.
+The dependency set is not yet locked. Dependencies will be added only when a concrete prototype and hardware requirement justify them.
 
-## Build
+## Build status
 
-### 1. Install VitaSDK
+There is no buildable application or VPK yet. Build instructions will be added alongside the first verified VitaSDK project scaffold. Do not treat the current repository as installable software.
 
-Follow the official [VitaSDK getting started guide](https://vitasdk.org/). On Linux, the release-channel installation flow is:
+## Initial interaction contract
 
-~~~sh
-git clone https://github.com/vitasdk/vdpm
-cd vdpm
-VITASDK_CHANNEL=2026.08 ./bootstrap-vitasdk.sh
-~~~
-
-Set the SDK environment variables in your shell:
-
-~~~sh
-export VITASDK=/usr/local/vitasdk
-export PATH="$VITASDK/bin:$PATH"
-~~~
-
-### 2. Install the renderer dependency
-
-~~~sh
-vdpm install libvita2d
-~~~
-
-### 3. Configure and build
-
-From the repository root:
-
-~~~sh
-cmake -S . -B build
-cmake --build build --parallel
-~~~
-
-The build produces PSBBV.vpk in the build directory. Install it on a compatible, homebrew-enabled PlayStation Vita for hardware testing.
-
-A Docker-based build is also supported by the GitHub Actions workflow. See [VitaSDK documentation](https://vitasdk.org/) for SDK installation, package management, and toolchain details.
-
-## Initial controls
-
-| Input | Action |
+| Input | Intended action |
 |---|---|
-| D-pad Up / Down | Move between channels |
-| Cross | Open the selected channel |
-| Start | Exit the application |
+| D-pad | Move focus between navigation items |
+| Cross | Activate the focused item |
+| Circle | Go back / close a transient panel |
+| Start | Open the application menu |
+| Touch | Focus or activate the tapped item |
 
-The initial channel screens are visual foundations. Full channel implementations and configurable controls are planned work.
+This is the intended first-milestone contract, not a claim of implemented controls.
 
 ## Repository map
 
-~~~text
+```text
 .
-├── .github/workflows/   # Automated Vita builds
-├── assets/branding/     # Source brand artwork
-├── docs/                # Product, design, and architecture documentation
-├── include/              # Public application headers
-├── src/
-│   ├── app/              # Application state and navigation
-│   └── main.cpp          # Vita entry point and lifecycle
-├── CMakeLists.txt
+├── docs/
+│   ├── ARCHITECTURE.md
+│   └── PRODUCT_BRIEF.md
 └── README.md
-~~~
+```
+
+The source tree, build system, assets and CI will be introduced as independently reviewable implementation increments.
 
 ## Project identity
 
 - Product name: **PSBBV**
 - Full name: **PlayStation Broadband Vita**
-- Display resolution: **960 × 544**
-- Initial VPK title ID: SCBV00001 (provisional; confirm before a public release)
+- Target display: **960 × 544**
+- Initial VPK title ID: SCBV00001 (provisional; must be confirmed before a public release)
 - Documentation and user-facing interface language: **English**
 
-The visual identity follows the proposed PSBBN-to-PSBBV transition: a darkened legacy vertical stroke and a red Vita-facing V accent. The final production logo and LiveArea artwork will be refined as part of the design work.
+The visual identity follows the proposed PSBBN-to-PSBBV transition: a darkened legacy vertical stroke and a red Vita-facing V accent. The final production logo and LiveArea artwork will be original assets and will be refined during implementation.
 
 ## Contributing and licensing
 
@@ -113,4 +80,4 @@ The architecture and contribution workflow are still being established. A reposi
 
 ## Acknowledgements
 
-PSBBV builds on the work of the Vita homebrew community and the maintainers of [VitaSDK](https://github.com/vitasdk) and [libvita2d](https://github.com/xerpi/libvita2d).
+PSBBV builds on the work of the Vita homebrew community and the maintainers of [VitaSDK](https://vitasdk.org/) and [libvita2d](https://github.com/xerpi/libvita2d).
