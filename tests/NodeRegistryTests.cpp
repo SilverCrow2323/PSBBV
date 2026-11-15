@@ -63,9 +63,11 @@ int main() {
 
     require(checkNode(probe, 2, 0, NodePlatform::Vita) == NodeCheck::UnsupportedApiMajor,
             "different API major is rejected");
-    require(checkNode(probe, HostApiMajor, HostApiMinor + 1, NodePlatform::Vita)
+    probe.apiMinor = static_cast<std::uint16_t>(HostApiMinor + 1);
+    require(checkNode(probe, HostApiMajor, HostApiMinor, NodePlatform::Vita)
                 == NodeCheck::RequiresNewerApi,
             "node requiring a newer minor API is rejected");
+    probe.apiMinor = HostApiMinor;
     require(checkNode(probe, HostApiMajor, HostApiMinor, NodePlatform::Windows)
                 == NodeCheck::UnsupportedPlatform,
             "unsupported platform is rejected");
