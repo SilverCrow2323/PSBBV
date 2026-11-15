@@ -46,9 +46,10 @@
 - [x] Draft the versioned Node API and lifecycle contract.
 - [x] Add a machine-readable node manifest schema.
 - [x] Document the independent PSBBV Media product and Kodi compatibility strategy.
-- [ ] Add schema validation and negative manifest tests to CI.
+- [x] Validate manifest schema JSON syntax in CI.
+- [ ] Add standards-compliant JSON Schema validation and negative manifest fixtures.
 - [ ] Implement host-side manifest parsing and duplicate-ID rejection.
-- [ ] Implement built-in node registration and effective availability checks.
+- [x] Register six built-in node identities with API/platform compatibility checks and explicit effective availability.
 - [ ] Verify lifecycle, cancellation, and suspend/resume behavior on Vita.
 
 ## Phase 1 — Make the UI feel finished
