@@ -100,6 +100,13 @@ int main(int, char**) {
         vita2d_free_pgf(font);
     }
 
+    if (touchReady) {
+        sceTouchSetSamplingState(
+            SCE_TOUCH_PORT_FRONT,
+            SCE_TOUCH_SAMPLING_STATE_STOP
+        );
+    }
+
     vita2d_fini();
     sceKernelExitProcess(0);
     return 0;
