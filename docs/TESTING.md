@@ -1,64 +1,75 @@
 <div align="center">
-<img src="assets/spdw-factory-mark.svg" alt="SPDW Factory" width="160">
 
-**SPDW FACTORY / FIELD NOTES**
+![PSBBV / SPDW Factory](../assets/branding/psbbv-docs-banner.svg)
 
-### 🧪 PSBBV Hardware Test Bench
+# 🧪 TAKE IT TO THE VITA
 
-*Manual install, controls, touch and lifecycle checks.*
+**CI checks the build. This checklist checks the actual handheld.**
 
-[OPEN THE VISUAL GUIDE ↗](testing.html) · [PROJECT HOME](index.html)
+<sub>SPDW FACTORY · HARDWARE LAB / 005</sub>
+
 </div>
 
----
+> **Important:** a successful cross-build does not prove that the app installs, launches, or behaves correctly on a Vita. This is where the hardware gets a vote.
 
-
-This checklist is intended for a homebrew-enabled PlayStation Vita. A successful cross-build does not replace device testing.
-
-## Build and package
+## 📦 Build and package
 
 - [ ] Confirm the Vita Build workflow completed successfully.
-- [ ] Download the PSBBV-VPK artifact from the successful workflow run.
+- [ ] Download the PSBBV-VPK artifact from that successful run.
 - [ ] Verify the VPK installs without an error.
-- [ ] Verify the LiveArea title, icon, background, and startup artwork.
-- [ ] Confirm the installed application title ID does not conflict with another installed title before release.
+- [ ] Check the LiveArea title, icon, background, and startup artwork.
+- [ ] Confirm SCBV00001 does not conflict with an installed title before release.
 
-## Startup and shutdown
+## 🚀 Startup and shutdown
 
 - [ ] Launch PSBBV from LiveArea.
-- [ ] Confirm the display fills the expected 960 × 544 landscape canvas.
-- [ ] Confirm the wordmark and all text are legible.
+- [ ] Confirm the screen uses the expected 960 × 544 landscape canvas.
+- [ ] Check the wordmark and all text at handheld distance.
 - [ ] Open the application menu with Start.
-- [ ] Navigate to Exit Application and confirm a clean exit.
-- [ ] Relaunch the application and repeat the test.
+- [ ] Navigate to Exit Application and confirm clean shutdown.
+- [ ] Relaunch and repeat.
 
-## Physical controls
+## 🎮 Physical controls
 
-- [ ] Move down through all six channels using D-pad Down.
-- [ ] Move up through all six channels using D-pad Up.
+- [ ] Move down through all six channels.
+- [ ] Move up through all six channels.
 - [ ] Confirm selection wraps at both ends.
 - [ ] Open a channel using Cross.
 - [ ] Return to Home using Circle.
 - [ ] Open and close the application menu.
 - [ ] Open About PSBBV and return with Circle and Cross.
 
-## Front touchscreen
+## 👆 Front touchscreen
 
 - [ ] Tap each channel row and confirm the correct channel opens.
-- [ ] Tap each Home shortcut card and confirm the matching channel opens.
+- [ ] Tap each Home shortcut card.
 - [ ] Tap each application-menu option.
-- [ ] Confirm taps outside the menu dismiss it without triggering an unintended action.
-- [ ] Confirm touch input does not repeat while a finger remains on the panel.
+- [ ] Tap outside the menu and confirm it dismisses without activating an underlying item.
+- [ ] Hold a finger on the panel and confirm there is no repeated activation.
 
-## Lifecycle and performance
+## 🔋 Lifecycle and performance
 
 - [ ] Suspend the Vita while PSBBV is running.
-- [ ] Resume and confirm rendering and input continue normally.
-- [ ] Check for visual corruption after repeated suspend/resume cycles.
-- [ ] Observe frame pacing during idle navigation.
-- [ ] Check for abnormal memory growth during extended use.
-- [ ] Confirm the application exits cleanly after touch sampling has been enabled.
+- [ ] Resume and confirm rendering and input continue.
+- [ ] Repeat suspend/resume and check for visual corruption.
+- [ ] Observe frame pacing while navigating.
+- [ ] Watch for abnormal memory growth during extended use.
+- [ ] Confirm exit works after touch sampling has been enabled.
 
-## Result record
+## 📝 Test record
 
-Record the Vita model, firmware environment, homebrew setup, VPK SHA-256, test date, and pass/fail notes when a device test is completed.
+| Field | Record |
+|---|---|
+| Vita model | |
+| Firmware / homebrew environment | |
+| VPK SHA-256 | |
+| Test date | |
+| Result | |
+| Notes / issues | |
+
+Do not mark a test as passed from memory. Record what was tested, on which device, and with which build.
+
+---
+
+**SPDW FACTORY** · PSBBV Hardware Lab  
+Looks good in CI? Great. Now make it survive the console.
