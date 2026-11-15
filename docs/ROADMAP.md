@@ -32,6 +32,11 @@
 - [x] Initial SVG identity and Vita LiveArea package resources.
 - [x] GitHub Actions VPK build workflow.
 - [x] Stable typed IDs and availability states for all six channels.
+- [x] Centralized UI state for Home, Channel, About, and Menu views.
+- [x] Edge-triggered physical-button input; held buttons do not repeatedly activate.
+- [x] Restore the underlying view when closing the application menu.
+- [x] Touch activation is edge-triggered to avoid repeated actions while a finger remains down.
+- [x] Host tests for focus movement, menu navigation, return paths, and clean-exit requests.
 - [x] ✅ Confirm a green CI VPK build (Vita Build #83, VitaSDK 2026.08, VPK artifact inspected).
 - [ ] 🟠 Install and test the VPK on a physical Vita.
 - [ ] 🟠 Verify suspend/resume and resource recovery.
@@ -39,6 +44,7 @@
 ## Phase 1 — Make the UI feel finished
 
 - [ ] Reusable panels, cards, labels, focus states, and layout primitives.
+- [ ] Directional focus movement across Home cards and channel content.
 - [ ] Consistent transitions and focus restoration.
 - [ ] Configurable confirm/back button mapping.
 - [ ] Rear-touch behavior only where it has a clear purpose.
