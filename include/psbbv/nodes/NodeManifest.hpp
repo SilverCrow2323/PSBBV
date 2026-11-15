@@ -1,5 +1,7 @@
 #pragma once
 
+#include "psbbv/nodes/NodeRegistry.hpp"
+
 #include <cstddef>
 #include <cstdint>
 
