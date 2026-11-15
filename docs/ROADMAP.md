@@ -47,7 +47,7 @@
 - [x] Add a machine-readable node manifest schema.
 - [x] Document the independent PSBBV Media product and Kodi compatibility strategy.
 - [x] Validate manifest schema JSON syntax in CI.
-- [ ] Add standards-compliant JSON Schema validation and negative manifest fixtures.
+- [x] Add standards-compliant JSON Schema validation and positive/negative manifest fixtures.
 - [ ] Implement host-side manifest parsing and duplicate-ID rejection.
 - [x] Register six built-in node identities with API/platform compatibility checks and explicit effective availability.
 - [ ] Verify lifecycle, cancellation, and suspend/resume behavior on Vita.
