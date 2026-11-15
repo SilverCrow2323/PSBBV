@@ -120,7 +120,7 @@ External native modules, dynamic loading, scripting runtimes, and process isolat
 
 ## Acceptance gates
 
-- [x] Built-in registry validates stable IDs and compatibility states in host tests.\n- [ ] Manifest schema validates known-good and rejects malformed descriptors.
+- [x] Built-in registry validates stable IDs and compatibility states in host tests.\n- [x] Manifest schema validates known-good and rejects malformed descriptors.
 - [ ] Duplicate node IDs are rejected deterministically.
 - [ ] Unsupported API major versions produce an explicit unavailable state.
 - [ ] Missing capabilities do not crash or block Home.
