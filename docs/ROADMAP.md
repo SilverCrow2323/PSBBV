@@ -1,72 +1,82 @@
 <div align="center">
-<img src="assets/spdw-factory-mark.svg" alt="SPDW Factory" width="160">
 
-**SPDW FACTORY / FIELD NOTES**
+![PSBBV / SPDW Factory](../assets/branding/psbbv-docs-banner.svg)
 
-### 🛠️ PSBBV Roadmap
+# 🛣️ THE ROADMAP
 
-*Build milestones and release gates.*
+**What is real. What is next. What is still a nice idea.**
 
-[OPEN THE VISUAL GUIDE ↗](roadmap.html) · [PROJECT HOME](index.html)
+<sub>SPDW FACTORY · PROJECT TRACKER / 004</sub>
+
 </div>
 
----
+## 🚦 Status legend
 
-
-This roadmap describes intended work. A milestone is complete only when its acceptance criteria are met and recorded against the repository.
+| Marker | Meaning |
+|---|---|
+| ✅ | Implemented in the repository |
+| 🟡 | Work started; verification or polish remains |
+| 🔵 | Planned; not implemented |
+| 🟠 | Needs target-hardware testing |
+| ⛔ | Blocked by a named issue |
 
 ## Phase 0 — Native foundation
 
-- [x] Establish the product brief and architecture contract.
-- [x] Add the VitaSDK/CMake application target.
-- [x] Add a libvita2d rendering loop and system font baseline.
-- [x] Add deterministic physical-button navigation.
-- [x] Add front touchscreen navigation.
-- [x] Add an application menu with About and Exit actions.
-- [x] Add a branded home screen and clearly marked planned channel views.
-- [x] Add initial SVG branding and Vita LiveArea package resources.
-- [x] Add a GitHub Actions VPK build workflow.
-- [ ] Confirm a successful CI package build.
-- [ ] Install and test the VPK on physical Vita hardware.
-- [ ] Verify suspend/resume behavior and resource recovery on hardware.
+- [x] Product brief and architecture contract.
+- [x] VitaSDK/CMake application target.
+- [x] libvita2d render loop and system font baseline.
+- [x] D-pad, Cross, Circle, and Start navigation.
+- [x] Front touchscreen navigation.
+- [x] Application menu with About and Exit actions.
+- [x] Branded Home view and clearly labelled channel placeholders.
+- [x] Initial SVG identity and Vita LiveArea package resources.
+- [x] GitHub Actions VPK build workflow.
+- [ ] 🟠 Confirm a green CI VPK build.
+- [ ] 🟠 Install and test the VPK on a physical Vita.
+- [ ] 🟠 Verify suspend/resume and resource recovery.
 
-## Phase 1 — UI foundation
+## Phase 1 — Make the UI feel finished
 
-- [ ] Formalize reusable panels, cards, labels, focus states, and layout primitives.
-- [ ] Add consistent transitions and focus restoration.
-- [ ] Add configurable confirm/back button mapping.
-- [ ] Add rear-touch behavior only where it has a clear interaction purpose.
-- [ ] Establish a lightweight asset and texture cache.
-- [ ] Validate frame pacing and memory usage on hardware.
+- [ ] Reusable panels, cards, labels, focus states, and layout primitives.
+- [ ] Consistent transitions and focus restoration.
+- [ ] Configurable confirm/back button mapping.
+- [ ] Rear-touch behavior only where it has a clear purpose.
+- [ ] Lightweight asset and texture cache.
+- [ ] Frame pacing and memory measurements on hardware.
 
-## Phase 2 — Local content model
+## Phase 2 — Give local content a proper home
 
-- [ ] Define typed metadata models for games and applications.
-- [ ] Implement safe local content discovery.
-- [ ] Build empty, loading, unsupported, and error states.
-- [ ] Add sorting, filtering, and recently used views.
-- [ ] Keep discovery read-only until safe launch and management flows are designed.
+- [ ] Typed metadata models for games and applications.
+- [ ] Safe local content discovery.
+- [ ] Empty, loading, unsupported, and error states.
+- [ ] Sorting, filtering, and recently used views.
+- [ ] Read-only discovery before adding launch or management flows.
 
-## Phase 3 — Channel modules
+## Phase 3 — Build the channels
 
-- [ ] Games
-- [ ] Applications
-- [ ] Network
-- [ ] Media
-- [ ] Downloads
-- [ ] System
+- [ ] 🎮 Games
+- [ ] 🧰 Applications
+- [ ] 🌐 Network
+- [ ] 🎵 Media
+- [ ] ⬇️ Downloads
+- [ ] ⚙️ System
 
-Each channel must have a documented data source, error model, and offline behavior before it is considered implemented.
+Every channel needs a real data source, a failure model, and useful offline behavior before it gets a READY label.
 
-## Phase 4 — Product polish and release
+## Phase 4 — Ship it properly
 
-- [ ] Finalize the production logo and complete LiveArea artwork.
-- [ ] Add settings and persistent preferences.
-- [ ] Add localization infrastructure while keeping English as the initial language.
-- [ ] Run hardware compatibility and performance tests.
+- [ ] Final production logo and complete LiveArea artwork.
+- [ ] Settings and persistent preferences.
+- [ ] Localization infrastructure; English remains the initial language.
+- [ ] Compatibility and performance testing on hardware.
 - [ ] Confirm the final VPK title ID.
-- [ ] Publish release notes, checksums, and a reproducible VPK build.
+- [ ] Release notes, checksums, and reproducible package build.
 
-## Release discipline
+## 🧨 The release rule
 
-A cross-build is not a hardware release. No version should be called stable until the VPK installs and launches on real hardware, the primary navigation paths are tested, and CI is green.
+A cross-build is not a hardware release. No version is called stable until the VPK installs and launches on real hardware, core navigation is tested, suspend/resume is checked, and CI is green.
+
+---
+
+**SPDW FACTORY** · PSBBV Roadmap  
+Progress you can verify. Not just boxes you can tick.
