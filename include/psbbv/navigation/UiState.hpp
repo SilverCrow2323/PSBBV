@@ -26,6 +26,7 @@ public:
     void back() noexcept;
 
     [[nodiscard]] View view() const noexcept { return view_; }
+    [[nodiscard]] View backgroundView() const noexcept { return returnView_; }
     [[nodiscard]] std::size_t selectedChannel() const noexcept { return selectedChannel_; }
     [[nodiscard]] std::size_t selectedMenuItem() const noexcept { return selectedMenuItem_; }
     [[nodiscard]] bool shouldQuit() const noexcept { return shouldQuit_; }
