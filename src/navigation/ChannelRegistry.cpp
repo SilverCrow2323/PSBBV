@@ -8,6 +8,7 @@ namespace {
 constexpr std::array<ChannelDefinition, 6> Registry{{
     {
         ChannelId::Games,
+        "factory.spdw.psbbv.games",
         "GAMES",
         "Your games, gathered in one place.",
         "A future home for local game discovery and shortcuts.",
@@ -15,6 +16,7 @@ constexpr std::array<ChannelDefinition, 6> Registry{{
     },
     {
         ChannelId::Applications,
+        "factory.spdw.psbbv.applications",
         "APPLICATIONS",
         "Tools and homebrew, with room to grow.",
         "A future catalog for installed applications and utilities.",
@@ -22,6 +24,7 @@ constexpr std::array<ChannelDefinition, 6> Registry{{
     },
     {
         ChannelId::Network,
+        "factory.spdw.psbbv.network",
         "NETWORK",
         "A connected layer for digital experiences.",
         "Optional online experiences will be designed as separate modules.",
@@ -29,6 +32,7 @@ constexpr std::array<ChannelDefinition, 6> Registry{{
     },
     {
         ChannelId::Media,
+        "factory.spdw.psbbv.media",
         "MEDIA",
         "Your personal media, presented beautifully.",
         "A future library for locally available music, video, and images.",
@@ -36,6 +40,7 @@ constexpr std::array<ChannelDefinition, 6> Registry{{
     },
     {
         ChannelId::Downloads,
+        "factory.spdw.psbbv.downloads",
         "DOWNLOADS",
         "Keep track of content and transfers.",
         "A future workspace for transfer tasks and completed downloads.",
@@ -43,6 +48,7 @@ constexpr std::array<ChannelDefinition, 6> Registry{{
     },
     {
         ChannelId::System,
+        "factory.spdw.psbbv.system",
         "SYSTEM",
         "Understand and configure your Vita.",
         "A future workspace for device information and PSBBV preferences.",
