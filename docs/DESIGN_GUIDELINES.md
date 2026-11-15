@@ -12,22 +12,9 @@
 
 ## 📐 Start with the actual screen
 
-<grid columns="2" gap="12">
-  <grid-item>
-
-  **960 × 544**
-
-  Native landscape canvas. Use the space with intent.
-
-  </grid-item>
-  <grid-item>
-
-  **Buttons + touch**
-
-  Every essential action must work without touching the screen.
-
-  </grid-item>
-</grid>
+| **960 × 544** | **Buttons + touch** |
+|---|---|
+| Native landscape canvas. Use the space with intent. | Every essential action must work without touching the screen. |
 
 Keep key content inside a consistent safe area. Touch targets need room. Dense grids need a very good reason to exist.
 
@@ -35,21 +22,20 @@ Keep key content inside a consistent safe area. Touch targets need room. Dense g
 
 | Token | Colour | Hex | Use |
 |---|---|---|---|
-| Background | <badge color="#080A0E">●</badge> | #080A0E | Main canvas |
-| Sidebar | <badge color="#0C0F15">●</badge> | #0C0F15 | Navigation rail |
-| Panel | <badge color="#11151D">●</badge> | #11151D | Main surfaces |
-| Raised | <badge color="#171C25">●</badge> | #171C25 | Cards and elevated panels |
-| Primary text | <badge color="#F4F6F8">●</badge> | #F4F6F8 | Main titles |
-| Secondary text | <badge color="#9DA6B3">●</badge> | #9DA6B3 | Supporting copy |
-| Muted text | <badge color="#697382">●</badge> | #697382 | Metadata |
-| Vita red | <badge color="#E42F3D">●</badge> | #E42F3D | Focus and identity |
-| Graphite | <badge color="#454B56">●</badge> | #454B56 | Legacy-mark detail |
+| Token | Hex | Use |
+|---|---|---|
+| Background | `#080A0E` | Main canvas |
+| Sidebar | `#0C0F15` | Navigation rail |
+| Panel | `#11151D` | Main surfaces |
+| Raised | `#171C25` | Cards and elevated panels |
+| Primary text | `#F4F6F8` | Main titles |
+| Secondary text | `#9DA6B3` | Supporting copy |
+| Muted text | `#697382` | Metadata |
+| Vita red | `#E42F3D` | Focus and identity |
+| Graphite | `#454B56` | Legacy-mark detail |
 
-<box border radius="lg" padding="12" gap="6">
-  **Accent rule**
-
-  Red is a deliberate signal: focus, action, or identity. It is not the default background for every button. We are making a navigator, not a fire alarm.
-</box>
+> **Accent rule**  
+> Red is a deliberate signal: focus, action, or identity. It is not the default background for every button. We are making a navigator, not a fire alarm.
 
 ## 🔤 Type should work at handheld distance
 

@@ -28,18 +28,16 @@ It is an application — **not** a replacement shell, firmware mod, or promise t
 
 ## 🚦 First milestone: the Navigator Shell
 
-<badge>FOUNDATION MILESTONE</badge> The first milestone is deliberately narrow. Get the shell right before adding six half-working destinations and calling it an ecosystem.
+> **FOUNDATION MILESTONE** — The first milestone is deliberately narrow. Get the shell right before adding six half-working destinations and calling it an ecosystem.
 
-<list connector="solid" marker="number" gap={8}>
-  <list-item>Build a reproducible VitaSDK application and installable VPK.</list-item>
-  <list-item>Start and exit cleanly on a real Vita.</list-item>
-  <list-item>Render a stable 960 × 544 Home screen.</list-item>
-  <list-item>Support D-pad navigation plus Cross and Circle actions.</list-item>
-  <list-item>Support front-touch selection without breaking physical controls.</list-item>
-  <list-item>Show honest placeholder states for channels without working handlers.</list-item>
-  <list-item>Handle suspend/resume and clean up rendering resources.</list-item>
-  <list-item>Pass the manual hardware checklist in the testing guide.</list-item>
-</list>
+1. Build a reproducible VitaSDK application and installable VPK.
+2. Start and exit cleanly on a real Vita.
+3. Render a stable 960 × 544 Home screen.
+4. Support D-pad navigation plus Cross and Circle actions.
+5. Support front-touch selection without breaking physical controls.
+6. Show honest placeholder states for channels without working handlers.
+7. Handle suspend/resume and clean up rendering resources.
+8. Pass the manual hardware checklist in the testing guide.
 
 > **Release rule:** a successful cross-build is not a hardware release. The VPK must install, launch, navigate, suspend, resume, and exit on an actual Vita.
 
