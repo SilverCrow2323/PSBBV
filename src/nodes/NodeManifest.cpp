@@ -132,7 +132,7 @@ ManifestResult parseNodeManifest(const char* json, std::size_t length, ParsedNod
 
     ParsedNodeManifest parsed{};
     char category[24]{}, availability[24]{}, platform[24]{}, api[16]{};
-    bool seen[11]{};
+    bool seen[13]{};
     Reader reader(json, length);
     if (!reader.take('{')) return fail(ManifestError::InvalidJson, reader.position());
 
@@ -152,8 +152,9 @@ ManifestResult parseNodeManifest(const char* json, std::size_t length, ParsedNod
         else if (std::strcmp(key, "platforms") == 0) field = 7;
         else if (std::strcmp(key, "availability") == 0) field = 8;
         else if (std::strcmp(key, "runtime") == 0) field = 9;
-        else if (std::strcmp(key, "capabilities") == 0 || std::strcmp(key, "permissions") == 0 ||
-                 std::strcmp(key, "compatibility") == 0) field = 10;
+        else if (std::strcmp(key, "capabilities") == 0) field = 10;
+        else if (std::strcmp(key, "permissions") == 0) field = 11;
+        else if (std::strcmp(key, "compatibility") == 0) field = 12;
         else return fail(ManifestError::UnknownField, reader.position());
         if (seen[field]) return fail(ManifestError::DuplicateField, reader.position());
         seen[field] = true;
