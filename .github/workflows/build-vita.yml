@@ -45,8 +45,10 @@ jobs:
           cmake --build build-host-tests --parallel
           ctest --test-dir build-host-tests --output-on-failure
 
-      - name: Validate node manifest schema JSON
-        run: python3 -m json.tool schemas/psbbv-node-manifest.schema.json > /dev/null
+      - name: Validate node manifest schema and fixtures
+        run: |
+          python3 -m pip install --disable-pip-version-check jsonschema==4.25.1
+          python3 tests/validate_node_manifest.py
 
       - name: Build with VitaSDK
         run: |
