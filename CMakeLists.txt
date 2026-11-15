@@ -13,7 +13,6 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     add_executable(psbbv_core_tests
         tests/ChannelRegistryTests.cpp
         src/navigation/ChannelRegistry.cpp
-        tests/../src/nodes/NodeRegistry.cpp
     )
     target_include_directories(psbbv_core_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_core_tests PRIVATE -Wall -Wextra -Wpedantic)
