@@ -1,4 +1,5 @@
 #include "psbbv/navigation/ChannelRegistry.hpp"
+#include "psbbv/nodes/NodeRegistry.hpp"
 
 #include <array>
 #include <cstdlib>
@@ -33,6 +34,8 @@ int main() {
         const ChannelDefinition* channel = channelAt(i);
         require(channel != nullptr, "every registered index resolves");
         require(channel->id == expected[i], "channel IDs remain stable and ordered");
+        require(channel->nodeId != nullptr && channel->nodeId[0] != '\0', "channel has a stable node ID");
+        require(psbbv::nodes::findNode(channel->nodeId) != nullptr, "channel resolves to a registered node");
         require(channel->title != nullptr && channel->title[0] != '\0', "channel title is present");
         require(channel->tagline != nullptr && channel->tagline[0] != '\0', "channel tagline is present");
         require(channel->description != nullptr && channel->description[0] != '\0', "channel description is present");
