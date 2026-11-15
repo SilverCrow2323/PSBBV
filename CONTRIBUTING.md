@@ -1,41 +1,63 @@
 <div align="center">
-<img src="docs/assets/spdw-factory-mark.svg" alt="SPDW Factory" width="170">
 
-**SPDW FACTORY / CONTRIBUTOR NOTES**
+![PSBBV / SPDW Factory](assets/branding/psbbv-docs-banner.svg)
 
-# 🤝 Contributing to PSBBV
+# 🤝 BUILD WITH US
 
-*Good ideas welcome. Mystery code, not so much.*
+**Good ideas welcome. Mystery changes, not so much.**
+
+<sub>SPDW FACTORY · CONTRIBUTING / 006</sub>
+
 </div>
 
-## Before changing code
-- Read the [Product Brief](docs/product.html), [Architecture](docs/architecture.html) and [Design Guidelines](docs/design.html).
-- Keep source comments, documentation and user-facing strings in English.
-- Make focused changes with a clear reason and a test plan.
-- Never present unfinished functionality as implemented.
-- Do not add large dependencies without documenting their memory, performance and packaging cost.
+## Before touching code
 
-## Code conventions
-- C++17.
-- Keep Vita-specific API calls behind the platform boundary where practical.
-- Use descriptive names and small, focused functions.
-- Avoid per-frame heap allocation.
-- Keep UI colours in shared theme tokens.
+- Read the [Product Brief](docs/PRODUCT_BRIEF.md) and [Architecture](docs/ARCHITECTURE.md).
+- Follow the [Design Guidelines](docs/DESIGN_GUIDELINES.md).
+- Read the [SPDW Factory Documentation Style Guide](docs/STYLE_GUIDE.md).
+- Keep source comments, documentation, and user-facing strings in English.
+- Keep changes focused and explain why they belong in PSBBV.
+- Never label unfinished functionality as working.
+- Do not add a large dependency without explaining its memory, performance, and packaging cost.
+
+## 🧑‍💻 Code rules
+
+- Use C++17.
+- Keep Vita-specific APIs behind clear platform boundaries where practical.
+- Choose descriptive names and small, focused functions.
+- Avoid heap allocation in the frame loop.
+- Keep shared visual tokens in the theme layer.
 - Preserve physical-button navigation for every essential flow.
-- No blocking network or storage work in the render loop.
+- Keep blocking storage and network work out of rendering.
 
-## Pull requests
-A useful PR says:
-1. What problem it solves.
-2. How the implementation works.
-3. What CI and hardware tests were performed.
-4. Screenshots or a short capture for visual changes.
-5. Known limitations and remaining work.
+## 🎨 Documentation is part of the product
 
-## Documentation standard
-Documentation is part of the SPDW Factory signature. Use direct titles, clear language, visual variety and accurate implementation states. Add diagrams or artwork when they explain something better than another paragraph.
+Every document must follow the SPDW Factory editorial direction:
 
-Sarcasm is welcome. Ambiguity is not.
+- Direct, readable writing. No ceremonial vocabulary.
+- A little personality and sarcasm, never at the reader's expense.
+- Visual variety: useful headings, callouts, tables, diagrams, screenshots, and original artwork.
+- No endless walls of text.
+- Clear status labels: implemented, planned, unavailable, blocked, and needs testing.
+- English language across project documentation and UI.
 
-## Licensing
-A repository licence has not yet been selected. Until one is added, contributions must not assume that the project is available under an open-source licence.
+See [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md). The documentation is part of our signature, not an afterthought.
+
+## 📬 Pull request checklist
+
+A useful PR includes:
+
+1. The problem it solves.
+2. The implementation approach.
+3. Build and hardware tests actually performed.
+4. Screenshots or a capture for visible UI changes, when available.
+5. Known limitations and follow-up work.
+
+## ⚖️ Licensing
+
+A repository license has not been selected yet. Until one is added, do not assume the project is available under an open-source license.
+
+---
+
+**SPDW FACTORY** · PSBBV Contribution Guide  
+Bring the idea. Show the work. Tell us what still needs fixing.
