@@ -1,4 +1,17 @@
-# Hardware Test Checklist
+<div align="center">
+<img src="assets/spdw-factory-mark.svg" alt="SPDW Factory" width="160">
+
+**SPDW FACTORY / FIELD NOTES**
+
+### 🧪 PSBBV Hardware Test Bench
+
+*Manual install, controls, touch and lifecycle checks.*
+
+[OPEN THE VISUAL GUIDE ↗](testing.html) · [PROJECT HOME](index.html)
+</div>
+
+---
+
 
 This checklist is intended for a homebrew-enabled PlayStation Vita. A successful cross-build does not replace device testing.
 
