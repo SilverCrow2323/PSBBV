@@ -194,7 +194,9 @@ ManifestResult parseNodeManifest(const char* json, std::size_t length, ParsedNod
                 valid = valid && reader.take('}');
                 break;
             }
-            case 10: valid = reader.skipValue(); break;
+            case 10:
+            case 11:
+            case 12: valid = reader.skipValue(); break;
             default: valid = false; break;
         }
         if (!valid) return fail(ManifestError::InvalidField, reader.position());
