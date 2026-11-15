@@ -18,6 +18,7 @@ on:
       - "src/**"
       - "include/**"
       - "tests/**"
+      - "schemas/**"
       - "sce_sys/**"
       - ".github/workflows/build-vita.yml"
   workflow_dispatch:
