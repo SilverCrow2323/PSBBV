@@ -128,3 +128,8 @@ All project-facing documentation, source comments and user-facing UI strings are
 **SPDW FACTORY**  
 *Built with intent. Documented with attitude.*
 </div>
+
+
+## The ecosystem
+
+See the [PSBBV Ecosystem Map](docs/ECOSYSTEM.md) for repository ownership, node boundaries, manifest policy and the Core integration model.
