@@ -5,11 +5,27 @@ on:
     branches:
       - main
       - dev/**
+    paths:
+      - "CMakeLists.txt"
+      - "src/**"
+      - "include/**"
+      - "sce_sys/**"
+      - ".github/workflows/build-vita.yml"
   pull_request:
+    paths:
+      - "CMakeLists.txt"
+      - "src/**"
+      - "include/**"
+      - "sce_sys/**"
+      - ".github/workflows/build-vita.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: vita-build-\${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-vpk:
