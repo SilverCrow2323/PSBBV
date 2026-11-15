@@ -95,6 +95,7 @@ Documentation is part of the product. It should be useful, visual, direct and en
 | [◈ Design language](docs/design.html) | Visual identity, palette and interaction rules |
 | [↗ Roadmap](docs/roadmap.html) | Milestones and release gates |
 | [✓ Hardware tests](docs/testing.html) | Vita installation, input, touch and lifecycle checklist |
+| [🚀 Publishing guide](docs/publishing.html) | Enable GitHub Pages and publish the SPDW field guide |
 
 **[OPEN THE FULL SPDW DOCUMENTATION PORTAL ↗](docs/index.html)**
 
