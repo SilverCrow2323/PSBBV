@@ -1,96 +1,127 @@
 <div align="center">
-<img src="assets/spdw-factory-mark.svg" alt="SPDW Factory" width="160">
 
-**SPDW FACTORY / FIELD NOTES**
+![PSBBV / SPDW Factory](../assets/branding/psbbv-docs-banner.svg)
 
-### 🧭 PSBBV Product Brief
+# 📘 THE PRODUCT BRIEF
 
-*Product scope, channel model and acceptance criteria.*
+**What we're building. What we're not. What must work before we celebrate.**
 
-[OPEN THE VISUAL GUIDE ↗](product.html) · [PROJECT HOME](index.html)
+<sub>SPDW FACTORY · PRODUCT / 001</sub>
+
 </div>
+
+> **The pitch:** PSBBV brings the channel-based spirit of PlayStation Broadband Navigator to the Vita — with a cleaner interface, modern interaction, and a healthy allergy to fake features.
+
+## 🎯 The product, in one minute
+
+PSBBV (PlayStation Broadband Vita) is an independent, native PlayStation Vita homebrew application. It adapts the channel-oriented navigation idea of PSBBN to the Vita's **960 × 544** screen, physical controls, and touchscreen.
+
+It is an application — **not** a replacement shell, firmware mod, or promise to recreate PSBBN line for line.
+
+| Promise | What it means |
+|---|---|
+| Native | Built for Vita, not a desktop UI squeezed into a handheld |
+| Channel-first | Games, apps, media, network, downloads, and system live in clear workspaces |
+| Usable offline | Core navigation does not need a server to wake up |
+| Hardware-aware | Memory, startup time, input response, and frame pacing matter |
+| Honest | Planned, unavailable, and working features look different |
+
+## 🚦 First milestone: the Navigator Shell
+
+<badge>FOUNDATION MILESTONE</badge> The first milestone is deliberately narrow. Get the shell right before adding six half-working destinations and calling it an ecosystem.
+
+<list connector="solid" marker="number" gap={8}>
+  <list-item>Build a reproducible VitaSDK application and installable VPK.</list-item>
+  <list-item>Start and exit cleanly on a real Vita.</list-item>
+  <list-item>Render a stable 960 × 544 Home screen.</list-item>
+  <list-item>Support D-pad navigation plus Cross and Circle actions.</list-item>
+  <list-item>Support front-touch selection without breaking physical controls.</list-item>
+  <list-item>Show honest placeholder states for channels without working handlers.</list-item>
+  <list-item>Handle suspend/resume and clean up rendering resources.</list-item>
+  <list-item>Pass the manual hardware checklist in the testing guide.</list-item>
+</list>
+
+> **Release rule:** a successful cross-build is not a hardware release. The VPK must install, launch, navigate, suspend, resume, and exit on an actual Vita.
+
+## 🚫 Not in the first milestone
+
+- Replacing the Vita LiveArea or system shell.
+- Reimplementing Sony network services or relying on unavailable proprietary APIs.
+- Shipping copyrighted games, media, firmware, or service credentials.
+- Making mock channel screens look like working services.
+- Building a general-purpose browser before the navigation foundation is stable.
+
+## 🧭 The channel lineup
+
+Each channel gets a stable ID, title, visual identity, availability state, and activation route.
+
+| Channel | Job | First-shell state |
+|---|---|---|
+| 🏠 Home | Landing page, recent activity, quick access | Foundation view |
+| 🎮 Games | Local game discovery and shortcuts | Planned |
+| 🧰 Applications | Installed homebrew and utilities | Planned |
+| 🌐 Network | Connection status and future online experiences | Planned |
+| 🎵 Media | Local music, video, and image entry point | Planned |
+| ⬇️ Downloads | Transfer tasks and completed downloads | Planned |
+| ⚙️ Settings / System | Preferences, input, appearance, and device info | Planned |
+
+Only channels with real handlers may be marked **READY**. A nice tile is not a feature. Sorry, tiles.
+
+## 🎮 The input contract
+
+| Input | Action |
+|---|---|
+| D-pad | Move focus through visible items |
+| Cross | Activate the focused item |
+| Circle | Go back or close a transient panel |
+| Start | Open the application menu |
+| Select | Reserved for useful contextual actions |
+| Touch | Focus or activate an item with visible feedback |
+
+Button mapping must be configurable later. Confirm/cancel conventions differ between systems and users; the UI should not start a civil war over one button.
+
+## 🎨 Visual direction
+
+PSBBN provides inspiration, not a tracing template. PSBBV should feel like its own product:
+
+- confident typography and a clear hierarchy;
+- calm, dark surfaces with a deliberate Vita-red accent;
+- tile layouts with room to breathe;
+- purposeful focus states and motion;
+- touch targets that are easy to hit;
+- English as the initial UI and documentation language.
+
+The PSBBN-to-PSBBV mark is a concept: a graphite legacy stroke and a red V. Final artwork must be original and must not imply Sony affiliation.
+
+## 🧩 How the first shell fits together
+
+~~~mermaid
+flowchart TD
+    A["Vita OS"] --> B["PSBBV App"]
+    B --> C["Input: buttons + touch"]
+    C --> D["Navigation state"]
+    D --> E["Home / Channel views"]
+    E --> F["Native renderer"]
+    F --> G["Vita display"]
+~~~
+
+## ✅ Definition of done
+
+A milestone is done when its acceptance criteria are met and recorded — not when the checkbox looks lonely.
+
+- [ ] Reproducible VPK build
+- [ ] Clean launch and exit on hardware
+- [ ] Stable Home at native resolution
+- [ ] D-pad, Cross, Circle, Start, and front touch tested
+- [ ] Placeholder states clearly labelled
+- [ ] Suspend/resume verified
+- [ ] Hardware test notes recorded
 
 ---
 
+<div align="center">
 
-## Product definition
+**SPDW FACTORY** · PSBBV Product Documentation  
+Built with intent. Written for humans. Still allergic to grey walls.
 
-PSBBV (PlayStation Broadband Vita) is an independent, native PlayStation Vita homebrew application. It adapts the channel-oriented navigation idea of PlayStation Broadband Navigator to the Vita's 960 × 544 screen, physical controls and touch input.
-
-PSBBV is an application, not a replacement shell, firmware modification, or promise of recreating PSBBN exactly.
-
-## Product goals
-
-1. Make the Vita feel like a cohesive connected entertainment device.
-2. Organize experiences into recognizable channels rather than a flat list of icons.
-3. Keep navigation responsive and understandable with buttons or touch.
-4. Make core navigation and locally available content useful offline.
-5. Clearly distinguish working features, unavailable services and future concepts.
-6. Keep memory, storage, startup time and frame pacing appropriate for Vita hardware.
-
-## Non-goals for the first milestone
-
-- Replacing the Vita LiveArea or system shell.
-- Reimplementing Sony network services or depending on unavailable proprietary APIs.
-- Shipping copyrighted games, media, firmware or service credentials.
-- Presenting mock channel screens as functional services.
-- Building a general-purpose web browser before the navigation foundation is stable.
-
-## First milestone: native navigation shell
-
-The first milestone is complete only when the application:
-
-- Builds reproducibly into an installable VPK using the documented VitaSDK toolchain.
-- Starts and exits cleanly on a real Vita.
-- Renders a stable 960 × 544 home screen.
-- Supports deterministic D-pad navigation and Cross/ Circle actions.
-- Supports touch selection without breaking physical input.
-- Exposes clear placeholder states for channels not yet implemented.
-- Handles suspend/resume and application exit without leaving rendering resources active.
-- Has a documented manual hardware test checklist.
-
-## Initial channel model
-
-The channel registry should be data-driven. Each entry has a stable identifier, display title, icon/art reference, availability state and activation route.
-
-Suggested initial categories:
-
-- Home: landing page, recent activity and quick access.
-- Games: locally installed or user-provided game shortcuts, subject to platform APIs.
-- Media: local media entry point; no unsupported codec or streaming promises.
-- Network: connectivity status and future network experiences.
-- Library: locally available content and favourites.
-- Settings: application preferences, input and appearance.
-
-Only channels with implemented handlers may be marked available. Other entries must use an explicit planned or unavailable state.
-
-## Interaction contract
-
-- D-pad: move focus through visible navigation items.
-- Cross: activate the focused item.
-- Circle: return to the previous view or close a transient panel.
-- Start: open the application menu; it must not unexpectedly terminate the app.
-- Select: reserved for contextual actions where useful.
-- Touch: tap to focus/activate and provide visual feedback.
-- A visible focus indicator must always identify the current selection.
-
-The exact button policy is versioned in the input contract before channel-specific shortcuts are added.
-
-## Visual direction
-
-Use the Vita's native 960 × 544 canvas as a deliberate composition, not a scaled desktop layout. The visual language should reference PSBBN's channel identity while remaining its own product: restrained gradients, confident typography, clear tile hierarchy, purposeful motion and strong focus states.
-
-The proposed PSBBN-to-PSBBV mark is a direction, not permission to reuse Sony artwork or imply affiliation. Final artwork must be original.
-
-## Technical direction
-
-- C++17 and VitaSDK.
-- CMake-based reproducible builds.
-- A small native rendering layer, with dependencies justified by measured needs.
-- Explicit application, navigation, input, channel and persistence boundaries.
-- No network requirement in the home-screen render path.
-- Resource ownership and lifecycle behavior must be testable and documented.
-
-## Release discipline
-
-A successful cross-build is not a hardware release. Public releases require a reproducible VPK, recorded toolchain version, clean startup/exit, input verification, suspend/resume checks, and a tested install/update/uninstall path. Do not publish a release while the VPK title ID remains provisional.
+</div>
