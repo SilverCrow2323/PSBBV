@@ -23,6 +23,7 @@ enum class ChannelAvailability : std::uint8_t {
 
 struct ChannelDefinition final {
     ChannelId id;
+    const char* nodeId;
     const char* title;
     const char* tagline;
     const char* description;
