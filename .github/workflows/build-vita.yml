@@ -9,7 +9,7 @@ on:
       - "CMakeLists.txt"
       - "src/**"
       - "include/**"
-      - "tests/**"
+      - "tests/**"\n      - "schemas/**"
       - "sce_sys/**"
       - ".github/workflows/build-vita.yml"
   pull_request:
@@ -42,6 +42,9 @@ jobs:
           cmake -S . -B build-host-tests -DPSBBV_BUILD_HOST_TESTS_ONLY=ON -DCMAKE_BUILD_TYPE=Debug
           cmake --build build-host-tests --parallel
           ctest --test-dir build-host-tests --output-on-failure
+
+      - name: Validate node manifest schema JSON
+        run: python3 -m json.tool schemas/psbbv-node-manifest.schema.json > /dev/null
 
       - name: Build with VitaSDK
         run: |
