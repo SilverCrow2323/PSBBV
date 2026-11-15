@@ -5,15 +5,17 @@ This roadmap describes intended work. A milestone is complete only when its acce
 ## Phase 0 — Native foundation
 
 - [x] Establish the product brief and architecture contract.
-- [x] Add the initial branded Vita VPK resources.
-- [ ] Add the VitaSDK/CMake application target.
-- [ ] Add a native rendering loop and system font baseline.
-- [ ] Add deterministic physical-button navigation.
-- [ ] Add front touchscreen navigation.
-- [ ] Add a branded home screen and clearly marked planned channel views.
-- [ ] Add a GitHub Actions VPK build workflow.
+- [x] Add the VitaSDK/CMake application target.
+- [x] Add a libvita2d rendering loop and system font baseline.
+- [x] Add deterministic physical-button navigation.
+- [x] Add front touchscreen navigation.
+- [x] Add an application menu with About and Exit actions.
+- [x] Add a branded home screen and clearly marked planned channel views.
+- [x] Add initial SVG branding and Vita LiveArea package resources.
+- [x] Add a GitHub Actions VPK build workflow.
 - [ ] Confirm a successful CI package build.
 - [ ] Install and test the VPK on physical Vita hardware.
+- [ ] Verify suspend/resume behavior and resource recovery on hardware.
 
 ## Phase 1 — UI foundation
 
@@ -22,7 +24,7 @@ This roadmap describes intended work. A milestone is complete only when its acce
 - [ ] Add configurable confirm/back button mapping.
 - [ ] Add rear-touch behavior only where it has a clear interaction purpose.
 - [ ] Establish a lightweight asset and texture cache.
-- [ ] Validate frame pacing, memory usage, and suspend/resume on hardware.
+- [ ] Validate frame pacing and memory usage on hardware.
 
 ## Phase 2 — Local content model
 
