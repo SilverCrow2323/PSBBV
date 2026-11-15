@@ -1,4 +1,17 @@
-# PSBBV Product Brief
+<div align="center">
+<img src="assets/spdw-factory-mark.svg" alt="SPDW Factory" width="160">
+
+**SPDW FACTORY / FIELD NOTES**
+
+### 🧭 PSBBV Product Brief
+
+*Product scope, channel model and acceptance criteria.*
+
+[OPEN THE VISUAL GUIDE ↗](product.html) · [PROJECT HOME](index.html)
+</div>
+
+---
+
 
 ## Product definition
 
