@@ -28,6 +28,12 @@ flowchart TD
     PAD["Physical controls"] --> INPUT
 ~~~
 
+## 🧩 The node ecosystem
+
+PSBBV is the host; domain workspaces can evolve as independent nodes. The shared contract, manifest format, lifecycle, compatibility rules, and permission model are defined in [The Node Contract](NODE_API.md). The first Vita implementation should use built-in nodes compiled into the host. Dynamic modules and scripting runtimes remain feasibility work, not current capabilities.
+
+The proposed media product is specified separately in [PSBBV Media Blueprint](MEDIA_NODE_BLUEPRINT.md). It is a design target only; the Media channel remains a planned placeholder until a real implementation is integrated.
+
 ## 🧱 The moving parts
 
 ### 1. Application lifecycle
@@ -123,6 +129,16 @@ sequenceDiagram
 - **Lifecycle:** clean start, exit, and suspend/resume.
 - **Performance:** no blocking I/O in the frame loop; measure on device.
 - **Product truth:** availability labels must match actual handlers.
+
+## 🧩 Node integration boundary
+
+- The host owns lifecycle, input sampling, rendering, navigation, and shutdown.
+- Nodes own domain data and asynchronous jobs; they never block the frame loop.
+- Node identity is stable and independent of display names.
+- Manifest declarations are validated, but never treated as proof of implementation or permission.
+- Effective availability is determined by the host after compatibility and initialization checks.
+
+See [NODE_API.md](NODE_API.md) for the versioned contract and [MEDIA_NODE_BLUEPRINT.md](MEDIA_NODE_BLUEPRINT.md) for the Media product plan.
 
 ## 🧊 Decisions we are not guessing yet
 
