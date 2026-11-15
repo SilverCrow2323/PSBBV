@@ -12,12 +12,23 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
 
     add_executable(psbbv_core_tests
         tests/ChannelRegistryTests.cpp
+        tests/UiStateTests.cpp
         src/navigation/ChannelRegistry.cpp
+        src/navigation/UiState.cpp
     )
     target_include_directories(psbbv_core_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_core_tests PRIVATE -Wall -Wextra -Wpedantic)
 
     add_test(NAME psbbv_channel_registry COMMAND psbbv_core_tests)
+
+    add_executable(psbbv_ui_state_tests
+        tests/UiStateTests.cpp
+        src/navigation/UiState.cpp
+        src/navigation/ChannelRegistry.cpp
+    )
+    target_include_directories(psbbv_ui_state_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_compile_options(psbbv_ui_state_tests PRIVATE -Wall -Wextra -Wpedantic)
+    add_test(NAME psbbv_ui_state COMMAND psbbv_ui_state_tests)
     return()
 endif()
 
@@ -46,6 +57,7 @@ add_executable(PSBBV
     src/main.cpp
     src/app/App.cpp
     src/navigation/ChannelRegistry.cpp
+    src/navigation/UiState.cpp
 )
 
 target_include_directories(PSBBV PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
