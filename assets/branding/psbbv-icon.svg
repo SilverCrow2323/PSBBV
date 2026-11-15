@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect x="3" y="3" width="122" height="122" rx="25" fill="#0b0f17" stroke="#5a6476" stroke-width="2"/>
+  <circle cx="64" cy="64" r="49" fill="none" stroke="#d4ff43" stroke-opacity=".3" stroke-width="2"/>
+  <text x="15" y="51" fill="#f7f8fa" font-family="Arial,sans-serif" font-size="19" font-weight="800">PSBB</text>
+  <path d="M84 26V53" stroke="#4f5867" stroke-width="4"/>
+  <path d="M89 28L103 91L120 28" fill="none" stroke="#e42f3d" stroke-width="9" stroke-linecap="square"/>
+  <text x="17" y="111" fill="#a1adbf" font-family="Arial,sans-serif" font-size="10" font-weight="700">VITA</text>
+</svg>
