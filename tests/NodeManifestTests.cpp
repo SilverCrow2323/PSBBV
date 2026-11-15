@@ -28,6 +28,7 @@ int main() {
     using namespace psbbv::nodes;
     ParsedNodeManifest manifest{};
     ManifestResult result = parseNodeManifest(Valid, std::strlen(Valid), manifest);
+    if (!result.ok()) { std::cerr << "parse error=" << static_cast<int>(result.error) << " offset=" << result.offset << "\\n"; }
     require(result.ok(), "valid built-in manifest parses");
     require(std::strcmp(manifest.id, "factory.spdw.psbbv.media") == 0, "stable ID parsed");
     require(manifest.category == NodeCategory::Media, "category parsed");
