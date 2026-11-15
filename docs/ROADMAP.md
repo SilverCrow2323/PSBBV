@@ -31,7 +31,7 @@
 - [x] Branded Home view and clearly labelled channel placeholders.
 - [x] Initial SVG identity and Vita LiveArea package resources.
 - [x] GitHub Actions VPK build workflow.
-- [ ] 🟠 Confirm a green CI VPK build.
+- [x] ✅ Confirm a green CI VPK build (Vita Build #83, VitaSDK 2026.08, VPK artifact inspected).
 - [ ] 🟠 Install and test the VPK on a physical Vita.
 - [ ] 🟠 Verify suspend/resume and resource recovery.
 

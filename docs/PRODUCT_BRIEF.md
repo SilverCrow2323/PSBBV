@@ -109,7 +109,7 @@ flowchart TD
 
 A milestone is done when its acceptance criteria are met and recorded — not when the checkbox looks lonely.
 
-- [ ] Reproducible VPK build
+- [x] Reproducible VPK build (Vita Build #83; VPK package inspected)
 - [ ] Clean launch and exit on hardware
 - [ ] Stable Home at native resolution
 - [ ] D-pad, Cross, Circle, Start, and front touch tested
