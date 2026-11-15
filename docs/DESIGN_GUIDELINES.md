@@ -1,4 +1,17 @@
-# Design Guidelines
+<div align="center">
+<img src="assets/spdw-factory-mark.svg" alt="SPDW Factory" width="160">
+
+**SPDW FACTORY / FIELD NOTES**
+
+### 🎨 PSBBV Design Guidelines
+
+*Palette, typography and interaction principles.*
+
+[OPEN THE VISUAL GUIDE ↗](design.html) · [PROJECT HOME](index.html)
+</div>
+
+---
+
 
 ## Canvas and layout
 
