@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 230" role="img" aria-labelledby="t d">
+<title id="t">SPDW Factory presents PSBBV</title>
+<desc id="d">A dark orbital technical illustration with a bright lime center and red signal arc.</desc>
+<defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d4ff43"/><stop offset="1" stop-color="#60d9ed"/></linearGradient>
+  <radialGradient id="halo"><stop stop-color="#d4ff43" stop-opacity=".22"/><stop offset="1" stop-color="#d4ff43" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="310" cy="112" r="108" fill="url(#halo)"/>
+<circle cx="310" cy="112" r="84" fill="none" stroke="#444b5b" stroke-width="1"/>
+<circle cx="310" cy="112" r="62" fill="none" stroke="#5b6373" stroke-width="1" stroke-dasharray="3 8"/>
+<ellipse cx="310" cy="112" rx="145" ry="47" transform="rotate(-26 310 112)" fill="none" stroke="#8a76f4" stroke-width="2" opacity=".85"/>
+<ellipse cx="310" cy="112" rx="178" ry="60" transform="rotate(31 310 112)" fill="none" stroke="#60d9ed" stroke-width="1.5" opacity=".8"/>
+<path d="M 180 170 A 145 145 0 0 1 440 59" fill="none" stroke="#ff5c50" stroke-width="8" stroke-linecap="round"/>
+<path d="M 254 145 L 310 54 L 366 145" fill="none" stroke="url(#g)" stroke-width="13" stroke-linecap="square" stroke-linejoin="miter"/>
+<circle cx="310" cy="112" r="13" fill="#d4ff43"/>
+<circle cx="310" cy="112" r="5" fill="#11131a"/>
+<g fill="#f4f2ec" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="700" letter-spacing="2">
+<text x="310" y="213" text-anchor="middle">SIGNAL / NAVIGATION / EXPERIENCE</text>
+</g>
+<g fill="#ff5c50"><circle cx="461" cy="53" r="5"/><circle cx="166" cy="171" r="4"/></g>
+</svg>
