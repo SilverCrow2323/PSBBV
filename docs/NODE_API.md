@@ -108,7 +108,7 @@ No node receives unrestricted filesystem or network access by default. Credentia
 
 ## Current implementation slice
 
-The PSBBV Core now contains a compile-time built-in registry for the six stable node IDs. It records the Node API version, supported platform mask, category, and declared availability. Host-side tests cover stable IDs, uniqueness, lookup, planned-state preservation, API-major/minor rejection, platform rejection, and disabled/unavailable/error states.
+The PSBBV Core now contains a compile-time built-in registry for the six stable node IDs. The six Home channels carry matching stable Node IDs, and the channel detail view derives its status from the registry's effective API/platform availability result. It records the Node API version, supported platform mask, category, and declared availability. Host-side tests cover stable IDs, uniqueness, lookup, planned-state preservation, API-major/minor rejection, platform rejection, and disabled/unavailable/error states.
 
 This is a registry and compatibility gate only. It does not parse external manifests, load node code, grant permissions, or execute jobs. All six registered nodes remain `planned`.
 
