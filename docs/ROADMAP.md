@@ -50,6 +50,9 @@
 - [x] Add standards-compliant JSON Schema validation and positive/negative manifest fixtures.
 - [ ] Implement host-side manifest parsing and duplicate-ID rejection.
 - [x] Register six built-in node identities with API/platform compatibility checks and explicit effective availability.
+- [x] Establish separate Media, Games, Applications, Network, Downloads and System repositories with provisional manifests and pinned schema-validation CI.
+- [x] Add a central ecosystem ownership and integration map.
+- [x] Bind Home channels to stable Node IDs and derive channel status from effective registry availability.
 - [ ] Verify lifecycle, cancellation, and suspend/resume behavior on Vita.
 
 ## Phase 1 — Make the UI feel finished
