@@ -1,4 +1,17 @@
-# PSBBV Architecture
+<div align="center">
+<img src="assets/spdw-factory-mark.svg" alt="SPDW Factory" width="160">
+
+**SPDW FACTORY / FIELD NOTES**
+
+### 🧱 PSBBV Architecture
+
+*Runtime layers, ownership and frame-loop rules.*
+
+[OPEN THE VISUAL GUIDE ↗](architecture.html) · [PROJECT HOME](index.html)
+</div>
+
+---
+
 
 ## Status
 
