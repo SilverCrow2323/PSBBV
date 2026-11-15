@@ -16,6 +16,7 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
         src/nodes/NodeRegistry.cpp
         src/nodes/NodeManifest.cpp
         src/nodes/NodeLifecycle.cpp
+        src/nodes/NodeJob.cpp
     )
     target_include_directories(psbbv_core_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_core_tests PRIVATE -Wall -Wextra -Wpedantic)
@@ -55,6 +56,14 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     target_include_directories(psbbv_node_lifecycle_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_node_lifecycle_tests PRIVATE -Wall -Wextra -Wpedantic)
     add_test(NAME psbbv_node_lifecycle COMMAND psbbv_node_lifecycle_tests)
+
+    add_executable(psbbv_node_job_tests
+        tests/NodeJobTests.cpp
+        src/nodes/NodeJob.cpp
+    )
+    target_include_directories(psbbv_node_job_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_compile_options(psbbv_node_job_tests PRIVATE -Wall -Wextra -Wpedantic)
+    add_test(NAME psbbv_node_jobs COMMAND psbbv_node_job_tests)
     return()
 endif()
 
