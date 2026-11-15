@@ -135,6 +135,9 @@ ManifestResult parseNodeManifest(const char* json, std::size_t length, ParsedNod
     bool seen[13]{};
     Reader reader(json, length);
     if (!reader.take('{')) return fail(ManifestError::InvalidJson, reader.position());
+    if (reader.take('}')) {
+        return fail(ManifestError::MissingField, reader.position());
+    }
 
     for (;;) {
         char key[40]{};
