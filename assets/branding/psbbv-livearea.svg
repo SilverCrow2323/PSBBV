@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="500" viewBox="0 0 840 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#080a11"/><stop offset="1" stop-color="#141926"/></linearGradient>
+    <radialGradient id="red"><stop stop-color="#e22f3d" stop-opacity=".36"/><stop offset="1" stop-color="#e22f3d" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blue"><stop stop-color="#3f5d8e" stop-opacity=".25"/><stop offset="1" stop-color="#3f5d8e" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="840" height="500" fill="url(#bg)"/>
+  <circle cx="665" cy="158" r="330" fill="url(#red)"/>
+  <circle cx="380" cy="450" r="280" fill="url(#blue)"/>
+  <g fill="none" stroke="#9ba8bd" stroke-opacity=".18">
+    <circle cx="655" cy="158" r="90"/><circle cx="655" cy="158" r="145"/><circle cx="655" cy="158" r="205"/><circle cx="655" cy="158" r="270"/>
+  </g>
+  <path d="M485 280 A245 245 0 0 1 870 40" fill="none" stroke="#ff5850" stroke-width="5"/>
+  <path d="M545 240 A170 170 0 0 1 880 40" fill="none" stroke="#5bdcef" stroke-opacity=".65" stroke-width="2"/>
+  <g stroke="#fff" stroke-opacity=".035">
+    <path d="M0 40H840 M0 80H840 M0 120H840 M0 160H840 M0 200H840 M0 240H840 M0 280H840 M0 320H840 M0 360H840 M0 400H840 M0 440H840 M0 480H840"/>
+    <path d="M40 0V500 M80 0V500 M120 0V500 M160 0V500 M200 0V500 M240 0V500 M280 0V500 M320 0V500 M360 0V500 M400 0V500 M440 0V500 M480 0V500 M520 0V500 M560 0V500 M600 0V500 M640 0V500 M680 0V500 M720 0V500 M760 0V500 M800 0V500"/>
+  </g>
+  <rect x="42" y="42" width="348" height="416" rx="25" fill="#080b12" fill-opacity=".9" stroke="#fff" stroke-opacity=".12"/>
+  <text x="72" y="99" fill="#d4ff43" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="2">SPDW FACTORY</text>
+  <text x="69" y="214" fill="#f6f7f9" font-family="Arial,sans-serif" font-size="74" font-weight="800" letter-spacing="-3">PSBB</text>
+  <path d="M310 157V216" stroke="#535b6a" stroke-width="6"/>
+  <path d="M317 150L352 220L389 150" fill="none" stroke="#e42f3d" stroke-width="11" stroke-linecap="square"/>
+  <text x="74" y="262" fill="#b9c2d0" font-family="Arial,sans-serif" font-size="18" font-weight="700">PLAYSTATION BROADBAND VITA</text>
+  <path d="M74 284H346" stroke="#e42f3d" stroke-width="3"/>
+  <text x="74" y="336" fill="#f5f6f8" font-family="Arial,sans-serif" font-size="19" font-weight="700">A NEW HOME FOR YOUR</text>
+  <text x="74" y="364" fill="#f5f6f8" font-family="Arial,sans-serif" font-size="19" font-weight="700">PLAYSTATION WORLD.</text>
+  <text x="74" y="420" fill="#8994a4" font-family="monospace" font-size="10" letter-spacing="1">FOUNDATION BUILD / VITA HOMEBREW</text>
+  <circle cx="665" cy="158" r="85" fill="#0a0e17" fill-opacity=".9" stroke="#fff" stroke-opacity=".3" stroke-width="2"/>
+  <circle cx="665" cy="158" r="60" fill="none" stroke="#d4ff43" stroke-opacity=".7" stroke-width="2"/>
+  <path d="M610 103L665 213L720 103" fill="none" stroke="#e42f3d" stroke-width="17" stroke-linecap="square"/>
+  <circle cx="665" cy="158" r="5" fill="#d4ff43"/>
+  <text x="545" y="300" fill="#dbe1eb" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">NAVIGATION</text>
+  <text x="545" y="322" fill="#dbe1eb" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">WITHOUT THE NOISE.</text>
+  <text x="610" y="460" fill="#9ba7b9" font-family="monospace" font-size="11" letter-spacing="2">SPDW / 001</text>
+</svg>
