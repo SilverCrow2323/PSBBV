@@ -112,6 +112,8 @@ The PSBBV Core now contains a compile-time built-in registry for the six stable 
 
 The Core now also has a bounded C++ manifest parser for the metadata subset used by the Vita built-in host. It rejects oversized input, malformed structure, duplicate top-level fields, unknown fields, missing required fields, unsupported API values and unsupported runtime/platform declarations. A separate identity gate accepts only manifests matching a node already compiled into the host, including its stable ID, category, API version and platform. This is not a dynamic loader: it cannot register arbitrary third-party code, grant permissions, or execute jobs. All six registered nodes remain `planned`.
 
+A pure lifecycle transition policy now models `discovered → validated → prepared → active ↔ suspended`, with explicit failure and terminal deactivation states. Invalid skips and attempts to restart failed/deactivated nodes are rejected in host tests. This is transition policy only; it does not invoke node callbacks, allocate resources, or schedule asynchronous work.
+
 ## Runtime strategy — do not skip the hardware reality check
 
 The first Vita milestone should register built-in nodes compiled into the PSBBV application. This is the simplest auditable route for a constrained homebrew target.
@@ -125,6 +127,7 @@ External native modules, dynamic loading, scripting runtimes, and process isolat
 - [x] Manifest identity must match an existing compiled-in node before it passes the built-in gate.
 - [ ] Unsupported API major versions produce an explicit unavailable state.
 - [ ] Missing capabilities do not crash or block Home.
+- [x] Pure lifecycle transition policy rejects invalid activation, resume and terminal-state transitions.
 - [ ] Node jobs can be cancelled and report typed terminal results.
 - [ ] Suspend/resume and deactivation are tested on the target device.
 - [ ] No node can block the frame loop with I/O.
