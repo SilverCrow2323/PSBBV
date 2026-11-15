@@ -70,16 +70,26 @@ Always include the environment and test scope when saying something is verified.
 
 ## 🎨 Visual system
 
-The documentation should feel related to PSBBV without turning every page into a giant logo.
+PSBBV and SPDW Factory share one identity, but the product and its documentation have different jobs. Keep their visual systems related—not interchangeable.
 
-- **Canvas:** deep ink / near-black.
+### PSBBV product UI · PlayStation Vita
+
+- **Canvas:** deep near-black.
 - **Surfaces:** graphite and cool charcoal.
 - **Primary text:** clean white.
-- **Supporting text:** cool grey with enough contrast to read.
-- **Accent:** PSBBV red.
-- **SPDW Factory mark:** visible on documentation landing pages, major guides, and visual assets.
+- **Supporting text:** cool grey with readable contrast.
+- **Accent:** PSBBV red, used for focus and important states.
+- **Mark:** the PSBBV wordmark and red V; concepts stay labelled as concepts.
 
-Use the red accent for focus, warnings, and important labels. Don't paint every heading red. We are building a navigator, not a fire alarm.
+### SPDW Factory documentation · Field Guide
+
+- **Canvas:** warm paper (#F4F2EC) with ink (#11131A).
+- **Editorial accents:** acid lime (#D4FF43), coral (#FF5C50), violet (#8A76F4) and cyan (#60D9ED).
+- **Typography:** strong headings, compact metadata, readable body copy and clear captions.
+- **Layout:** varied cards, tables, diagrams, callouts, artwork and navigable page groups.
+- **Brand:** SPDW Factory signature on the landing page and major guides.
+
+The documentation site deliberately uses a lighter editorial canvas so long technical pages remain comfortable to scan. Do not copy its palette into the Vita UI. Use colour with purpose; we're building a navigator, not a fire alarm.
 
 ## 🧩 Markdown toolkit
 
