@@ -368,7 +368,7 @@ void App::renderApplicationMenu() const noexcept {
     using namespace ui::theme;
 
     vita2d_draw_rectangle(0, 0, ScreenWidth, ScreenHeight, RGBA8(0, 0, 0, 170));
-    vita2d_draw_rectangle(300, 176, 360, 200, Panel);
+    vita2d_draw_rectangle(300, 176, 360, 224, Panel);
     vita2d_draw_rectangle(300, 176, 360, 2, Accent);
     drawText(330, 214, TextPrimary, 0.76f, "APPLICATION MENU");
 
@@ -390,7 +390,7 @@ void App::renderApplicationMenu() const noexcept {
         );
     }
 
-    drawText(330, 356, TextMuted, 0.46f, "CIRCLE  CLOSE");
+    drawText(330, 383, TextMuted, 0.46f, "CIRCLE  CLOSE");
 }
 
 void App::renderFooter() const noexcept {
