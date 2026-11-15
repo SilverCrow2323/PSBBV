@@ -96,7 +96,10 @@ void App::render() const noexcept {
     renderHeader();
     renderNavigation();
 
-    switch (state_.view()) {
+    const navigation::View visibleView = state_.view() == navigation::View::Menu
+        ? state_.backgroundView()
+        : state_.view();
+    switch (visibleView) {
         case navigation::View::Home: renderHome(); break;
         case navigation::View::Channel: renderChannel(); break;
         case navigation::View::About: renderAbout(); break;
