@@ -5,6 +5,8 @@
 
 #include <vita2d.h>
 
+#include "psbbv/navigation/UiState.hpp"
+
 namespace psbbv {
 
 class App final {
@@ -22,7 +24,6 @@ public:
     [[nodiscard]] bool shouldQuit() const noexcept;
 
 private:
-    void activateMenuItem() noexcept;
     void handleTouch(int x, int y) noexcept;
 
     void drawText(
@@ -42,13 +43,8 @@ private:
     void renderFooter() const noexcept;
 
     vita2d_pgf* font_;
-    std::uint32_t previousButtons_;
-    std::size_t selectedChannel_;
-    std::size_t selectedMenuItem_;
-    bool channelOpen_;
-    bool applicationMenuOpen_;
-    bool aboutOpen_;
-    bool shouldQuit_;
+    navigation::UiState state_;
+    bool touchWasDown_;
 };
 
 } // namespace psbbv
