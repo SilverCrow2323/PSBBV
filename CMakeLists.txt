@@ -1,5 +1,26 @@
 cmake_minimum_required(VERSION 3.16)
 
+option(PSBBV_BUILD_HOST_TESTS_ONLY "Build portable PSBBV core tests without VitaSDK" OFF)
+if(PSBBV_BUILD_HOST_TESTS_ONLY)
+    project(PSBBVHostTests LANGUAGES CXX)
+
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+
+    enable_testing()
+
+    add_executable(psbbv_core_tests
+        tests/ChannelRegistryTests.cpp
+        src/navigation/ChannelRegistry.cpp
+    )
+    target_include_directories(psbbv_core_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_compile_options(psbbv_core_tests PRIVATE -Wall -Wextra -Wpedantic)
+
+    add_test(NAME psbbv_channel_registry COMMAND psbbv_core_tests)
+    return()
+endif()
+
 # Resolve the VitaSDK toolchain from the standard environment variable.
 if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     if(DEFINED ENV{VITASDK})
@@ -24,6 +45,7 @@ set(VITA_VERSION "00.10")
 add_executable(PSBBV
     src/main.cpp
     src/app/App.cpp
+    src/navigation/ChannelRegistry.cpp
 )
 
 target_include_directories(PSBBV PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")

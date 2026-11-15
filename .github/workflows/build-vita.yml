@@ -9,6 +9,8 @@ on:
       - "CMakeLists.txt"
       - "src/**"
       - "include/**"
+      - "src/**"
+      - "tests/**"
       - "sce_sys/**"
       - ".github/workflows/build-vita.yml"
   pull_request:
@@ -16,6 +18,8 @@ on:
       - "CMakeLists.txt"
       - "src/**"
       - "include/**"
+      - "src/**"
+      - "tests/**"
       - "sce_sys/**"
       - ".github/workflows/build-vita.yml"
   workflow_dispatch:
@@ -34,6 +38,12 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+
+      - name: Run host unit tests
+        run: |
+          cmake -S . -B build-host-tests -DPSBBV_BUILD_HOST_TESTS_ONLY=ON -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build-host-tests --parallel
+          ctest --test-dir build-host-tests --output-on-failure
 
       - name: Build with VitaSDK
         run: |

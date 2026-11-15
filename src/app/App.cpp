@@ -7,6 +7,7 @@
 
 #include <vita2d.h>
 
+#include "psbbv/navigation/ChannelRegistry.hpp"
 #include "psbbv/ui/Theme.hpp"
 
 namespace psbbv {
@@ -14,21 +15,6 @@ namespace {
 
 constexpr int ScreenWidth = 960;
 constexpr int ScreenHeight = 544;
-
-struct ChannelInfo {
-    const char* name;
-    const char* tagline;
-    const char* description;
-};
-
-constexpr std::array<ChannelInfo, 6> Channels{{
-    {"GAMES", "Your games, gathered in one place.", "A future home for local game discovery and shortcuts."},
-    {"APPLICATIONS", "Tools and homebrew, with room to grow.", "A future catalog for installed applications and utilities."},
-    {"NETWORK", "A connected layer for digital experiences.", "Optional online experiences will be designed as separate modules."},
-    {"MEDIA", "Your personal media, presented beautifully.", "A future library for locally available music, video, and images."},
-    {"DOWNLOADS", "Keep track of content and transfers.", "A future workspace for transfer tasks and completed downloads."},
-    {"SYSTEM", "Understand and configure your Vita.", "A future workspace for device information and PSBBV preferences."}
-}};
 
 constexpr std::array<const char*, 3> MenuItems{{
     "RESUME NAVIGATION",
@@ -106,13 +92,18 @@ void App::update(
         return;
     }
 
+    const std::size_t channelCount = navigation::channelCount();
+    if (channelCount == 0) {
+        selectedChannel_ = 0;
+        return;
+    }
+
     if ((pressed & SCE_CTRL_UP) != 0) {
-        selectedChannel_ =
-            (selectedChannel_ + Channels.size() - 1) % Channels.size();
+        selectedChannel_ = (selectedChannel_ + channelCount - 1) % channelCount;
     }
 
     if ((pressed & SCE_CTRL_DOWN) != 0) {
-        selectedChannel_ = (selectedChannel_ + 1) % Channels.size();
+        selectedChannel_ = (selectedChannel_ + 1) % channelCount;
     }
 
     if ((pressed & SCE_CTRL_CROSS) != 0) {
@@ -196,7 +187,10 @@ void App::handleTouch(int x, int y) noexcept {
         } else if (relativeX >= 201 && relativeX < 385) {
             selectedChannel_ = 1;
         } else if (relativeX >= 402 && relativeX < 586) {
-            selectedChannel_ = 5;
+            selectedChannel_ = navigation::channelIndex(navigation::ChannelId::System);
+            if (selectedChannel_ >= navigation::channelCount()) {
+                return;
+            }
         } else {
             return;
         }
@@ -267,7 +261,12 @@ void App::renderNavigation() const noexcept {
 
     drawText(32, 119, TextMuted, 0.48f, "NAVIGATION");
 
-    for (std::size_t i = 0; i < Channels.size(); ++i) {
+    for (std::size_t i = 0; i < navigation::channelCount(); ++i) {
+        const navigation::ChannelDefinition* channel = navigation::channelAt(i);
+        if (channel == nullptr) {
+            continue;
+        }
+
         const int y = 137 + static_cast<int>(i) * 56;
         const bool selected = i == selectedChannel_;
 
@@ -282,7 +281,7 @@ void App::renderNavigation() const noexcept {
             y + 28,
             selected ? TextPrimary : TextSecondary,
             0.72f,
-            Channels[i].name
+            channel->title
         );
         drawText(208, y + 27, selected ? Accent : TextMuted, 0.55f, selected ? ">" : "");
     }
@@ -330,22 +329,46 @@ void App::renderHome() const noexcept {
 void App::renderChannel() const noexcept {
     using namespace ui::theme;
 
-    const ChannelInfo& channel = Channels[selectedChannel_];
+    const navigation::ChannelDefinition* channel =
+        navigation::channelAt(selectedChannel_);
+    if (channel == nullptr) {
+        renderHome();
+        return;
+    }
+
+    const char* availability = "PLANNED";
+    switch (channel->availability) {
+        case navigation::ChannelAvailability::Implemented:
+            availability = "READY";
+            break;
+        case navigation::ChannelAvailability::Planned:
+            availability = "PLANNED";
+            break;
+        case navigation::ChannelAvailability::Unavailable:
+            availability = "UNAVAILABLE";
+            break;
+        case navigation::ChannelAvailability::Disabled:
+            availability = "DISABLED";
+            break;
+    }
 
     vita2d_draw_rectangle(270, 118, 654, 347, Panel);
     vita2d_draw_rectangle(270, 118, 654, 1, Border);
     vita2d_draw_rectangle(270, 118, 4, 347, Accent);
 
-    drawText(305, 158, Accent, 0.52f, "CHANNEL / PLANNED");
-    drawText(305, 216, TextPrimary, 1.42f, channel.name);
-    drawText(307, 252, TextSecondary, 0.72f, channel.tagline);
+    drawText(305, 158, Accent, 0.52f, "CHANNEL /");
+    drawText(392, 158, Accent, 0.52f, availability);
+    drawText(305, 216, TextPrimary, 1.42f, channel->title);
+    drawText(307, 252, TextSecondary, 0.72f, channel->tagline);
 
     vita2d_draw_rectangle(305, 286, 584, 112, PanelRaised);
     vita2d_draw_rectangle(305, 286, 3, 112, AccentDim);
-    drawText(327, 321, TextPrimary, 0.66f, "FOUNDATION PLACEHOLDER");
-    drawText(327, 351, TextSecondary, 0.56f, channel.description);
+    drawText(327, 321, TextPrimary, 0.66f, "CHANNEL STATUS");
+    drawText(327, 351, TextSecondary, 0.56f, channel->description);
 
-    drawText(305, 438, TextMuted, 0.48f, "THIS CHANNEL IS NOT IMPLEMENTED IN THIS BUILD.");
+    if (channel->availability != navigation::ChannelAvailability::Implemented) {
+        drawText(305, 438, TextMuted, 0.48f, "THIS CHANNEL IS NOT IMPLEMENTED IN THIS BUILD.");
+    }
 }
 
 void App::renderAbout() const noexcept {
