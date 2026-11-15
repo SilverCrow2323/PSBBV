@@ -96,6 +96,7 @@ add_executable(PSBBV
     src/nodes/NodeRegistry.cpp
     src/nodes/NodeManifest.cpp
     src/nodes/NodeLifecycle.cpp
+    src/nodes/NodeJob.cpp
 )
 
 target_include_directories(PSBBV PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
