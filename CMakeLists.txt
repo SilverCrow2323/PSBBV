@@ -14,6 +14,7 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
         tests/ChannelRegistryTests.cpp
         src/navigation/ChannelRegistry.cpp
         src/nodes/NodeRegistry.cpp
+        src/nodes/NodeManifest.cpp
     )
     target_include_directories(psbbv_core_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_core_tests PRIVATE -Wall -Wextra -Wpedantic)
@@ -36,6 +37,15 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     target_include_directories(psbbv_node_registry_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_node_registry_tests PRIVATE -Wall -Wextra -Wpedantic)
     add_test(NAME psbbv_node_registry COMMAND psbbv_node_registry_tests)
+
+    add_executable(psbbv_node_manifest_tests
+        tests/NodeManifestTests.cpp
+        src/nodes/NodeManifest.cpp
+        src/nodes/NodeRegistry.cpp
+    )
+    target_include_directories(psbbv_node_manifest_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_compile_options(psbbv_node_manifest_tests PRIVATE -Wall -Wextra -Wpedantic)
+    add_test(NAME psbbv_node_manifest COMMAND psbbv_node_manifest_tests)
     return()
 endif()
 
@@ -66,6 +76,7 @@ add_executable(PSBBV
     src/navigation/ChannelRegistry.cpp
     src/navigation/UiState.cpp
     src/nodes/NodeRegistry.cpp
+    src/nodes/NodeManifest.cpp
 )
 
 target_include_directories(PSBBV PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
