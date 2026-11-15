@@ -39,6 +39,10 @@
 - [ ] Open and close the application menu.
 - [ ] Open About PSBBV and return with Circle and Cross.
 
+## 🧭 Input-state regression tests
+
+The host CI suite runs two independent executables: the channel registry tests and the UI state tests. The UI tests cover button edge detection, held-button behavior, menu focus, About navigation, restoring a channel behind the menu, returning Home, and the Exit request. These tests validate the portable state model; they do not replace the physical-control checklist below.
+
 ## 👆 Front touchscreen
 
 - [ ] Tap each channel row and confirm the correct channel opens.
