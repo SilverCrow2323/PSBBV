@@ -1,0 +1,35 @@
+name: Vita Build
+
+on:
+  push:
+    branches:
+      - main
+      - dev/**
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-vpk:
+    name: Build PSBBV VPK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Build with VitaSDK
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            -w /workspace \
+            vitasdk/vitasdk:2026.08 \
+            sh -lc 'vdpm install libvita2d && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --parallel'
+
+      - name: Upload VPK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PSBBV-VPK
+          path: build/PSBBV.vpk
+          if-no-files-found: error
