@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d4ff43">
+  <meta name="description" content="Manual PS Vita installation, controls, touch and lifecycle checklist.">
+  <title>Hardware tests · PSBBV / SPDW Factory</title>
+  <link rel="icon" href="assets/spdw-factory-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/spdw-docs.css">
+  <script defer src="assets/spdw-docs.js"></script>
+</head>
+<body>
+<div class="shell">
+
+<div class="topline"><span>SPDW FACTORY <span style="opacity:.55">/</span> FIELD NOTES</span><span class="right">PSBBV · FOUNDATION BUILD · 00.10</span></div>
+<aside class="sidebar">
+  <a class="brand" href="index.html">
+    <span class="brand-mark">SP</span>
+    <span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">Documentation lab</span></span>
+  </a>
+  <div class="nav-label">Start here</div>
+  <a class="nav-link " href="index.html"><span class="nav-icon">⌂</span>Project home</a>
+  <div class="nav-label">The manual</div>
+  <a class="nav-link " href="product.html"><span class="nav-icon">✳</span>Product brief</a>
+  <a class="nav-link " href="architecture.html"><span class="nav-icon">⌘</span>Architecture</a>
+  <a class="nav-link " href="design.html"><span class="nav-icon">◈</span>Design language</a>
+  <a class="nav-link " href="roadmap.html"><span class="nav-icon">↗</span>Roadmap</a>
+  <a class="nav-link active" href="testing.html"><span class="nav-icon">✓</span>Hardware tests</a>
+  <div class="nav-label">Project links</div>
+  <a class="nav-link" href="../README.md"><span class="nav-icon">⌁</span>Repository README</a>
+  <a class="nav-link" href="https://github.com/SilverCrow2323/PSBBV"><span class="nav-icon">◉</span>GitHub repository ↗</a>
+  <div class="sidebar-bottom">
+    <div class="sidebar-note"><strong>Pretty is not a substitute for true.</strong><span>Planned means planned. Working means working. We label the difference.</span></div>
+  </div>
+</aside>
+<main class="content">
+  <div class="mobile-head">
+    <a class="brand" href="index.html"><span class="brand-mark">SP</span><span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">PSBBV field notes</span></span></a>
+    <button class="mobile-toggle" data-nav-toggle aria-expanded="false">☰ Menu</button>
+  </div>
+  
+<div class="breadcrumb"><a href="index.html">Project home</a><span class="slash">/</span><span>Hardware tests</span></div>
+<section class="hero">
+  <span class="eyebrow">05 / Hardware test bench</span>
+  <h1>THE VITA GETS <em>THE FINAL VOTE.</em></h1>
+  <p>CI is the workshop. The handheld is the road test. Use this checklist to record the bits that a successful compile cannot tell us.</p>
+  <div class="meta-row"><span class="pill acid">Manual QA</span><span class="pill dark">Real device required</span><span class="pill dark">Not yet certified</span></div>
+</section>
+<section class="section">
+  <div class="section-head"><div><div class="kicker">Before testing</div><h2>Write down the conditions.</h2></div><p>Reproducible tests need a little context. Future-you will appreciate the notes.</p></div>
+  <div class="grid two">
+    <article class="card"><h3>Device & environment</h3><p>Record Vita model, firmware, homebrew environment, storage setup and test date.</p></article>
+    <article class="card"><h3>Build identity</h3><p>Record commit SHA, workflow run, VPK checksum and title ID. “The newest one” is not a version number.</p></article>
+  </div>
+</section>
+<section class="section">
+  <div class="section-head"><div><div class="kicker">Tick as you go</div><h2>The hardware checklist.</h2></div><p>These controls are local to this page. They do not claim that any tests have been run.</p></div>
+  <div class="grid two">
+    <div class="card">
+      <h3>📦 Install & package</h3>
+      <div class="check-list">
+        <label class="check"><input type="checkbox"><span>Vita Build workflow completed successfully.</span></label>
+        <label class="check"><input type="checkbox"><span>Downloaded the PSBBV-VPK artifact from that run.</span></label>
+        <label class="check"><input type="checkbox"><span>VPK installs without an error.</span></label>
+        <label class="check"><input type="checkbox"><span>LiveArea title, icon, background and startup artwork display correctly.</span></label>
+        <label class="check"><input type="checkbox"><span>Provisional title ID checked for conflicts before any release.</span></label>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🚀 Startup & exit</h3>
+      <div class="check-list">
+        <label class="check"><input type="checkbox"><span>Application launches from LiveArea.</span></label>
+        <label class="check"><input type="checkbox"><span>Canvas fills the expected 960 × 544 landscape display.</span></label>
+        <label class="check"><input type="checkbox"><span>Wordmark and labels are legible.</span></label>
+        <label class="check"><input type="checkbox"><span>Start opens the application menu.</span></label>
+        <label class="check"><input type="checkbox"><span>Exit Application closes cleanly and relaunch works.</span></label>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🎮 Physical controls</h3>
+      <div class="check-list">
+        <label class="check"><input type="checkbox"><span>D-pad traverses all six channels in both directions.</span></label>
+        <label class="check"><input type="checkbox"><span>Selection wraps correctly at both ends.</span></label>
+        <label class="check"><input type="checkbox"><span>Cross opens the selected channel workspace.</span></label>
+        <label class="check"><input type="checkbox"><span>Circle returns to Home.</span></label>
+        <label class="check"><input type="checkbox"><span>About and Exit menu actions behave correctly.</span></label>
+      </div>
+    </div>
+    <div class="card">
+      <h3>👆 Front touchscreen</h3>
+      <div class="check-list">
+        <label class="check"><input type="checkbox"><span>Each channel row opens the correct workspace.</span></label>
+        <label class="check"><input type="checkbox"><span>Each Home shortcut opens its matching channel.</span></label>
+        <label class="check"><input type="checkbox"><span>Each application-menu item can be tapped.</span></label>
+        <label class="check"><input type="checkbox"><span>Taps outside the menu dismiss it safely.</span></label>
+        <label class="check"><input type="checkbox"><span>A held finger does not repeat the same action.</span></label>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🔁 Lifecycle</h3>
+      <div class="check-list">
+        <label class="check"><input type="checkbox"><span>Suspend while PSBBV is running.</span></label>
+        <label class="check"><input type="checkbox"><span>Resume and confirm rendering and input recover.</span></label>
+        <label class="check"><input type="checkbox"><span>Repeat suspend/resume without visual corruption.</span></label>
+        <label class="check"><input type="checkbox"><span>Exit after touch sampling has been enabled.</span></label>
+      </div>
+    </div>
+    <div class="card">
+      <h3>📈 Performance</h3>
+      <div class="check-list">
+        <label class="check"><input type="checkbox"><span>Idle and navigation frame pacing looks stable.</span></label>
+        <label class="check"><input type="checkbox"><span>No abnormal memory growth during extended use.</span></label>
+        <label class="check"><input type="checkbox"><span>No blocking operation causes visible UI stalls.</span></label>
+        <label class="check"><input type="checkbox"><span>Record any crash, glitch or input inconsistency with steps to reproduce.</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="callout"><div class="callout-icon">📝</div><div><strong>Leave a useful trail</strong><p>Record the device, firmware, homebrew setup, test date, commit SHA, VPK SHA-256 and pass/fail notes in the test report. A checkbox is a reminder—not evidence by itself.</p></div></div>
+</section>
+
+  <footer class="doc-footer"><span><strong>SPDW FACTORY</strong> &nbsp;—&nbsp; Built with intent. Documented with attitude.</span><span><a href="index.html">Back to project home ↑</a></span></footer>
+</main>
+</div>
+</body>
+</html>
