@@ -49,6 +49,7 @@
 - [x] Validate manifest schema JSON syntax in CI.
 - [x] Add standards-compliant JSON Schema validation and positive/negative manifest fixtures.
 - [x] Implement bounded host-side manifest parsing and built-in identity gating.
+- [x] Implement and test the pure node lifecycle transition policy.
 - [x] Reject duplicate/unknown top-level manifest fields and malformed or unsupported descriptors.
 - [x] Register six built-in node identities with API/platform compatibility checks and explicit effective availability.
 - [x] Establish separate Media, Games, Applications, Network, Downloads and System repositories with provisional manifests and pinned schema-validation CI.
