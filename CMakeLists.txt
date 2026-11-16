@@ -84,6 +84,26 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Pin the independently maintained Games node to a reviewed commit.
+# Developers may point this at a local checkout without changing the pin.
+include(FetchContent)
+set(PSBBV_GAMES_GIT_TAG "a2f331dd58e288fd1d9e47b4502d39e54bfbae34"
+    CACHE STRING "Reviewed PSBBV-Games commit")
+set(PSBBV_GAMES_SOURCE_DIR "" CACHE PATH "Optional local PSBBV-Games checkout")
+set(PSBBV_GAMES_BUILD_HOST_TESTS OFF CACHE BOOL "Do not cross-build host tests" FORCE)
+set(PSBBV_GAMES_BUILD_VITA_ADAPTER ON CACHE BOOL "Build the Vita filesystem provider" FORCE)
+
+if(PSBBV_GAMES_SOURCE_DIR)
+    add_subdirectory("${PSBBV_GAMES_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/psbbv-games")
+else()
+    FetchContent_Declare(psbbv_games
+        GIT_REPOSITORY https://github.com/SilverCrow2323/PSBBV-Games.git
+        GIT_TAG ${PSBBV_GAMES_GIT_TAG}
+        GIT_SHALLOW FALSE
+    )
+    FetchContent_MakeAvailable(psbbv_games)
+endif()
+
 set(VITA_APP_NAME "PSBBV")
 set(VITA_TITLEID "SCBV00001")
 set(VITA_VERSION "00.10")
@@ -110,6 +130,7 @@ target_compile_options(PSBBV PRIVATE
 )
 
 target_link_libraries(PSBBV PRIVATE
+    psbbv_games_vita_adapter
     vita2d
     SceDisplay_stub
     SceGxm_stub
