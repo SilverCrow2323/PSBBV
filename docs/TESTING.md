@@ -38,10 +38,11 @@
 - [ ] Return to Home using Circle.
 - [ ] Open and close the application menu.
 - [ ] Open About PSBBV and return with Circle and Cross.
+- [ ] Open the menu while About PSBBV is visible, choose Resume, then confirm Circle/Cross returns to the original Home or Channel view rather than trapping focus in About.
 
 ## 🧭 Input-state regression tests
 
-The host CI suite runs two independent executables: the channel registry tests and the UI state tests. The UI tests cover button edge detection, held-button behavior, menu focus, About navigation, restoring a channel behind the menu, returning Home, and the Exit request. These tests validate the portable state model; they do not replace the physical-control checklist below.
+The host CI suite runs independent executables for the channel registry, UI state, node registry, manifest parser, lifecycle policy, and node jobs. The UI tests cover button edge detection, held-button behavior, menu focus, About navigation, restoring a channel behind the menu, returning Home, clean-exit requests, and the regression where reopening the menu from About must preserve About's original back destination. These tests validate the portable state model; they do not replace the physical-control checklist below.
 
 ## 👆 Front touchscreen
 
