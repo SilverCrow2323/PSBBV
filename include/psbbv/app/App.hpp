@@ -62,6 +62,7 @@ private:
         games::vita::VitaDiscoveryContext providerContext{};
         games::DiscoverySource source{};
         games::DiscoveryReport report{};
+        std::uint8_t scratch[games::MaxParamSfoBytes]{};
         nodes::NodeJob job{};
         std::atomic<bool> finished{false};
         bool started{false};
