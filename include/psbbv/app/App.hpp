@@ -20,6 +20,7 @@ class App final {
 public:
     explicit App(vita2d_pgf* font) noexcept;
     ~App() noexcept;
+    void shutdown() noexcept;
 
     void update(
         std::uint32_t buttons,
