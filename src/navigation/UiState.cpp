@@ -13,7 +13,7 @@ void UiState::update(std::uint32_t heldButtons) noexcept {
     if ((pressed & button::Start) != 0) {
         if (view_ == View::Menu) closeMenu();
         else {
-            returnView_ = view_;
+            menuReturnView_ = view_;
             view_ = View::Menu;
         }
         return;
@@ -31,7 +31,7 @@ void UiState::update(std::uint32_t heldButtons) noexcept {
 
     if (view_ == View::About) {
         if ((pressed & (button::Circle | button::Cross)) != 0)
-            view_ = returnView_;
+            view_ = aboutReturnView_;
         return;
     }
 
@@ -66,12 +66,12 @@ void UiState::activateMenuItem(std::size_t index) noexcept {
 
 void UiState::back() noexcept {
     if (view_ == View::Menu) closeMenu();
-    else if (view_ == View::About) view_ = returnView_;
+    else if (view_ == View::About) view_ = aboutReturnView_;
     else if (view_ == View::Channel) view_ = View::Home;
 }
 
 void UiState::closeMenu() noexcept {
-    view_ = returnView_;
+    view_ = menuReturnView_;
 }
 
 void UiState::activateFocusedMenuItem() noexcept {
@@ -80,6 +80,10 @@ void UiState::activateFocusedMenuItem() noexcept {
             closeMenu();
             break;
         case MenuItem::About:
+            // Reopening About from its own menu must preserve the original
+            // Home/Channel destination rather than making About its own parent.
+            if (menuReturnView_ != View::About)
+                aboutReturnView_ = menuReturnView_;
             view_ = View::About;
             break;
         case MenuItem::Exit:
