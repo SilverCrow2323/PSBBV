@@ -141,6 +141,7 @@ target_link_libraries(PSBBV PRIVATE
     ScePvf_stub
     SceCommonDialog_stub
     SceAppMgr_stub
+    SceKernelThreadMgr_stub
     freetype
     png
     jpeg
