@@ -351,7 +351,7 @@ void App::renderGamesChannel(const char* availability) const noexcept {
     } else if (gamesScan_.catalogue.size() == 0) {
         drawText(307, 330, TextMuted, 0.52f, "NO VALID INSTALLED TITLES WERE FOUND.");
     } else {
-        const GameRecord* ordered[games::MaxGames]{};
+        const games::GameRecord* ordered[games::MaxGames]{};
         const std::size_t count = gamesScan_.catalogue.sorted(
             games::SortOrder::TitleAscending, ordered, games::MaxGames);
         const std::size_t visible = std::min<std::size_t>(count, 5);
