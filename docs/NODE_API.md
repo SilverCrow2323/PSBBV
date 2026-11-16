@@ -143,4 +143,4 @@ The Vita build now pins the independently maintained `PSBBV-Games` repository at
 
 For local development, pass `-DPSBBV_GAMES_SOURCE_DIR=/path/to/PSBBV-Games` to use a working checkout instead of the pinned remote revision. The Core build disables the node's host test executables while the standalone Games repository continues to run them in its own CI.
 
-This is build integration, not a claim that the Games channel is ready. The Core UI does not yet drive an asynchronous discovery job or present the discovered catalogue; the node remains `planned` until that lifecycle and physical Vita validation are complete.
+The Core App now starts a bounded discovery job on a background Vita thread the first time the Games channel is opened, publishes the completed result to the UI through an acquire/release completion flag, and joins the worker during orderly shutdown. The workspace presents a sorted preview of the first five discovered titles. Launch and return-to-shell are still absent, so the node remains `planned` until those lifecycle gates and physical Vita validation are complete.
