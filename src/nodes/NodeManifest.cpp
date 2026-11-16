@@ -180,7 +180,7 @@ ManifestResult parseNodeManifest(const char* json, std::size_t length, ParsedNod
                 char first[24]{};
                 valid = valid && reader.string(first, sizeof(first));
                 valid = valid && reader.take(']');
-                std::strncpy(platform, first, sizeof(platform) - 1);
+                if (valid) std::memcpy(platform, first, sizeof(platform));
                 break;
             }
             case 8: valid = copyEnumString(reader, availability, sizeof(availability)); break;
