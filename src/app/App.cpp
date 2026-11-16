@@ -1,7 +1,9 @@
 #include "psbbv/app/App.hpp"
 
+#include <algorithm>
 #include <array>
 #include <cstddef>
+#include <cstdio>
 
 #include <psp2/ctrl.h>
 
@@ -29,7 +31,19 @@ constexpr std::array<const char*, 3> MenuItems{{
 App::App(vita2d_pgf* font) noexcept
     : font_(font),
       state_(),
-      touchWasDown_(false) {
+      touchWasDown_(false),
+      gamesScan_() {
+    gamesScan_.source = games::vita::makeVitaDiscoverySource(gamesScan_.providerContext);
+    gamesScan_.job.id = 1;
+}
+
+App::~App() noexcept {
+    if (gamesScan_.threadId >= 0) {
+        int exitStatus = 0;
+        sceKernelWaitThreadEnd(gamesScan_.threadId, &exitStatus, nullptr);
+        sceKernelDeleteThread(gamesScan_.threadId);
+        gamesScan_.threadId = -1;
+    }
 }
 
 void App::update(std::uint32_t buttons, int touchX, int touchY) noexcept {
@@ -37,9 +51,57 @@ void App::update(std::uint32_t buttons, int touchX, int touchY) noexcept {
     const bool touchDown = touchX >= 0 && touchY >= 0;
     if (touchDown && !touchWasDown_) handleTouch(touchX, touchY);
     touchWasDown_ = touchDown;
+    startGamesDiscovery();
 }
 
 bool App::shouldQuit() const noexcept { return state_.shouldQuit(); }
+
+void App::startGamesDiscovery() noexcept {
+    if (gamesScan_.started || state_.view() != navigation::View::Channel) return;
+    const navigation::ChannelDefinition* channel =
+        navigation::channelAt(state_.selectedChannel());
+    if (channel == nullptr || channel->id != navigation::ChannelId::Games) return;
+
+    gamesScan_.started = true;
+    const SceUID thread = sceKernelCreateThread(
+        "psbbv_games_scan", &App::gamesDiscoveryThread,
+        0x10000100, 0x10000, 0, 0, nullptr);
+    if (thread < 0) {
+        startNodeJob(gamesScan_.job);
+        failNodeJob(gamesScan_.job, thread, "Could not create the Games discovery worker");
+        gamesScan_.finished.store(true, std::memory_order_release);
+        return;
+    }
+
+    gamesScan_.threadId = thread;
+    const int started = sceKernelStartThread(thread, sizeof(App*), this);
+    if (started < 0) {
+        startNodeJob(gamesScan_.job);
+        failNodeJob(gamesScan_.job, started, "Could not start the Games discovery worker");
+        sceKernelDeleteThread(thread);
+        gamesScan_.threadId = -1;
+        gamesScan_.finished.store(true, std::memory_order_release);
+    }
+}
+
+int App::gamesDiscoveryThread(SceSize args, void* argument) noexcept {
+    (void)args;
+    auto* app = static_cast<App*>(argument);
+    if (app == nullptr) return -1;
+
+    GamesScanState& scan = app->gamesScan_;
+    if (!startNodeJob(scan.job).ok()) {
+        scan.finished.store(true, std::memory_order_release);
+        return -1;
+    }
+
+    scan.report = games::discoverInstalledTitles(
+        scan.catalogue, scan.source,
+        app->gamesScan_.catalogue.size() == 0
+            ? nullptr : nullptr,
+        0);
+    return 0;
+}
 
 void App::handleTouch(int x, int y) noexcept {
     using navigation::View;
@@ -228,6 +290,11 @@ void App::renderChannel() const noexcept {
         case nodes::NodeAvailability::Error: availability = "ERROR"; break;
     }
 
+    if (channel->id == navigation::ChannelId::Games) {
+        renderGamesChannel(availability);
+        return;
+    }
+
     vita2d_draw_rectangle(270, 118, 654, 347, Panel);
     vita2d_draw_rectangle(270, 118, 654, 1, Border);
     vita2d_draw_rectangle(270, 118, 4, 347, Accent);
@@ -245,6 +312,59 @@ void App::renderChannel() const noexcept {
     if (channel->availability != navigation::ChannelAvailability::Implemented) {
         drawText(305, 438, TextMuted, 0.48f, "THIS CHANNEL IS NOT IMPLEMENTED IN THIS BUILD.");
     }
+}
+
+void App::renderGamesChannel(const char* availability) const noexcept {
+    using namespace ui::theme;
+
+    vita2d_draw_rectangle(270, 118, 654, 347, Panel);
+    vita2d_draw_rectangle(270, 118, 654, 1, Border);
+    vita2d_draw_rectangle(270, 118, 4, 347, Accent);
+
+    drawText(305, 158, Accent, 0.52f, "GAMES / INSTALLED LIBRARY");
+    drawText(305, 210, TextPrimary, 1.22f, "YOUR GAMES");
+    drawText(307, 241, TextSecondary, 0.62f, "Read-only discovery from ux0:/app");
+
+    char statusLine[96]{};
+    if (!gamesScan_.started) {
+        std::snprintf(statusLine, sizeof(statusLine), "DISCOVERY NOT STARTED");
+    } else if (!gamesScan_.finished.load(std::memory_order_acquire)) {
+        std::snprintf(statusLine, sizeof(statusLine), "SCANNING INSTALLED TITLES...");
+    } else if (gamesScan_.job.state == nodes::NodeJobState::Failed) {
+        std::snprintf(statusLine, sizeof(statusLine), "SCAN FAILED / CODE %d",
+                      static_cast<int>(gamesScan_.job.result.code));
+    } else {
+        std::snprintf(statusLine, sizeof(statusLine), "SCAN COMPLETE / %u TITLES",
+                      static_cast<unsigned>(gamesScan_.catalogue.size()));
+    }
+    drawText(307, 280, TextSecondary, 0.56f, statusLine);
+
+    if (!gamesScan_.finished.load(std::memory_order_acquire)) {
+        drawText(307, 330, TextMuted, 0.52f, "THE SCAN RUNS IN THE BACKGROUND.");
+    } else if (gamesScan_.job.state == nodes::NodeJobState::Failed) {
+        drawText(307, 330, TextMuted, 0.52f, "CHECK THAT ux0: IS MOUNTED AND TRY AGAIN AFTER RESTART.");
+    } else if (gamesScan_.catalogue.size() == 0) {
+        drawText(307, 330, TextMuted, 0.52f, "NO VALID INSTALLED TITLES WERE FOUND.");
+    } else {
+        const GameRecord* ordered[games::MaxGames]{};
+        const std::size_t count = gamesScan_.catalogue.sorted(
+            games::SortOrder::TitleAscending, ordered, games::MaxGames);
+        const std::size_t visible = std::min<std::size_t>(count, 5);
+        for (std::size_t i = 0; i < visible; ++i) {
+            const int y = 318 + static_cast<int>(i) * 27;
+            const GameRecord* game = ordered[i];
+            if (game == nullptr) continue;
+            drawText(315, y, TextPrimary, 0.54f, game->title);
+            drawText(790, y, TextMuted, 0.43f, game->titleId);
+            if (game->favorite) drawText(755, y, Accent, 0.43f, "*");
+        }
+        if (count > visible) {
+            drawText(315, 463, TextMuted, 0.43f, "SHOWING THE FIRST FIVE TITLES.");
+        }
+    }
+
+    drawText(305, 486, TextMuted, 0.43f, "DISCOVERY ONLY / GAME LAUNCH IS NOT ENABLED YET.");
+    (void)availability;
 }
 
 void App::renderAbout() const noexcept {
