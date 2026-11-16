@@ -136,3 +136,11 @@ External native modules, dynamic loading, scripting runtimes, and process isolat
 
 **SPDW FACTORY** · PSBBV Engineering  
 Small contracts. Independent nodes. One reliable host.
+
+## First external node build integration
+
+The Vita build now pins the independently maintained `PSBBV-Games` repository at reviewed commit `a2f331dd58e288fd1d9e47b4502d39e54bfbae34` using CMake FetchContent. The production catalogue, bounded PARAM.SFO parser, transactional discovery coordinator and user-mode Vita filesystem provider are compiled into the Core build and linked through `psbbv_games_vita_adapter`.
+
+For local development, pass `-DPSBBV_GAMES_SOURCE_DIR=/path/to/PSBBV-Games` to use a working checkout instead of the pinned remote revision. The Core build disables the node's host test executables while the standalone Games repository continues to run them in its own CI.
+
+This is build integration, not a claim that the Games channel is ready. The Core UI does not yet drive an asynchronous discovery job or present the discovered catalogue; the node remains `planned` until that lifecycle and physical Vita validation are complete.
