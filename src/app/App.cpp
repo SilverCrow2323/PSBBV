@@ -38,6 +38,10 @@ App::App(vita2d_pgf* font) noexcept
 }
 
 App::~App() noexcept {
+    shutdown();
+}
+
+void App::shutdown() noexcept {
     if (gamesScan_.threadId >= 0) {
         int exitStatus = 0;
         sceKernelWaitThreadEnd(gamesScan_.threadId, &exitStatus, nullptr);
