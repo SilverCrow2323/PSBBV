@@ -26,7 +26,7 @@ public:
     void back() noexcept;
 
     [[nodiscard]] View view() const noexcept { return view_; }
-    [[nodiscard]] View backgroundView() const noexcept { return returnView_; }
+    [[nodiscard]] View backgroundView() const noexcept { return menuReturnView_; }
     [[nodiscard]] std::size_t selectedChannel() const noexcept { return selectedChannel_; }
     [[nodiscard]] std::size_t selectedMenuItem() const noexcept { return selectedMenuItem_; }
     [[nodiscard]] bool shouldQuit() const noexcept { return shouldQuit_; }
@@ -37,7 +37,10 @@ private:
 
     std::uint32_t previousButtons_{0};
     View view_{View::Home};
-    View returnView_{View::Home};
+    // Keep the menu's background and About's back destination independent.
+    // Opening the menu while About is visible must not overwrite About's origin.
+    View menuReturnView_{View::Home};
+    View aboutReturnView_{View::Home};
     std::size_t selectedChannel_{0};
     std::size_t selectedMenuItem_{0};
     bool shouldQuit_{false};
