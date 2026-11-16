@@ -47,6 +47,26 @@ int main() {
     state.update(button::Circle);
     require(state.view() == View::Home, "Circle returns from channel");
 
+    // Regression: opening the menu while About is visible must not replace
+    // About's original destination with About itself.
+    state.openChannel(channelIndex(ChannelId::Games));
+    state.update(0);
+    state.update(button::Start);
+    state.update(0);
+    state.update(button::Cross); // selected About item
+    require(state.view() == View::About, "About opens from a channel");
+    state.update(0);
+    state.update(button::Start);
+    require(state.view() == View::Menu, "Start can open the menu over About");
+    state.update(0);
+    state.update(button::Up); // Resume
+    state.update(0);
+    state.update(button::Cross);
+    require(state.view() == View::About, "Resume restores About");
+    state.update(0);
+    state.update(button::Circle);
+    require(state.view() == View::Channel, "About back returns to its original channel after menu resume");
+
     state.update(0);
     state.update(button::Start);
     state.update(0);
