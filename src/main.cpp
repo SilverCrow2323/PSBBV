@@ -94,7 +94,7 @@ int main(int, char**) {
         vita2d_swap_buffers();
     }
 
-    vita2d_wait_rendering_done();
+    // Join the bounded Games discovery worker before releasing App-owned state.\n    app.shutdown();\n\n    vita2d_wait_rendering_done();
 
     if (font != nullptr) {
         vita2d_free_pgf(font);
