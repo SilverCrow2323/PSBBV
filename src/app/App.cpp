@@ -96,10 +96,14 @@ int App::gamesDiscoveryThread(SceSize args, void* argument) noexcept {
     }
 
     scan.report = games::discoverInstalledTitles(
-        scan.catalogue, scan.source,
-        app->gamesScan_.catalogue.size() == 0
-            ? nullptr : nullptr,
-        0);
+        scan.catalogue, scan.source, scan.scratch, sizeof(scan.scratch));
+    if (scan.report.error == games::DiscoveryError::None) {
+        completeNodeJob(scan.job);
+    } else {
+        failNodeJob(scan.job, static_cast<std::int32_t>(scan.report.error),
+                    "Installed-title discovery failed");
+    }
+    scan.finished.store(true, std::memory_order_release);
     return 0;
 }
 
@@ -321,7 +325,8 @@ void App::renderGamesChannel(const char* availability) const noexcept {
     vita2d_draw_rectangle(270, 118, 654, 1, Border);
     vita2d_draw_rectangle(270, 118, 4, 347, Accent);
 
-    drawText(305, 158, Accent, 0.52f, "GAMES / INSTALLED LIBRARY");
+    drawText(305, 158, Accent, 0.52f, "GAMES /");
+    drawText(392, 158, TextMuted, 0.52f, availability);
     drawText(305, 210, TextPrimary, 1.22f, "YOUR GAMES");
     drawText(307, 241, TextSecondary, 0.62f, "Read-only discovery from ux0:/app");
 
@@ -352,7 +357,7 @@ void App::renderGamesChannel(const char* availability) const noexcept {
         const std::size_t visible = std::min<std::size_t>(count, 5);
         for (std::size_t i = 0; i < visible; ++i) {
             const int y = 318 + static_cast<int>(i) * 27;
-            const GameRecord* game = ordered[i];
+            const games::GameRecord* game = ordered[i];
             if (game == nullptr) continue;
             drawText(315, y, TextPrimary, 0.54f, game->title);
             drawText(790, y, TextMuted, 0.43f, game->titleId);
@@ -364,7 +369,6 @@ void App::renderGamesChannel(const char* availability) const noexcept {
     }
 
     drawText(305, 486, TextMuted, 0.43f, "DISCOVERY ONLY / GAME LAUNCH IS NOT ENABLED YET.");
-    (void)availability;
 }
 
 void App::renderAbout() const noexcept {
