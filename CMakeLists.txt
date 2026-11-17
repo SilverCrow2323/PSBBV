@@ -64,6 +64,14 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     target_include_directories(psbbv_node_job_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_node_job_tests PRIVATE -Wall -Wextra -Wpedantic)
     add_test(NAME psbbv_node_jobs COMMAND psbbv_node_job_tests)
+
+    add_executable(psbbv_games_browser_tests
+        tests/GamesBrowserStateTests.cpp
+        src/navigation/GamesBrowserState.cpp
+    )
+    target_include_directories(psbbv_games_browser_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_compile_options(psbbv_games_browser_tests PRIVATE -Wall -Wextra -Wpedantic)
+    add_test(NAME psbbv_games_browser COMMAND psbbv_games_browser_tests)
     return()
 endif()
 
@@ -113,6 +121,7 @@ add_executable(PSBBV
     src/app/App.cpp
     src/navigation/ChannelRegistry.cpp
     src/navigation/UiState.cpp
+    src/navigation/GamesBrowserState.cpp
     src/nodes/NodeRegistry.cpp
     src/nodes/NodeManifest.cpp
     src/nodes/NodeLifecycle.cpp
