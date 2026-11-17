@@ -28,7 +28,7 @@ public:
         return status_.compare_exchange_strong(
             expected,
             succeeded ? GamesDiscoveryStatus::Succeeded : GamesDiscoveryStatus::Failed,
-            std::memory_order_release, std::memory_order_acquire);
+            std::memory_order_acq_rel, std::memory_order_acquire);
     }
 
     bool retry() noexcept {

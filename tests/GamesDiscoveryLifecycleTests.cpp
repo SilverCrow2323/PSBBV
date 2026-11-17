@@ -6,7 +6,7 @@
 namespace {
 void require(bool condition, const char* message) {
     if (!condition) {
-        std::cerr << "FAIL: " << message << '\\n';
+        std::cerr << "FAIL: " << message << '\n';
         std::exit(EXIT_FAILURE);
     }
 }
@@ -39,6 +39,6 @@ int main() {
     require(failed.finish(true), "retried scan can complete");
     require(failed.status() == GamesDiscoveryStatus::Succeeded, "retried success is terminal");
 
-    std::cout << "PSBBV Games discovery lifecycle: all checks passed.\\n";
+    std::cout << "PSBBV Games discovery lifecycle: all checks passed.\n";
     return EXIT_SUCCESS;
 }
