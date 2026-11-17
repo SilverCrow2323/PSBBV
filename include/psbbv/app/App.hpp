@@ -9,6 +9,7 @@
 #include <vita2d.h>
 
 #include "psbbv/navigation/UiState.hpp"
+#include "psbbv/navigation/GamesBrowserState.hpp"
 #include "psbbv/games/Catalogue.hpp"
 #include "psbbv/games/Discovery.hpp"
 #include "psbbv/games/VitaDiscovery.hpp"
@@ -57,6 +58,8 @@ private:
     vita2d_pgf* font_;
     navigation::UiState state_;
     bool touchWasDown_;
+    navigation::GamesBrowserState gamesBrowser_;
+    std::uint32_t previousGamesButtons_{0};
 
     struct GamesScanState final {
         games::Catalogue catalogue{};
