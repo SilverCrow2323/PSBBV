@@ -55,6 +55,19 @@ void App::update(std::uint32_t buttons, int touchX, int touchY) noexcept {
     const bool touchDown = touchX >= 0 && touchY >= 0;
     if (touchDown && !touchWasDown_) handleTouch(touchX, touchY);
     touchWasDown_ = touchDown;
+
+    const std::uint32_t pressed = buttons & ~previousGamesButtons_;
+    previousGamesButtons_ = buttons;
+    if (state_.view() == navigation::View::Channel) {
+        const navigation::ChannelDefinition* channel =
+            navigation::channelAt(state_.selectedChannel());
+        if (channel != nullptr && channel->id == navigation::ChannelId::Games &&
+            gamesScan_.finished.load(std::memory_order_acquire)) {
+            gamesBrowser_.setItemCount(gamesScan_.catalogue.size());
+            if ((pressed & SCE_CTRL_UP) != 0) gamesBrowser_.moveUp();
+            if ((pressed & SCE_CTRL_DOWN) != 0) gamesBrowser_.moveDown();
+        }
+    }
     startGamesDiscovery();
 }
 
@@ -122,7 +135,19 @@ void App::handleTouch(int x, int y) noexcept {
     }
     if (state_.view() == View::About) { state_.back(); return; }
     if (state_.view() == View::Channel) {
-        if (y>=480 && x<=180) state_.back();
+        const navigation::ChannelDefinition* channel =
+            navigation::channelAt(state_.selectedChannel());
+        if (channel != nullptr && channel->id == navigation::ChannelId::Games &&
+            gamesScan_.finished.load(std::memory_order_acquire)) {
+            constexpr int firstRowTop = 302;
+            constexpr int rowHeight = 27;
+            if (x >= 305 && x <= 889 && y >= firstRowTop &&
+                y < firstRowTop + rowHeight * static_cast<int>(navigation::GamesBrowserState::VisibleRows)) {
+                const std::size_t row = static_cast<std::size_t>((y - firstRowTop) / rowHeight);
+                gamesBrowser_.select(gamesBrowser_.firstVisibleIndex() + row);
+            }
+        }
+        if (y >= 480 && x <= 180) state_.back();
         return;
     }
     constexpr int left=28, right=232, top=137, height=56;
@@ -358,18 +383,29 @@ void App::renderGamesChannel(const char* availability) const noexcept {
         const games::GameRecord* ordered[games::MaxGames]{};
         const std::size_t count = gamesScan_.catalogue.sorted(
             games::SortOrder::TitleAscending, ordered, games::MaxGames);
-        const std::size_t visible = std::min<std::size_t>(count, 5);
+        const std::size_t first = gamesBrowser_.firstVisibleIndex();
+        const std::size_t visible = std::min<std::size_t>(
+            gamesBrowser_.visibleCount(), count > first ? count - first : 0);
         for (std::size_t i = 0; i < visible; ++i) {
-            const int y = 318 + static_cast<int>(i) * 27;
-            const games::GameRecord* game = ordered[i];
+            const std::size_t index = first + i;
+            const int rowTop = 302 + static_cast<int>(i) * 27;
+            const int y = rowTop + 17;
+            const games::GameRecord* game = ordered[index];
             if (game == nullptr) continue;
-            drawText(315, y, TextPrimary, 0.54f, game->title);
+            const bool selected = index == gamesBrowser_.selectedIndex();
+            if (selected) vita2d_draw_rectangle(305, rowTop, 584, 24, PanelSelected);
+            drawText(310, y, selected ? Accent : TextMuted, 0.43f, selected ? ">" : "");
+            drawText(328, y, selected ? TextPrimary : TextSecondary, 0.54f, game->title);
             drawText(790, y, TextMuted, 0.43f, game->titleId);
             if (game->favorite) drawText(755, y, Accent, 0.43f, "*");
         }
-        if (count > visible) {
-            drawText(315, 463, TextMuted, 0.43f, "SHOWING THE FIRST FIVE TITLES.");
-        }
+        char browseLine[96]{};
+        std::snprintf(browseLine, sizeof(browseLine),
+                      "SHOWING %u-%u OF %u / UP-DOWN TO BROWSE",
+                      static_cast<unsigned>(first + 1),
+                      static_cast<unsigned>(first + visible),
+                      static_cast<unsigned>(count));
+        drawText(315, 463, TextMuted, 0.43f, browseLine);
     }
 
     drawText(305, 486, TextMuted, 0.43f, "DISCOVERY ONLY / GAME LAUNCH IS NOT ENABLED YET.");
@@ -431,7 +467,14 @@ void App::renderFooter() const noexcept {
     } else if (state_.view() == navigation::View::About) {
         drawText(32, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
     } else if (state_.view() == navigation::View::Channel) {
-        drawText(32, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
+        const navigation::ChannelDefinition* channel =
+            navigation::channelAt(state_.selectedChannel());
+        if (channel != nullptr && channel->id == navigation::ChannelId::Games) {
+            drawText(32, 524, TextSecondary, 0.48f, "D-PAD  BROWSE GAMES");
+            drawText(236, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
+        } else {
+            drawText(32, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
+        }
     } else {
         drawText(32, 524, TextSecondary, 0.48f, "D-PAD  NAVIGATE");
         drawText(196, 524, TextSecondary, 0.48f, "CROSS  OPEN CHANNEL");
