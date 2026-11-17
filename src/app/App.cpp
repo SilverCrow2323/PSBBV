@@ -10,6 +10,7 @@
 #include <vita2d.h>
 
 #include "psbbv/navigation/ChannelRegistry.hpp"
+#include "psbbv/navigation/MenuHitTest.hpp"
 #include "psbbv/navigation/UiState.hpp"
 #include "psbbv/nodes/NodeRegistry.hpp"
 #include "psbbv/ui/Theme.hpp"
