@@ -153,9 +153,8 @@ int App::gamesDiscoveryThread(SceSize args, void* argument) noexcept {
 void App::handleTouch(int x, int y) noexcept {
     using navigation::View;
     if (state_.view() == View::Menu) {
-        constexpr int left=320, right=640, top=238, height=48;
-        if (x>=left && x<=right && y>=top && y<top+height*3)
-            state_.activateMenuItem(static_cast<std::size_t>((y-top)/height));
+        const std::size_t item = navigation::menuItemAtTouch(x, y);
+        if (item != navigation::NoMenuItem) state_.activateMenuItem(item);
         else state_.back();
         return;
     }
