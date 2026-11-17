@@ -1,4 +1,5 @@
 #include "psbbv/navigation/UiState.hpp"
+#include "psbbv/navigation/MenuHitTest.hpp"
 #include "psbbv/navigation/ChannelRegistry.hpp"
 
 #include <cstdlib>
@@ -12,6 +13,20 @@ void require(bool ok, const char* message) {
 
 int main() {
     using namespace psbbv::navigation;
+
+    require(menuItemAtTouch(320, 238) == 0, "menu first row accepts its top-left boundary");
+    require(menuItemAtTouch(639, 277) == 0, "menu first row accepts its last visible pixel");
+    require(menuItemAtTouch(320, 278) == NoMenuItem, "first menu gap is not clickable");
+    require(menuItemAtTouch(639, 285) == NoMenuItem, "first menu gap never selects About");
+    require(menuItemAtTouch(320, 286) == 1, "menu second row starts at its visible top");
+    require(menuItemAtTouch(639, 325) == 1, "menu second row accepts its last visible pixel");
+    require(menuItemAtTouch(320, 326) == NoMenuItem, "second menu gap is not clickable");
+    require(menuItemAtTouch(320, 334) == 2, "menu third row starts at its visible top");
+    require(menuItemAtTouch(639, 373) == 2, "menu third row accepts its last visible pixel");
+    require(menuItemAtTouch(320, 374) == NoMenuItem, "area below the last row is not clickable");
+    require(menuItemAtTouch(319, 238) == NoMenuItem, "menu hitbox rejects the left outside edge");
+    require(menuItemAtTouch(640, 238) == NoMenuItem, "menu hitbox rejects the right outside edge");
+
     UiState state;
 
     state.update(button::Down);
