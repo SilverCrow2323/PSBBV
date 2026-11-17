@@ -156,7 +156,7 @@ void App::handleTouch(int x, int y) noexcept {
     if (state_.view() == View::Menu) {
         const std::size_t item = navigation::menuItemAtTouch(x, y);
         if (item != navigation::NoMenuItem) state_.activateMenuItem(item);
-        else state_.back();
+        else if (!navigation::menuPanelContainsTouch(x, y)) state_.back();
         return;
     }
     if (state_.view() == View::About) { state_.back(); return; }
