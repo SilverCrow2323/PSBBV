@@ -44,6 +44,16 @@
 
 The host CI suite runs independent executables for the channel registry, UI state, node registry, manifest parser, lifecycle policy, and node jobs. The UI tests cover button edge detection, held-button behavior, menu focus, About navigation, restoring a channel behind the menu, returning Home, clean-exit requests, and the regression where reopening the menu from About must preserve About's original back destination. These tests validate the portable state model; they do not replace the physical-control checklist below.
 
+## 🎮 Games catalogue browsing
+
+- [ ] Open the Games channel and wait for the installed-title scan to finish.
+- [ ] Confirm titles are sorted by name and only installed `ux0:/app` entries appear.
+- [ ] Browse past the fifth title with D-pad Down; confirm the five-row window scrolls without losing focus.
+- [ ] Verify Up/Down wrap from the first title to the last and back.
+- [ ] Tap a visible row and confirm its focus marker moves to that title.
+- [ ] Confirm no title launches: this build is read-only discovery, not a game launcher.
+- [ ] Return to Home with Circle and reopen Games without starting a second scan.
+
 ## 👆 Front touchscreen
 
 - [ ] Tap each channel row and confirm the correct channel opens.

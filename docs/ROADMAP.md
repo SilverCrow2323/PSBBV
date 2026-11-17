@@ -55,7 +55,9 @@
 - [x] Establish separate Media, Games, Applications, Network, Downloads and System repositories with provisional manifests and pinned schema-validation CI.
 - [x] Add a central ecosystem ownership and integration map.
 - [x] Bind Home channels to stable Node IDs and derive channel status from effective registry availability.
-- [x] Implement and host-test allocation-free node-job states, monotonic progress, cancellation, and typed terminal results.\n- [ ] Connect job policy to a real host scheduler and UI-thread result delivery.\n- [ ] Verify lifecycle, cancellation, and suspend/resume behavior on Vita.
+- [x] Implement and host-test allocation-free node-job states, monotonic progress, cancellation, and typed terminal results.
+- [ ] Connect job policy to a real host scheduler and UI-thread result delivery.
+- [ ] Verify lifecycle, cancellation, and suspend/resume behavior on Vita.
 
 ## Phase 1 — Make the UI feel finished
 
@@ -70,10 +72,12 @@
 ## Phase 2 — Give local content a proper home
 
 - [ ] Typed metadata models for games and applications.
-- [ ] Safe local content discovery.
-- [ ] Empty, loading, unsupported, and error states.
-- [ ] Sorting, filtering, and recently used views.
-- [ ] Read-only discovery before adding launch or management flows.
+- [x] Read-only installed Games discovery from the fixed `ux0:/app` root, with bounded PARAM.SFO parsing on a worker thread.
+- [x] Games workspace loading, empty, and failure states; no channel is promoted to READY by discovery alone.
+- [x] Five-row Games catalogue browser with title sorting, D-pad wraparound, viewport scrolling, and touch selection.
+- [x] Keep discovery read-only until launch and return-to-shell lifecycle are implemented.
+- [ ] Applications discovery and metadata model.
+- [ ] Games filtering, favourites, recently used views, and title launch/return lifecycle.
 
 ## Phase 3 — Build the channels
 
