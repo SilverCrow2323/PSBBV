@@ -10,6 +10,7 @@
 #include <vita2d.h>
 
 #include "psbbv/navigation/ChannelRegistry.hpp"
+#include "psbbv/navigation/MenuHitTest.hpp"
 #include "psbbv/navigation/UiState.hpp"
 #include "psbbv/nodes/NodeRegistry.hpp"
 #include "psbbv/ui/Theme.hpp"
@@ -153,10 +154,9 @@ int App::gamesDiscoveryThread(SceSize args, void* argument) noexcept {
 void App::handleTouch(int x, int y) noexcept {
     using navigation::View;
     if (state_.view() == View::Menu) {
-        constexpr int left=320, right=640, top=238, height=48;
-        if (x>=left && x<=right && y>=top && y<top+height*3)
-            state_.activateMenuItem(static_cast<std::size_t>((y-top)/height));
-        else state_.back();
+        const std::size_t item = navigation::menuItemAtTouch(x, y);
+        if (item != navigation::NoMenuItem) state_.activateMenuItem(item);
+        else if (!navigation::menuPanelContainsTouch(x, y)) state_.back();
         return;
     }
     if (state_.view() == View::About) { state_.back(); return; }
