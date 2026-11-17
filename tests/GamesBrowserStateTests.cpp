@@ -35,8 +35,12 @@ int main() {
     require(browser.visibleCount() == 5, "scrolled viewport remains full");
 
     browser.moveUp();
-    require(browser.selectedIndex() == 4 && browser.firstVisibleIndex() == 0,
-            "moving upward restores the previous viewport");
+    require(browser.selectedIndex() == 4 && browser.firstVisibleIndex() == 1,
+            "moving upward keeps the current selection visible without jumping");
+
+    for (int i = 0; i < 4; ++i) browser.moveUp();
+    require(browser.selectedIndex() == 0 && browser.firstVisibleIndex() == 0,
+            "moving to the first title restores the initial viewport");
 
     browser.moveUp();
     require(browser.selectedIndex() == 11 && browser.firstVisibleIndex() == 7,
