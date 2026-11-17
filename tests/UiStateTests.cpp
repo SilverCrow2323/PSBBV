@@ -26,6 +26,10 @@ int main() {
     require(menuItemAtTouch(320, 374) == NoMenuItem, "area below the last row is not clickable");
     require(menuItemAtTouch(319, 238) == NoMenuItem, "menu hitbox rejects the left outside edge");
     require(menuItemAtTouch(640, 238) == NoMenuItem, "menu hitbox rejects the right outside edge");
+    require(menuPanelContainsTouch(320, 278), "menu row gaps remain inside the panel");
+    require(menuPanelContainsTouch(500, 390), "unused panel space remains inside the panel");
+    require(!menuPanelContainsTouch(299, 278), "touch outside the panel can dismiss it");
+    require(!menuPanelContainsTouch(660, 200), "panel right edge is exclusive");
 
     UiState state;
 
