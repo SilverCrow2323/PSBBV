@@ -61,11 +61,16 @@ void App::update(std::uint32_t buttons, int touchX, int touchY) noexcept {
     if (state_.view() == navigation::View::Channel) {
         const navigation::ChannelDefinition* channel =
             navigation::channelAt(state_.selectedChannel());
-        if (channel != nullptr && channel->id == navigation::ChannelId::Games &&
-            gamesScan_.finished.load(std::memory_order_acquire)) {
-            gamesBrowser_.setItemCount(gamesScan_.catalogue.size());
-            if ((pressed & SCE_CTRL_UP) != 0) gamesBrowser_.moveUp();
-            if ((pressed & SCE_CTRL_DOWN) != 0) gamesBrowser_.moveDown();
+        if (channel != nullptr && channel->id == navigation::ChannelId::Games) {
+            if ((pressed & SCE_CTRL_CROSS) != 0 &&
+                gamesScan_.lifecycle.status() == navigation::GamesDiscoveryStatus::Failed) {
+                retryGamesDiscovery();
+            }
+            if (gamesScan_.lifecycle.status() == navigation::GamesDiscoveryStatus::Succeeded) {
+                gamesBrowser_.setItemCount(gamesScan_.catalogue.size());
+                if ((pressed & SCE_CTRL_UP) != 0) gamesBrowser_.moveUp();
+                if ((pressed & SCE_CTRL_DOWN) != 0) gamesBrowser_.moveDown();
+            }
         }
     }
     startGamesDiscovery();
@@ -74,19 +79,19 @@ void App::update(std::uint32_t buttons, int touchX, int touchY) noexcept {
 bool App::shouldQuit() const noexcept { return state_.shouldQuit(); }
 
 void App::startGamesDiscovery() noexcept {
-    if (gamesScan_.started || state_.view() != navigation::View::Channel) return;
+    if (state_.view() != navigation::View::Channel) return;
     const navigation::ChannelDefinition* channel =
         navigation::channelAt(state_.selectedChannel());
     if (channel == nullptr || channel->id != navigation::ChannelId::Games) return;
+    if (!gamesScan_.lifecycle.begin()) return;
 
-    gamesScan_.started = true;
     const SceUID thread = sceKernelCreateThread(
         "psbbv_games_scan", &App::gamesDiscoveryThread,
         0x10000100, 0x10000, 0, 0, nullptr);
     if (thread < 0) {
         startNodeJob(gamesScan_.job);
         failNodeJob(gamesScan_.job, thread, "Could not create the Games discovery worker");
-        gamesScan_.finished.store(true, std::memory_order_release);
+        gamesScan_.lifecycle.finish(false);
         return;
     }
 
@@ -97,8 +102,28 @@ void App::startGamesDiscovery() noexcept {
         failNodeJob(gamesScan_.job, started, "Could not start the Games discovery worker");
         sceKernelDeleteThread(thread);
         gamesScan_.threadId = -1;
-        gamesScan_.finished.store(true, std::memory_order_release);
+        gamesScan_.lifecycle.finish(false);
     }
+}
+
+void App::retryGamesDiscovery() noexcept {
+    if (gamesScan_.lifecycle.status() != navigation::GamesDiscoveryStatus::Failed) return;
+
+    // The worker publishes Failed immediately before returning. Join and
+    // delete it before resetting any memory that the worker previously owned.
+    if (gamesScan_.threadId >= 0) {
+        int exitStatus = 0;
+        if (sceKernelWaitThreadEnd(gamesScan_.threadId, &exitStatus, nullptr) < 0) return;
+        if (sceKernelDeleteThread(gamesScan_.threadId) < 0) return;
+        gamesScan_.threadId = -1;
+    }
+
+    if (!gamesScan_.lifecycle.retry()) return;
+    gamesScan_.catalogue = games::Catalogue{};
+    gamesScan_.report = games::DiscoveryReport{};
+    gamesScan_.job = nodes::NodeJob{};
+    gamesScan_.job.id = 1;
+    gamesBrowser_.setItemCount(0);
 }
 
 int App::gamesDiscoveryThread(SceSize args, void* argument) noexcept {
@@ -108,7 +133,7 @@ int App::gamesDiscoveryThread(SceSize args, void* argument) noexcept {
 
     GamesScanState& scan = app->gamesScan_;
     if (!startNodeJob(scan.job).ok()) {
-        scan.finished.store(true, std::memory_order_release);
+        scan.lifecycle.finish(false);
         return -1;
     }
 
@@ -116,11 +141,12 @@ int App::gamesDiscoveryThread(SceSize args, void* argument) noexcept {
         scan.catalogue, scan.source, scan.scratch, sizeof(scan.scratch));
     if (scan.report.error == games::DiscoveryError::None) {
         completeNodeJob(scan.job);
+        scan.lifecycle.finish(true);
     } else {
         failNodeJob(scan.job, static_cast<std::int32_t>(scan.report.error),
                     "Installed-title discovery failed");
+        scan.lifecycle.finish(false);
     }
-    scan.finished.store(true, std::memory_order_release);
     return 0;
 }
 
@@ -138,7 +164,7 @@ void App::handleTouch(int x, int y) noexcept {
         const navigation::ChannelDefinition* channel =
             navigation::channelAt(state_.selectedChannel());
         if (channel != nullptr && channel->id == navigation::ChannelId::Games &&
-            gamesScan_.finished.load(std::memory_order_acquire)) {
+            gamesScan_.lifecycle.status() == navigation::GamesDiscoveryStatus::Succeeded) {
             constexpr int firstRowTop = 302;
             constexpr int rowHeight = 27;
             if (x >= 305 && x <= 889 && y >= firstRowTop &&
@@ -359,12 +385,13 @@ void App::renderGamesChannel(const char* availability) const noexcept {
     drawText(305, 210, TextPrimary, 1.22f, "YOUR GAMES");
     drawText(307, 241, TextSecondary, 0.62f, "Read-only discovery from ux0:/app");
 
+    const navigation::GamesDiscoveryStatus status = gamesScan_.lifecycle.status();
     char statusLine[96]{};
-    if (!gamesScan_.started) {
+    if (status == navigation::GamesDiscoveryStatus::Idle) {
         std::snprintf(statusLine, sizeof(statusLine), "DISCOVERY NOT STARTED");
-    } else if (!gamesScan_.finished.load(std::memory_order_acquire)) {
+    } else if (status == navigation::GamesDiscoveryStatus::Running) {
         std::snprintf(statusLine, sizeof(statusLine), "SCANNING INSTALLED TITLES...");
-    } else if (gamesScan_.job.state == nodes::NodeJobState::Failed) {
+    } else if (status == navigation::GamesDiscoveryStatus::Failed) {
         std::snprintf(statusLine, sizeof(statusLine), "SCAN FAILED / CODE %d",
                       static_cast<int>(gamesScan_.job.result.code));
     } else {
@@ -373,13 +400,14 @@ void App::renderGamesChannel(const char* availability) const noexcept {
     }
     drawText(307, 280, TextSecondary, 0.56f, statusLine);
 
-    if (!gamesScan_.finished.load(std::memory_order_acquire)) {
+    if (status == navigation::GamesDiscoveryStatus::Running) {
         drawText(307, 330, TextMuted, 0.52f, "THE SCAN RUNS IN THE BACKGROUND.");
-    } else if (gamesScan_.job.state == nodes::NodeJobState::Failed) {
-        drawText(307, 330, TextMuted, 0.52f, "CHECK THAT ux0: IS MOUNTED AND TRY AGAIN AFTER RESTART.");
-    } else if (gamesScan_.catalogue.size() == 0) {
+    } else if (status == navigation::GamesDiscoveryStatus::Failed) {
+        drawText(307, 330, TextMuted, 0.50f, "CHECK ux0: THEN PRESS CROSS TO RETRY THE SCAN.");
+    } else if (status == navigation::GamesDiscoveryStatus::Succeeded &&
+               gamesScan_.catalogue.size() == 0) {
         drawText(307, 330, TextMuted, 0.52f, "NO VALID INSTALLED TITLES WERE FOUND.");
-    } else {
+    } else if (status == navigation::GamesDiscoveryStatus::Succeeded) {
         const games::GameRecord* ordered[games::MaxGames]{};
         const std::size_t count = gamesScan_.catalogue.sorted(
             games::SortOrder::TitleAscending, ordered, games::MaxGames);
@@ -470,7 +498,10 @@ void App::renderFooter() const noexcept {
         const navigation::ChannelDefinition* channel =
             navigation::channelAt(state_.selectedChannel());
         if (channel != nullptr && channel->id == navigation::ChannelId::Games) {
-            drawText(32, 524, TextSecondary, 0.48f, "D-PAD  BROWSE GAMES");
+            if (gamesScan_.lifecycle.status() == navigation::GamesDiscoveryStatus::Failed)
+                drawText(32, 524, TextSecondary, 0.48f, "CROSS  RETRY SCAN");
+            else
+                drawText(32, 524, TextSecondary, 0.48f, "D-PAD  BROWSE GAMES");
             drawText(236, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
         } else {
             drawText(32, 524, TextSecondary, 0.48f, "CIRCLE  BACK");

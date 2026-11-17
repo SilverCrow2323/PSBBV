@@ -72,6 +72,13 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     target_include_directories(psbbv_games_browser_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_games_browser_tests PRIVATE -Wall -Wextra -Wpedantic)
     add_test(NAME psbbv_games_browser COMMAND psbbv_games_browser_tests)
+
+    add_executable(psbbv_games_discovery_lifecycle_tests
+        tests/GamesDiscoveryLifecycleTests.cpp
+    )
+    target_include_directories(psbbv_games_discovery_lifecycle_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_compile_options(psbbv_games_discovery_lifecycle_tests PRIVATE -Wall -Wextra -Wpedantic)
+    add_test(NAME psbbv_games_discovery_lifecycle COMMAND psbbv_games_discovery_lifecycle_tests)
     return()
 endif()
 

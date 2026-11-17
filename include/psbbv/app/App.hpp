@@ -10,6 +10,7 @@
 
 #include "psbbv/navigation/UiState.hpp"
 #include "psbbv/navigation/GamesBrowserState.hpp"
+#include "psbbv/navigation/GamesDiscoveryLifecycle.hpp"
 #include "psbbv/games/Catalogue.hpp"
 #include "psbbv/games/Discovery.hpp"
 #include "psbbv/games/VitaDiscovery.hpp"
@@ -36,6 +37,7 @@ public:
 private:
     void handleTouch(int x, int y) noexcept;
     void startGamesDiscovery() noexcept;
+    void retryGamesDiscovery() noexcept;
     void renderGamesChannel(const char* availability) const noexcept;
     static int gamesDiscoveryThread(SceSize args, void* argument) noexcept;
 
@@ -68,8 +70,7 @@ private:
         games::DiscoveryReport report{};
         std::uint8_t scratch[games::MaxParamSfoBytes]{};
         nodes::NodeJob job{};
-        std::atomic<bool> finished{false};
-        bool started{false};
+        navigation::GamesDiscoveryLifecycle lifecycle{};
         SceUID threadId{-1};
     } gamesScan_;
 };

@@ -74,6 +74,7 @@
 - [ ] Typed metadata models for games and applications.
 - [x] Read-only installed Games discovery from the fixed `ux0:/app` root, with bounded PARAM.SFO parsing on a worker thread.
 - [x] Games workspace loading, empty, and failure states; no channel is promoted to READY by discovery alone.
+- [x] Explicit Cross-to-retry flow after a failed Games scan, with worker join/reset ordering and host-tested lifecycle transitions.
 - [x] Five-row Games catalogue browser with title sorting, D-pad wraparound, viewport scrolling, and touch selection.
 - [x] Keep discovery read-only until launch and return-to-shell lifecycle are implemented.
 - [ ] Applications discovery and metadata model.
