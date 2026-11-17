@@ -61,7 +61,7 @@ The host CI suite runs independent executables for the channel registry, UI stat
 - [ ] Tap each channel row and confirm the correct channel opens.
 - [ ] Tap each Home shortcut card.
 - [ ] Tap each application-menu option.
-- [ ] Tap the gaps between application-menu rows and confirm they do not activate a neighbouring option.
+- [ ] Tap the gaps between application-menu rows and confirm the menu stays open without activating a neighbouring option; tap outside the panel to dismiss it.
 - [ ] Tap outside the menu and confirm it dismisses without activating an underlying item.
 - [ ] Hold a finger on the panel and confirm there is no repeated activation.
 
