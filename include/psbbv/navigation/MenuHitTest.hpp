@@ -7,6 +7,16 @@ namespace psbbv::navigation {
 constexpr std::size_t MenuItemCount = 3;
 constexpr std::size_t NoMenuItem = MenuItemCount;
 
+constexpr int MenuPanelLeft = 300;
+constexpr int MenuPanelTop = 176;
+constexpr int MenuPanelWidth = 360;
+constexpr int MenuPanelHeight = 224;
+
+[[nodiscard]] constexpr bool menuPanelContainsTouch(int x, int y) noexcept {
+    return x >= MenuPanelLeft && x < MenuPanelLeft + MenuPanelWidth &&
+           y >= MenuPanelTop && y < MenuPanelTop + MenuPanelHeight;
+}
+
 constexpr int MenuTouchLeft = 320;
 constexpr int MenuTouchTop = 238;
 constexpr int MenuTouchWidth = 320;
