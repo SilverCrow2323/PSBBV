@@ -9,7 +9,8 @@
 [![Platform](https://img.shields.io/badge/Platform-PS%20Vita-ff5c50)](#)
 [![Status](https://img.shields.io/badge/Status-Foundation%20build-8a76f4)](#status)
 
-### [OPEN THE SPDW FIELD GUIDE ↗](docs/index.html)
+### [OPEN THE ONLINE SPDW FIELD GUIDE ↗](https://silvercrow2323.github.io/PSBBV/)
+[Local source preview](docs/index.html) · [GitHub repository](https://github.com/SilverCrow2323/PSBBV)
 </div>
 
 ---
@@ -97,7 +98,9 @@ Documentation is part of the product. It should be useful, visual, direct and en
 | [✓ Hardware tests](docs/testing.html) | Vita installation, input, touch and lifecycle checklist |
 | [🚀 Publishing guide](docs/publishing.html) | Enable GitHub Pages and publish the SPDW field guide |\n| [🧩 Node API](docs/NODE_API.md) | Shared lifecycle, manifest, permissions, and compatibility contract |\n| [🎬 Media blueprint](docs/MEDIA_NODE_BLUEPRINT.md) | Independent media-center product and Kodi compatibility plan |
 
-**[OPEN THE FULL SPDW DOCUMENTATION PORTAL ↗](docs/index.html)**
+**[OPEN THE FULL SPDW DOCUMENTATION PORTAL ↗](https://silvercrow2323.github.io/PSBBV/)**
+
+> **Publishing note:** this is the expected GitHub Pages address. The project still needs the one-time Pages source selection described in [the publishing guide](docs/publishing.html); use the local [docs preview](docs/index.html) until a successful deployment is confirmed.
 
 ## 🗂️ Repository map
 
