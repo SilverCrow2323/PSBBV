@@ -42,7 +42,7 @@
 
 ## 🧭 Input-state regression tests
 
-The host CI suite runs independent executables for the channel registry, UI state, node registry, manifest parser, lifecycle policy, node jobs, Games browser state, and Games discovery retry lifecycle. The UI tests cover button edge detection, held-button behavior, menu focus, About navigation, restoring a channel behind the menu, returning Home, clean-exit requests, and the regression where reopening the menu from About must preserve About's original back destination. These tests validate the portable state model; they do not replace the physical-control checklist below.
+The host CI suite runs independent executables for the channel registry, UI state, node registry, manifest parser, lifecycle policy, node jobs, Games browser state, and Games discovery retry lifecycle. The UI tests cover button edge detection, held-button behavior, menu focus, About navigation, restoring a channel behind the menu, returning Home, clean-exit requests, opposing D-pad inputs cancelling, focus wraparound, and Circle taking priority over Cross in a simultaneous menu chord. These tests validate the portable state model; they do not replace the physical-control checklist below.
 
 ## 🎮 Games catalogue browsing
 
