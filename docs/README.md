@@ -32,6 +32,9 @@ Native Vita navigation, explained by the people building it.
 
 ## 🗺️ Pick your route
 
+| Core release authority | [Node registry](nodes.html) · [Release manifest](CORE-RELEASE-MANIFEST.md) · [Example JSON](release-manifest.example.json) |
+
+
 <div align="center">
 
 | 📘 Start here | 🧰 Build and understand | 🎨 Make it look right |
