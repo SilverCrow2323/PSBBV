@@ -9,7 +9,11 @@
 [![Platform](https://img.shields.io/badge/Platform-PS%20Vita-ff5c50)](#)
 [![Status](https://img.shields.io/badge/Status-Foundation%20build-8a76f4)](#status)
 
-### Core node registry\n\nPSBBV Core integrates six functional nodes: Games, Applications, Network, Media, Downloads and System. See the [node registry](docs/nodes.html) for responsibilities, boundaries and release-manifest rules.\n\n## [OPEN THE ONLINE SPDW FIELD GUIDE ↗](https://silvercrow2323.github.io/PSBBV/)
+### Core node registry
+
+PSBBV Core integrates six functional nodes: Games, Applications, Network, Media, Downloads and System. See the [node registry](docs/nodes.html) for responsibilities, boundaries and release-manifest rules.
+
+## [OPEN THE ONLINE SPDW FIELD GUIDE ↗](https://silvercrow2323.github.io/PSBBV/)
 [Local source preview](docs/index.html) · [GitHub repository](https://github.com/SilverCrow2323/PSBBV)
 </div>
 
@@ -25,7 +29,13 @@ We're not doing a pixel-perfect PSBBN replica. We're taking the good idea, updat
 
 <sub>Independent community project. Not affiliated with, endorsed by, or sponsored by Sony Interactive Entertainment.</sub>
 
-## 🏛️ Core is the official project hub\n\nPSBBV Core owns the integrated product identity, navigation, node registration, lifecycle, permissions, compatibility contracts and the official release channel. The six node repositories (Games, Applications, Network, Media, Downloads and System) are independently developed components. Their builds and tags do not replace an integrated Core release.\n\n**Official integrated releases:** [PSBBV Core Releases](https://github.com/SilverCrow2323/PSBBV/releases). Each release must identify the Core version, compatible node revisions, included VPK/package artifacts, checksums, known limitations and validation evidence. The current foundation build is not presented as a stable release.\n\n## 🚦 Status: foundation build
+## 🏛️ Core is the official project hub
+
+PSBBV Core owns the integrated product identity, navigation, node registration, lifecycle, permissions, compatibility contracts and the official release channel. The six node repositories (Games, Applications, Network, Media, Downloads and System) are independently developed components. Their builds and tags do not replace an integrated Core release.
+
+**Official integrated releases:** [PSBBV Core Releases](https://github.com/SilverCrow2323/PSBBV/releases). Each release must identify the Core version, compatible node revisions, included VPK/package artifacts, checksums, known limitations and validation evidence. The current foundation build is not presented as a stable release.
+
+## 🚦 Status: foundation build
 
 | Area | Current state |
 |---|---|
