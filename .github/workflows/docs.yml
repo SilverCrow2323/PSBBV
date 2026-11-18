@@ -40,8 +40,10 @@ jobs:
           grep -q 'href="nodes.html"' docs/index.html
           grep -q 'PSBBV Core' README.md
       - name: Configure Pages
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
       - name: Upload documentation site
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs
