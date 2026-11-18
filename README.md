@@ -9,7 +9,7 @@
 [![Platform](https://img.shields.io/badge/Platform-PS%20Vita-ff5c50)](#)
 [![Status](https://img.shields.io/badge/Status-Foundation%20build-8a76f4)](#status)
 
-### [OPEN THE ONLINE SPDW FIELD GUIDE ↗](https://silvercrow2323.github.io/PSBBV/)
+### Core node registry\n\nPSBBV Core integrates six functional nodes: Games, Applications, Network, Media, Downloads and System. See the [node registry](docs/nodes.html) for responsibilities, boundaries and release-manifest rules.\n\n## [OPEN THE ONLINE SPDW FIELD GUIDE ↗](https://silvercrow2323.github.io/PSBBV/)
 [Local source preview](docs/index.html) · [GitHub repository](https://github.com/SilverCrow2323/PSBBV)
 </div>
 
