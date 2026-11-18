@@ -108,8 +108,11 @@ int main() {
     chord.update(0);
     chord.update(button::Start);
     chord.update(0);
+    chord.update(button::Up); // Exit -> About
+    chord.update(0);
     chord.update(button::Cross);
-    require(chord.view() == View::About, "Cross still activates About when used alone");
+    require(chord.view() == View::About, "Cross activates About when used alone");
+    require(!chord.shouldQuit(), "About activation does not request exit");
 
     state.update(0);
     state.update(button::Start);
