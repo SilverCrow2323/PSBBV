@@ -10,7 +10,6 @@ void require(bool ok, const char* message) {
     if (!ok) { std::cerr << "FAIL: " << message << '\n'; std::exit(EXIT_FAILURE); }
 }
 }
-
 int main() {
     using namespace psbbv::navigation;
 
@@ -33,6 +32,15 @@ int main() {
 
     UiState state;
 
+    state.update(button::Up | button::Down);
+    require(state.selectedChannel() == 0, "opposing directions cancel in one input sample");
+    state.update(0);
+    state.update(button::Up);
+    require(state.selectedChannel() == channelCount() - 1, "Up wraps from first to last channel");
+    state.update(0);
+    state.update(button::Down);
+    require(state.selectedChannel() == 0, "Down wraps from last to first channel");
+    state.update(0);
     state.update(button::Down);
     require(state.selectedChannel() == 1, "Down moves focus once");
     state.update(button::Down);
@@ -85,6 +93,23 @@ int main() {
     state.update(0);
     state.update(button::Circle);
     require(state.view() == View::Channel, "About back returns to its original channel after menu resume");
+
+    // Regression: Back wins over Cross, so closing the menu cannot activate
+    // the focused About or Exit action in the same controller sample.
+    UiState chord;
+    chord.update(button::Start);
+    chord.update(0);
+    chord.update(button::Up); // Exit
+    require(chord.selectedMenuItem() == 2, "menu focus wraps to Exit");
+    chord.update(0);
+    chord.update(button::Circle | button::Cross);
+    require(chord.view() == View::Home, "Circle closes the menu when Back and Cross are pressed together");
+    require(!chord.shouldQuit(), "Back/Cross chord does not accidentally exit");
+    chord.update(0);
+    chord.update(button::Start);
+    chord.update(0);
+    chord.update(button::Cross);
+    require(chord.view() == View::About, "Cross still activates About when used alone");
 
     state.update(0);
     state.update(button::Start);
