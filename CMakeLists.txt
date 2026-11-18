@@ -30,6 +30,7 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     )
     target_include_directories(psbbv_ui_state_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_ui_state_tests PRIVATE -Wall -Wextra -Wpedantic)
+
     add_test(NAME psbbv_ui_state COMMAND psbbv_ui_state_tests)
 
     add_executable(psbbv_node_registry_tests
@@ -38,6 +39,7 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     )
     target_include_directories(psbbv_node_registry_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_node_registry_tests PRIVATE -Wall -Wextra -Wpedantic)
+
     add_test(NAME psbbv_node_registry COMMAND psbbv_node_registry_tests)
 
     add_executable(psbbv_node_manifest_tests
@@ -47,6 +49,7 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     )
     target_include_directories(psbbv_node_manifest_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_node_manifest_tests PRIVATE -Wall -Wextra -Wpedantic)
+
     add_test(NAME psbbv_node_manifest COMMAND psbbv_node_manifest_tests)
 
     add_executable(psbbv_node_lifecycle_tests
@@ -55,6 +58,7 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     )
     target_include_directories(psbbv_node_lifecycle_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_node_lifecycle_tests PRIVATE -Wall -Wextra -Wpedantic)
+
     add_test(NAME psbbv_node_lifecycle COMMAND psbbv_node_lifecycle_tests)
 
     add_executable(psbbv_node_job_tests
@@ -63,6 +67,7 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     )
     target_include_directories(psbbv_node_job_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_node_job_tests PRIVATE -Wall -Wextra -Wpedantic)
+
     add_test(NAME psbbv_node_jobs COMMAND psbbv_node_job_tests)
 
     add_executable(psbbv_games_browser_tests
@@ -71,6 +76,7 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     )
     target_include_directories(psbbv_games_browser_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_games_browser_tests PRIVATE -Wall -Wextra -Wpedantic)
+
     add_test(NAME psbbv_games_browser COMMAND psbbv_games_browser_tests)
 
     add_executable(psbbv_games_discovery_lifecycle_tests
@@ -78,7 +84,16 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     )
     target_include_directories(psbbv_games_discovery_lifecycle_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_options(psbbv_games_discovery_lifecycle_tests PRIVATE -Wall -Wextra -Wpedantic)
+
     add_test(NAME psbbv_games_discovery_lifecycle COMMAND psbbv_games_discovery_lifecycle_tests)
+
+    add_executable(psbbv_touch_mapping_tests
+        tests/TouchMappingTests.cpp
+    )
+    target_include_directories(psbbv_touch_mapping_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_compile_options(psbbv_touch_mapping_tests PRIVATE -Wall -Wextra -Wpedantic)
+
+    add_test(NAME psbbv_touch_mapping COMMAND psbbv_touch_mapping_tests)
     return()
 endif()
 
