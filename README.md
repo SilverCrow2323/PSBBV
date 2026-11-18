@@ -33,7 +33,7 @@ We're not doing a pixel-perfect PSBBN replica. We're taking the good idea, updat
 
 PSBBV Core owns the integrated product identity, navigation, node registration, lifecycle, permissions, compatibility contracts and the official release channel. The six node repositories (Games, Applications, Network, Media, Downloads and System) are independently developed components. Their builds and tags do not replace an integrated Core release.
 
-**Official integrated releases:** [PSBBV Core Releases](https://github.com/SilverCrow2323/PSBBV/releases). Each release must identify the Core version, compatible node revisions, included VPK/package artifacts, checksums, known limitations and validation evidence. The current foundation build is not presented as a stable release.
+**Release contract:** [Core release manifest](docs/CORE-RELEASE-MANIFEST.md) and [example manifest](docs/release-manifest.example.json).\n\n**Official integrated releases:** [PSBBV Core Releases](https://github.com/SilverCrow2323/PSBBV/releases). Each release must identify the Core version, compatible node revisions, included VPK/package artifacts, checksums, known limitations and validation evidence. The current foundation build is not presented as a stable release.
 
 ## 🚦 Status: foundation build
 
