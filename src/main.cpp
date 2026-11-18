@@ -8,26 +8,12 @@
 #include <vita2d.h>
 
 #include "psbbv/app/App.hpp"
+#include "psbbv/navigation/TouchMapping.hpp"
 
 namespace {
 
 constexpr int ScreenWidth = 960;
 constexpr int ScreenHeight = 544;
-
-int mapTouchCoordinate(
-    int value,
-    int activeMin,
-    int activeMax,
-    int screenExtent
-) noexcept {
-    if (activeMax <= activeMin) {
-        return -1;
-    }
-
-    const int clamped = std::clamp(value, activeMin, activeMax);
-    const int numerator = (clamped - activeMin) * (screenExtent - 1);
-    return numerator / (activeMax - activeMin);
-}
 
 } // namespace
 
@@ -67,13 +53,13 @@ int main(int, char**) {
                     currentTouch.reportNum > 0 && previousTouch.reportNum == 0;
 
                 if (justPressed) {
-                    touchX = mapTouchCoordinate(
+                    touchX = psbbv::navigation::mapTouchCoordinate(
                         currentTouch.report[0].x,
                         frontPanel.minAaX,
                         frontPanel.maxAaX,
                         ScreenWidth
                     );
-                    touchY = mapTouchCoordinate(
+                    touchY = psbbv::navigation::mapTouchCoordinate(
                         currentTouch.report[0].y,
                         frontPanel.minAaY,
                         frontPanel.maxAaY,
