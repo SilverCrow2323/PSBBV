@@ -20,11 +20,20 @@ void UiState::update(std::uint32_t heldButtons) noexcept {
     }
 
     if (view_ == View::Menu) {
-        if ((pressed & button::Up) != 0)
-            selectedMenuItem_ = (selectedMenuItem_ + 2) % 3;
-        if ((pressed & button::Down) != 0)
-            selectedMenuItem_ = (selectedMenuItem_ + 1) % 3;
-        if ((pressed & button::Circle) != 0) closeMenu();
+        // Back is the menu's highest-priority action. A Cross chord must not
+        // activate the item that was focused while the menu is being closed.
+        if ((pressed & button::Circle) != 0) {
+            closeMenu();
+            return;
+        }
+
+        // Opposing directions in one sample cancel rather than arbitrarily
+        // selecting whichever branch runs last.
+        const bool up = (pressed & button::Up) != 0;
+        const bool down = (pressed & button::Down) != 0;
+        if (up != down)
+            selectedMenuItem_ = up ? (selectedMenuItem_ + 2) % 3
+                                   : (selectedMenuItem_ + 1) % 3;
         if ((pressed & button::Cross) != 0) activateFocusedMenuItem();
         return;
     }
@@ -45,10 +54,11 @@ void UiState::update(std::uint32_t heldButtons) noexcept {
         selectedChannel_ = 0;
         return;
     }
-    if ((pressed & button::Up) != 0)
-        selectedChannel_ = (selectedChannel_ + count - 1) % count;
-    if ((pressed & button::Down) != 0)
-        selectedChannel_ = (selectedChannel_ + 1) % count;
+    const bool up = (pressed & button::Up) != 0;
+    const bool down = (pressed & button::Down) != 0;
+    if (up != down)
+        selectedChannel_ = up ? (selectedChannel_ + count - 1) % count
+                              : (selectedChannel_ + 1) % count;
     if ((pressed & button::Cross) != 0) view_ = View::Channel;
 }
 
