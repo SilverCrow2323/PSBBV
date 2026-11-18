@@ -1,7 +1,7 @@
 <div align="center">
 <img src="docs/assets/spdw-factory-mark.svg" alt="SPDW Factory visual signature" width="220">
 
-# PSBBV — PlayStation Broadband Vita
+# PSBBV Core — PlayStation Broadband Vita
 **A modern, native Vita navigator inspired by PSBBN.**
 
 [![Vita Build](https://github.com/SilverCrow2323/PSBBV/actions/workflows/build-vita.yml/badge.svg?branch=dev/foundation)](https://github.com/SilverCrow2323/PSBBV/actions/workflows/build-vita.yml)
@@ -25,7 +25,7 @@ We're not doing a pixel-perfect PSBBN replica. We're taking the good idea, updat
 
 <sub>Independent community project. Not affiliated with, endorsed by, or sponsored by Sony Interactive Entertainment.</sub>
 
-## 🚦 Status: foundation build
+## 🏛️ Core is the official project hub\n\nPSBBV Core owns the integrated product identity, navigation, node registration, lifecycle, permissions, compatibility contracts and the official release channel. The six node repositories (Games, Applications, Network, Media, Downloads and System) are independently developed components. Their builds and tags do not replace an integrated Core release.\n\n**Official integrated releases:** [PSBBV Core Releases](https://github.com/SilverCrow2323/PSBBV/releases). Each release must identify the Core version, compatible node revisions, included VPK/package artifacts, checksums, known limitations and validation evidence. The current foundation build is not presented as a stable release.\n\n## 🚦 Status: foundation build
 
 | Area | Current state |
 |---|---|
