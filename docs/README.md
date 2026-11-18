@@ -10,6 +10,10 @@ Native Vita navigation, explained by the people building it.
 
 <sub>SPDW FACTORY · PROJECT DOCUMENTATION</sub>
 
+**[ONLINE SPDW FIELD GUIDE ↗](https://silvercrow2323.github.io/PSBBV/)** · [Repository](https://github.com/SilverCrow2323/PSBBV) · [Releases](https://github.com/SilverCrow2323/PSBBV/releases)
+
+> The Pages URL is the expected project address. The online deployment remains pending until GitHub Pages is configured to use GitHub Actions and the deployment workflow succeeds.
+
 </div>
 
 ---
