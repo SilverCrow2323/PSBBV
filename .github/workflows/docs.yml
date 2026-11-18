@@ -2,8 +2,12 @@ name: SPDW Documentation
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/docs.yml"
+      - "README.md"
+  pull_request:
     paths:
       - "docs/**"
       - ".github/workflows/docs.yml"
@@ -21,11 +25,20 @@ concurrency:
 
 jobs:
   build:
-    name: Package the field guide
+    name: Package and validate the field guide
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+      - name: Validate Core documentation and release manifest
+        run: |
+          test -s docs/index.html
+          test -s docs/nodes.html
+          test -s docs/publishing.html
+          test -s docs/CORE-RELEASE-MANIFEST.md
+          python3 -m json.tool docs/release-manifest.example.json > /dev/null
+          grep -q 'href="nodes.html"' docs/index.html
+          grep -q 'PSBBV Core' README.md
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload documentation site
@@ -34,6 +47,7 @@ jobs:
           path: docs
 
   deploy:
+    if: github.event_name != 'pull_request'
     name: Publish SPDW field guide
     environment:
       name: github-pages
