@@ -11,7 +11,7 @@
 
 ### Core node registry
 
-PSBBV Core integrates six functional nodes: Games, Applications, Network, Media, Downloads and System. See the [node registry](docs/nodes.html) for responsibilities, boundaries and release-manifest rules.
+PSBBV Core registers six planned node identities: Games, Applications, Network, Media, Downloads and System. They are roadmap metadata, not openable destinations. See the [node registry](docs/nodes.html) for responsibilities, boundaries and release-manifest rules.
 
 ## [OPEN THE ONLINE SPDW FIELD GUIDE ↗](https://silvercrow2323.github.io/PSBBV/)
 [Local source preview](docs/index.html) · [GitHub repository](https://github.com/SilverCrow2323/PSBBV)
@@ -47,11 +47,11 @@ PSBBV Core owns the integrated product identity, navigation, node registration, 
 | Front touchscreen | **Implemented in source** |
 | About and application menu | **Implemented in source** |
 | VPK packaging and CI artifact | **CI build passed** |
-| Six channel modules | **Planned placeholders** |
+| Six channel modules | **Planned metadata only; not openable** |
 | Real Vita installation and lifecycle test | **Pending** |
 
 <details><summary><strong>🧯 What does “foundation build” actually mean?</strong></summary>
-The shell can be cross-compiled and packaged into a VPK. Channel views are intentionally marked as planned placeholders. They do not yet scan or launch games, manage applications, play media, download content or provide network services.
+The shell can be cross-compiled and packaged into a VPK. The six channel entries are registry metadata only: they are labelled PLANNED and cannot be opened. No generic placeholder screen or fake service state is exposed. The Games discovery code remains a source-level foundation until its hardware and lifecycle gates are complete.
 
 A successful CI build is a useful checkpoint. It is not proof of real-device compatibility.
 </details>
@@ -60,15 +60,17 @@ A successful CI build is a useful checkpoint. It is not proof of real-device com
 
 | Input | Action |
 |---|---|
-| D-pad Up / Down | Move between channels or menu items |
-| Cross | Open a channel or activate a menu item |
+| D-pad Up / Down | Navigate menu items while the application menu is open |
+| Cross | Activate the focused menu item |
 | Circle | Return or close the application menu |
 | Start | Open or close the application menu |
-| Front touchscreen | Focus and open channels or activate menu items |
+| Front touchscreen | Activate menu items; planned channels are not touch targets |
 
 The back touch panel is not used in this foundation build.
 
 ## 🧩 Six doors, one house
+
+These are roadmap identities, not open destinations in the foundation build.
 
 | Channel | Job | State |
 |---|---|---|

@@ -3,6 +3,22 @@
 #include "psbbv/navigation/ChannelRegistry.hpp"
 
 namespace psbbv::navigation {
+namespace {
+
+bool isImplementedChannel(std::size_t index) noexcept {
+    const ChannelDefinition* channel = channelAt(index);
+    return channel != nullptr &&
+           channel->availability == ChannelAvailability::Implemented;
+}
+
+std::size_t firstImplementedChannel() noexcept {
+    for (std::size_t i = 0; i < channelCount(); ++i) {
+        if (isImplementedChannel(i)) return i;
+    }
+    return channelCount();
+}
+
+} // namespace
 
 void UiState::update(std::uint32_t heldButtons) noexcept {
     const std::uint32_t pressed = heldButtons & ~previousButtons_;
@@ -50,20 +66,36 @@ void UiState::update(std::uint32_t heldButtons) noexcept {
     }
 
     const std::size_t count = channelCount();
-    if (count == 0) {
+    const std::size_t first = firstImplementedChannel();
+    if (first >= count) {
+        // Planned destinations remain visible as roadmap metadata, but they
+        // are not focusable or openable until their real implementation lands.
         selectedChannel_ = 0;
         return;
     }
+
+    if (!isImplementedChannel(selectedChannel_)) selectedChannel_ = first;
+
     const bool up = (pressed & button::Up) != 0;
     const bool down = (pressed & button::Down) != 0;
-    if (up != down)
-        selectedChannel_ = up ? (selectedChannel_ + count - 1) % count
-                              : (selectedChannel_ + 1) % count;
-    if ((pressed & button::Cross) != 0) view_ = View::Channel;
+    if (up != down) {
+        std::size_t candidate = selectedChannel_;
+        for (std::size_t visited = 0; visited < count; ++visited) {
+            candidate = up ? (candidate + count - 1) % count
+                           : (candidate + 1) % count;
+            if (isImplementedChannel(candidate)) {
+                selectedChannel_ = candidate;
+                break;
+            }
+        }
+    }
+
+    if ((pressed & button::Cross) != 0 && isImplementedChannel(selectedChannel_))
+        view_ = View::Channel;
 }
 
 void UiState::openChannel(std::size_t index) noexcept {
-    if (index >= channelCount()) return;
+    if (!isImplementedChannel(index)) return;
     selectedChannel_ = index;
     view_ = View::Channel;
 }
@@ -102,4 +134,4 @@ void UiState::activateFocusedMenuItem() noexcept {
     }
 }
 
-} // namespace psbbv::navigation
+} // namespace psbbv

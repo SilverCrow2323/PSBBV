@@ -176,18 +176,8 @@ void App::handleTouch(int x, int y) noexcept {
         if (y >= 480 && x <= 180) state_.back();
         return;
     }
-    constexpr int left=28, right=232, top=137, height=56;
-    const std::size_t count=navigation::channelCount();
-    if (x>=left && x<=right && y>=top && y<top+height*static_cast<int>(count)) {
-        state_.openChannel(static_cast<std::size_t>((y-top)/height));
-        return;
-    }
-    if (y>=354 && y<=430 && x>=305 && x<=889) {
-        const int rel=x-305;
-        if (rel<184) state_.openChannel(navigation::channelIndex(navigation::ChannelId::Games));
-        else if (rel>=201 && rel<385) state_.openChannel(navigation::channelIndex(navigation::ChannelId::Applications));
-        else if (rel>=402 && rel<586) state_.openChannel(navigation::channelIndex(navigation::ChannelId::System));
-    }
+
+
 }
 
 void App::drawText(
@@ -253,7 +243,7 @@ void App::renderHeader() const noexcept {
 void App::renderNavigation() const noexcept {
     using namespace ui::theme;
 
-    drawText(32, 119, TextMuted, 0.48f, "NAVIGATION");
+    drawText(32, 119, TextMuted, 0.48f, "PLANNED CHANNELS");
 
     for (std::size_t i = 0; i < navigation::channelCount(); ++i) {
         const navigation::ChannelDefinition* channel = navigation::channelAt(i);
@@ -262,7 +252,7 @@ void App::renderNavigation() const noexcept {
         }
 
         const int y = 137 + static_cast<int>(i) * 56;
-        const bool selected = i == state_.selectedChannel();
+        const bool selected = channel->availability == navigation::ChannelAvailability::Implemented && i == state_.selectedChannel();
 
         if (selected) {
             vita2d_draw_rectangle(28, y, 202, 45, PanelSelected);
@@ -277,7 +267,10 @@ void App::renderNavigation() const noexcept {
             0.72f,
             channel->title
         );
-        drawText(208, y + 27, selected ? Accent : TextMuted, 0.55f, selected ? ">" : "");
+        if (channel->availability == navigation::ChannelAvailability::Planned)
+            drawText(166, y + 27, TextMuted, 0.34f, "PLANNED");
+        else
+            drawText(208, y + 27, selected ? Accent : TextMuted, 0.55f, selected ? ">" : "");
     }
 }
 
@@ -292,8 +285,8 @@ void App::renderHome() const noexcept {
     drawText(305, 211, TextPrimary, 1.34f, "YOUR PLAYSTATION WORLD");
     drawText(307, 244, TextSecondary, 0.68f, "A new home for the things you do on Vita.");
 
-    drawText(307, 291, TextMuted, 0.56f, "SELECT A CHANNEL TO ENTER ITS WORKSPACE.");
-    drawText(307, 314, TextMuted, 0.56f, "BUILT AROUND THE SPIRIT OF PSBBN. DESIGNED FOR TODAY.");
+    drawText(307, 291, TextMuted, 0.56f, "CHANNEL DESTINATIONS ARE ROADMAP ENTRIES, NOT OPEN VIEWS.");
+    drawText(307, 314, TextMuted, 0.56f, "NO CHANNEL IS SHIPPED IN THIS FOUNDATION BUILD.");
 
     constexpr int cardY = 354;
     constexpr int cardWidth = 184;
@@ -304,7 +297,7 @@ void App::renderHome() const noexcept {
         "SYSTEM"
     }};
     constexpr std::array<const char*, 3> cardDetails{{
-        "PLANNED CHANNEL",
+        "PLANNED / NOT SHIPPED",
         "PLANNED CHANNEL",
         "PLANNED CHANNEL"
     }};
@@ -317,7 +310,7 @@ void App::renderHome() const noexcept {
         drawText(x + 14, cardY + 54, TextMuted, 0.43f, cardDetails[i]);
     }
 
-    drawText(305, 448, TextMuted, 0.48f, "CHANNEL WORKSPACES ARE FOUNDATION PLACEHOLDERS.");
+    drawText(305, 448, TextMuted, 0.48f, "ALL SIX CHANNELS ARE PLANNED / NONE ARE OPENABLE.");
 }
 
 void App::renderChannel() const noexcept {
@@ -326,6 +319,10 @@ void App::renderChannel() const noexcept {
     const navigation::ChannelDefinition* channel =
         navigation::channelAt(state_.selectedChannel());
     if (channel == nullptr) {
+        renderHome();
+        return;
+    }
+    if (channel->availability != navigation::ChannelAvailability::Implemented) {
         renderHome();
         return;
     }
@@ -354,23 +351,8 @@ void App::renderChannel() const noexcept {
         return;
     }
 
-    vita2d_draw_rectangle(270, 118, 654, 347, Panel);
-    vita2d_draw_rectangle(270, 118, 654, 1, Border);
-    vita2d_draw_rectangle(270, 118, 4, 347, Accent);
-
-    drawText(305, 158, Accent, 0.52f, "CHANNEL /");
-    drawText(392, 158, Accent, 0.52f, availability);
-    drawText(305, 216, TextPrimary, 1.42f, channel->title);
-    drawText(307, 252, TextSecondary, 0.72f, channel->tagline);
-
-    vita2d_draw_rectangle(305, 286, 584, 112, PanelRaised);
-    vita2d_draw_rectangle(305, 286, 3, 112, AccentDim);
-    drawText(327, 321, TextPrimary, 0.66f, "CHANNEL STATUS");
-    drawText(327, 351, TextSecondary, 0.56f, channel->description);
-
-    if (channel->availability != navigation::ChannelAvailability::Implemented) {
-        drawText(305, 438, TextMuted, 0.48f, "THIS CHANNEL IS NOT IMPLEMENTED IN THIS BUILD.");
-    }
+    // No generic channel screen: a destination needs its own real renderer.
+    renderHome();
 }
 
 void App::renderGamesChannel(const char* availability) const noexcept {
@@ -507,8 +489,8 @@ void App::renderFooter() const noexcept {
             drawText(32, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
         }
     } else {
-        drawText(32, 524, TextSecondary, 0.48f, "D-PAD  NAVIGATE");
-        drawText(196, 524, TextSecondary, 0.48f, "CROSS  OPEN CHANNEL");
+        drawText(32, 524, TextSecondary, 0.48f, "CHANNELS: ALL PLANNED");
+        drawText(196, 524, TextSecondary, 0.48f, "START: MENU");
     }
 
     drawText(744, 524, TextMuted, 0.48f, "START  MENU");

@@ -28,7 +28,7 @@
 - [x] D-pad, Cross, Circle, and Start navigation.
 - [x] Front touchscreen navigation.
 - [x] Application menu with About and Exit actions.
-- [x] Branded Home view and clearly labelled channel placeholders.
+- [x] Branded Home view and a non-interactive list of planned channel identities.
 - [x] Initial SVG identity and Vita LiveArea package resources.
 - [x] GitHub Actions VPK build workflow.
 - [x] Stable typed IDs and availability states for all six channels.
@@ -77,6 +77,8 @@
 - [x] Explicit Cross-to-retry flow after a failed Games scan, with worker join/reset ordering and host-tested lifecycle transitions.
 - [x] Five-row Games catalogue browser with title sorting, D-pad wraparound, viewport scrolling, and touch selection.
 - [x] Keep discovery read-only until launch and return-to-shell lifecycle are implemented.
+
+The Games discovery code is a source-level foundation only. Games remains PLANNED and non-openable until device-side discovery, catalog behavior, and launch/return lifecycle are verified.
 - [ ] Applications discovery and metadata model.
 - [ ] Games filtering, favourites, recently used views, and title launch/return lifecycle.
 
@@ -89,7 +91,7 @@
 - [ ] ⬇️ Downloads
 - [ ] ⚙️ System
 
-Every channel needs a real data source, a failure model, and useful offline behavior before it gets a READY label.
+Every channel needs a real data source, a failure model, and useful offline behavior before it gets a READY label. A PLANNED registry entry is metadata only: it must not open a generic placeholder view or display a fake READY state.
 
 ## Phase 4 — Ship it properly
 

@@ -7,9 +7,10 @@
 
 namespace {
 void require(bool ok, const char* message) {
-    if (!ok) { std::cerr << "FAIL: " << message << '\n'; std::exit(EXIT_FAILURE); }
+    if (!ok) { std::cerr << "FAIL: " << message << '\\n'; std::exit(EXIT_FAILURE); }
 }
 }
+
 int main() {
     using namespace psbbv::navigation;
 
@@ -30,25 +31,34 @@ int main() {
     require(!menuPanelContainsTouch(299, 278), "touch outside the panel can dismiss it");
     require(!menuPanelContainsTouch(660, 200), "panel right edge is exclusive");
 
-    UiState state;
+    require(channelCount() == 6, "six planned channel identities remain registered");
+    for (std::size_t i = 0; i < channelCount(); ++i) {
+        const ChannelDefinition* channel = channelAt(i);
+        require(channel != nullptr, "every planned channel identity resolves");
+        require(channel->availability == ChannelAvailability::Planned,
+                "planned channels are not advertised as implemented");
+    }
 
+    UiState state;
     state.update(button::Up | button::Down);
-    require(state.selectedChannel() == 0, "opposing directions cancel in one input sample");
+    require(state.selectedChannel() == 0, "opposing directions do not focus planned channels");
     state.update(0);
     state.update(button::Up);
-    require(state.selectedChannel() == channelCount() - 1, "Up wraps from first to last channel");
+    require(state.selectedChannel() == 0, "Up cannot focus a planned channel");
     state.update(0);
     state.update(button::Down);
-    require(state.selectedChannel() == 0, "Down wraps from last to first channel");
+    require(state.selectedChannel() == 0, "Down cannot focus a planned channel");
     state.update(0);
-    state.update(button::Down);
-    require(state.selectedChannel() == 1, "Down moves focus once");
-    state.update(button::Down);
-    require(state.selectedChannel() == 1, "held button does not retrigger");
-    state.update(0);
-    state.update(button::Down);
-    require(state.selectedChannel() == 2, "released button can trigger again");
+    state.update(button::Cross);
+    require(state.view() == View::Home, "Cross cannot open a planned channel");
+    state.openChannel(channelIndex(ChannelId::Games));
+    require(state.view() == View::Home, "direct Games open is rejected while planned");
+    state.openChannel(channelIndex(ChannelId::Media));
+    require(state.view() == View::Home, "direct Media open is rejected while planned");
+    state.openChannel(channelCount());
+    require(state.view() == View::Home, "out-of-range channel open is rejected");
 
+    state.update(0);
     state.update(button::Start);
     require(state.view() == View::Menu, "Start opens menu");
     state.update(0);
@@ -61,41 +71,19 @@ int main() {
     state.update(button::Circle);
     require(state.view() == View::Home, "About returns to prior Home view");
 
-    state.openChannel(channelIndex(ChannelId::Media));
-    require(state.view() == View::Channel, "channel opens");
-    require(state.selectedChannel() == channelIndex(ChannelId::Media), "opened channel receives focus");
-    state.update(0);
-    state.update(button::Start);
-    require(state.view() == View::Menu, "Start opens menu over channel");
-    state.update(0);
-    state.update(button::Circle);
-    require(state.view() == View::Channel, "closing menu restores channel view");
-    state.update(0);
-    state.update(button::Circle);
-    require(state.view() == View::Home, "Circle returns from channel");
-
-    // Regression: opening the menu while About is visible must not replace
-    // About's original destination with About itself.
-    state.openChannel(channelIndex(ChannelId::Games));
-    state.update(0);
-    state.update(button::Start);
-    state.update(0);
-    state.update(button::Cross); // selected About item
-    require(state.view() == View::About, "About opens from a channel");
+    // Reopening the menu over About must preserve About's original Home parent.
     state.update(0);
     state.update(button::Start);
     require(state.view() == View::Menu, "Start can open the menu over About");
     state.update(0);
-    state.update(button::Up); // Resume
+    state.update(button::Up);
+    require(state.selectedMenuItem() == 0, "Up returns focus to Resume");
     state.update(0);
     state.update(button::Cross);
-    require(state.view() == View::About, "Resume restores About");
-    state.update(0);
-    state.update(button::Circle);
-    require(state.view() == View::Channel, "About back returns to its original channel after menu resume");
+    require(state.view() == View::Home, "Resume restores the original Home view");
 
-    // Regression: Back wins over Cross, so closing the menu cannot activate
-    // the focused About or Exit action in the same controller sample.
+    // Back wins over Cross, so closing the menu cannot activate Exit in the
+    // same controller sample.
     UiState chord;
     chord.update(button::Start);
     chord.update(0);
@@ -105,20 +93,12 @@ int main() {
     chord.update(button::Circle | button::Cross);
     require(chord.view() == View::Home, "Circle closes the menu when Back and Cross are pressed together");
     require(!chord.shouldQuit(), "Back/Cross chord does not accidentally exit");
+
     chord.update(0);
     chord.update(button::Start);
     chord.update(0);
-    chord.update(button::Up); // Exit -> About
-    chord.update(0);
-    chord.update(button::Cross);
-    require(chord.view() == View::About, "Cross activates About when used alone");
-    require(!chord.shouldQuit(), "About activation does not request exit");
+    chord.activateMenuItem(2);
+    require(chord.shouldQuit(), "Exit menu item requests clean quit");
 
-    state.update(0);
-    state.update(button::Start);
-    state.update(0);
-    state.activateMenuItem(2);
-    require(state.shouldQuit(), "Exit menu item requests clean quit");
-
-    std::cout << "PSBBV UI state: all checks passed.\n";
+    std::cout << "PSBBV UI state: all checks passed.\\n";
 }
