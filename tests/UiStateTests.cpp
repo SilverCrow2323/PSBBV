@@ -67,10 +67,6 @@ int main() {
     state.update(0);
     state.update(button::Cross);
     require(state.view() == View::About, "About menu item opens About");
-    state.update(0);
-    state.update(button::Circle);
-    require(state.view() == View::Home, "About returns to prior Home view");
-
     // Reopening the menu over About must preserve About's original Home parent.
     state.update(0);
     state.update(button::Start);
@@ -80,7 +76,10 @@ int main() {
     require(state.selectedMenuItem() == 0, "Up returns focus to Resume");
     state.update(0);
     state.update(button::Cross);
-    require(state.view() == View::Home, "Resume restores the original Home view");
+    require(state.view() == View::About, "Resume restores About rather than skipping to Home");
+    state.update(0);
+    state.update(button::Circle);
+    require(state.view() == View::Home, "About returns to its original Home parent");
 
     // Back wins over Cross, so closing the menu cannot activate Exit in the
     // same controller sample.
