@@ -47,5 +47,5 @@ int main() {
                               std::numeric_limits<int>::max(), 960) == 959,
             "wide signed panel range maps its maximum safely");
 
-    std::cout << "PSBBV touch coordinate mapping: all checks passed.\\n";
+    std::cout << "PSBBV touch coordinate mapping: all checks passed.\n";
 }
