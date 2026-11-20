@@ -35,7 +35,7 @@ Example IDs:
 
 Each package declares a `psbbv-node.json` descriptor validated against `schemas/psbbv-node-manifest.schema.json`.
 
-The descriptor carries identity, semantic version, Node API compatibility, supported platforms, requested capabilities, permissions, and declared availability. It does not itself grant permissions or make an implementation executable.
+The descriptor carries identity, semantic version, Node API compatibility, supported platforms, requested capabilities, permissions, and declared availability. It does not itself grant permissions or make an implementation executable. The Vita built-in parser retains at most 16 capability identifiers (each at most 96 characters) and the six currently defined permission identifiers. Both arrays are required, may be empty, and reject duplicate entries. Capability identifiers must match the schema's reverse-domain-style syntax; permission identifiers must belong to the vocabulary listed below. The shared JSON Schema applies matching `maxItems` limits. The Vita parser intentionally accepts only the `psvita` platform and `builtin` runtime kind; other schema-valid platform/runtime values are not executable by this host.
 
 ## Node lifecycle
 
@@ -110,7 +110,7 @@ No node receives unrestricted filesystem or network access by default. Credentia
 
 The PSBBV Core now contains a compile-time built-in registry for the six stable node IDs. The six Home channels carry matching stable Node IDs, and the channel detail view derives its status from the registry's effective API/platform availability result. It records the Node API version, supported platform mask, category, and declared availability. Host-side tests cover stable IDs, uniqueness, lookup, planned-state preservation, API-major/minor rejection, platform rejection, and disabled/unavailable/error states.
 
-The Core now also has a bounded C++ manifest parser for the metadata subset used by the Vita built-in host. It rejects oversized input, malformed structure, duplicate top-level fields, unknown fields, missing required fields, unsupported API values and unsupported runtime/platform declarations. A separate identity gate accepts only manifests matching a node already compiled into the host, including its stable ID, category, API version and platform. This is not a dynamic loader: it cannot register arbitrary third-party code, grant permissions, or execute jobs. All six registered nodes remain `planned`.
+The Core now also has a bounded C++ manifest parser for the metadata subset used by the Vita built-in host. It rejects oversized input, malformed structure, duplicate top-level fields, unknown fields, missing required fields (including capabilities and permissions), invalid or duplicate capability/permission entries, array overflow, unsupported API values and unsupported runtime/platform declarations. Parsed capability and permission declarations are retained in fixed-capacity arrays. This validates requested metadata only: no permission grant or capability enforcement runtime exists yet. A separate identity gate accepts only manifests matching a node already compiled into the host, including its stable ID, category, API version and platform. This is not a dynamic loader: it cannot register arbitrary third-party code, grant permissions, or execute jobs. All six registered nodes remain `planned`.
 
 A portable node-job state policy now models queued/running/succeeded/failed/cancelled jobs, enforces monotonic 0–99 progress, reserves 100% for success, and provides bounded typed terminal results. Cancellation is deterministic for queued and running jobs. This is a state policy only: it does not create threads, schedule work, interrupt an in-flight I/O operation, or marshal callbacks.\n\nA pure lifecycle transition policy now models `discovered → validated → prepared → active ↔ suspended`, with explicit failure and terminal deactivation states. Invalid skips and attempts to restart failed/deactivated nodes are rejected in host tests. This is transition policy only; it does not invoke node callbacks, allocate resources, or schedule asynchronous work.
 
@@ -126,7 +126,8 @@ External native modules, dynamic loading, scripting runtimes, and process isolat
 - [x] Duplicate manifest fields are rejected deterministically; duplicate compiled-in node IDs are covered by registry tests.
 - [x] Manifest identity must match an existing compiled-in node before it passes the built-in gate.
 - [ ] Unsupported API major versions produce an explicit unavailable state.
-- [ ] Missing capabilities do not crash or block Home.
+- [x] Missing capability/permission arrays are rejected by the bounded Vita manifest parser; declarations are retained but not granted.
+- [ ] Unknown required capabilities produce an explicit unavailable state; capability policy/enforcement is not implemented.
 - [x] Pure lifecycle transition policy rejects invalid activation, resume and terminal-state transitions.
 - [x] Portable node-job state policy supports cancellation, monotonic progress, and typed success/error/cancelled terminal results (host tests).
 - [ ] Suspend/resume and deactivation are tested on the target device.
