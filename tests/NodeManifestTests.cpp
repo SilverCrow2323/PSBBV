@@ -10,6 +10,11 @@ namespace {
 void require(bool condition, const char* message) {
     if (!condition) { std::cerr << "FAIL: " << message << '\n'; std::exit(EXIT_FAILURE); }
 }
+std::string replaceOnce(std::string source, const std::string& from, const std::string& to) {
+    const std::size_t position = source.find(from);
+    if (position != std::string::npos) source.replace(position, from.size(), to);
+    return source;
+}
 constexpr const char* Valid = R"({
   "manifestVersion": 1,
   "id": "factory.spdw.psbbv.media",
@@ -29,7 +34,7 @@ int main() {
     using namespace psbbv::nodes;
     ParsedNodeManifest manifest{};
     ManifestResult result = parseNodeManifest(Valid, std::strlen(Valid), manifest);
-    if (!result.ok()) { std::cerr << "parse error=" << static_cast<int>(result.error) << " offset=" << result.offset << "\\n"; }
+    if (!result.ok()) { std::cerr << "parse error=" << static_cast<int>(result.error) << " offset=" << result.offset << "\n"; }
     require(result.ok(), "valid built-in manifest parses");
     require(std::strcmp(manifest.id, "factory.spdw.psbbv.media") == 0, "stable ID parsed");
     require(manifest.category == NodeCategory::Media, "category parsed");
