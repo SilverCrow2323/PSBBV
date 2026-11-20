@@ -120,6 +120,73 @@ bool copyEnumString(Reader& reader, char* value, std::size_t size) noexcept {
     return reader.string(value, size);
 }
 
+
+bool validCapability(const char* value) noexcept {
+    if (value == nullptr || value[0] < 'a' || value[0] > 'z') return false;
+    bool segmentStart = false;
+    for (std::size_t i = 0; value[i] != '\0'; ++i) {
+        const char ch = value[i];
+        if (ch == '.') {
+            if (segmentStart || value[i + 1] < 'a' || value[i + 1] > 'z') return false;
+            segmentStart = true;
+            continue;
+        }
+        if (segmentStart) {
+            if (ch < 'a' || ch > 'z') return false;
+            segmentStart = false;
+        } else if (!((ch >= 'a' && ch <= 'z') ||
+                     (ch >= '0' && ch <= '9') || ch == '-')) {
+            return false;
+        }
+    }
+    return !segmentStart && std::strchr(value, '.') != nullptr;
+}
+
+bool parseCapabilities(Reader& reader, ParsedNodeManifest& parsed) noexcept {
+    if (!reader.take('[')) return false;
+    if (reader.take(']')) return true;
+    for (;;) {
+        if (parsed.capabilityCount >= ManifestMaxCapabilities) return false;
+        char value[ManifestCapabilityCapacity]{};
+        if (!reader.string(value, sizeof(value)) || !validCapability(value)) return false;
+        for (std::size_t i = 0; i < parsed.capabilityCount; ++i) {
+            if (std::strcmp(parsed.capabilities[i], value) == 0) return false;
+        }
+        std::memcpy(parsed.capabilities[parsed.capabilityCount], value, std::strlen(value) + 1);
+        ++parsed.capabilityCount;
+        if (reader.take(']')) return true;
+        if (!reader.take(',')) return false;
+    }
+}
+
+bool validPermission(const char* value) noexcept {
+    static const char* const Allowed[] = {
+        "media.read", "media.write", "network.client",
+        "storage.private", "storage.shared.read", "input.global"
+    };
+    for (const char* candidate : Allowed) {
+        if (std::strcmp(candidate, value) == 0) return true;
+    }
+    return false;
+}
+
+bool parsePermissions(Reader& reader, ParsedNodeManifest& parsed) noexcept {
+    if (!reader.take('[')) return false;
+    if (reader.take(']')) return true;
+    for (;;) {
+        if (parsed.permissionCount >= ManifestMaxPermissions) return false;
+        char value[ManifestPermissionCapacity]{};
+        if (!reader.string(value, sizeof(value)) || !validPermission(value)) return false;
+        for (std::size_t i = 0; i < parsed.permissionCount; ++i) {
+            if (std::strcmp(parsed.permissions[i], value) == 0) return false;
+        }
+        std::memcpy(parsed.permissions[parsed.permissionCount], value, std::strlen(value) + 1);
+        ++parsed.permissionCount;
+        if (reader.take(']')) return true;
+        if (!reader.take(',')) return false;
+    }
+}
+
 ManifestResult fail(ManifestError error, std::size_t offset) noexcept {
     return {error, offset};
 }
@@ -194,8 +261,8 @@ ManifestResult parseNodeManifest(const char* json, std::size_t length, ParsedNod
                 valid = valid && reader.take('}');
                 break;
             }
-            case 10:
-            case 11:
+            case 10: valid = parseCapabilities(reader, parsed); break;
+            case 11: valid = parsePermissions(reader, parsed); break;
             case 12: valid = reader.skipValue(); break;
             default: valid = false; break;
         }
@@ -206,7 +273,7 @@ ManifestResult parseNodeManifest(const char* json, std::size_t length, ParsedNod
     }
 
     if (!reader.finished()) return fail(ManifestError::InvalidJson, reader.position());
-    for (int i = 0; i <= 9; ++i) {
+    for (int i = 0; i <= 11; ++i) {
         if (!seen[i]) return fail(ManifestError::MissingField, reader.position());
     }
 
