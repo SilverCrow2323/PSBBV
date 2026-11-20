@@ -138,10 +138,12 @@ External native modules, dynamic loading, scripting runtimes, and process isolat
 **SPDW FACTORY** · PSBBV Engineering  
 Small contracts. Independent nodes. One reliable host.
 
-## First external node build integration
+## Games dependency compile integration — route still gated
 
-The Vita build now pins the independently maintained `PSBBV-Games` repository at reviewed commit `a2f331dd58e288fd1d9e47b4502d39e54bfbae34` using CMake FetchContent. The production catalogue, bounded PARAM.SFO parser, transactional discovery coordinator and user-mode Vita filesystem provider are compiled into the Core build and linked through `psbbv_games_vita_adapter`.
+The Vita build pins the independently maintained `PSBBV-Games` repository at reviewed merge commit `a2f331dd58e288fd1d9e47b4502d39e54bfbae34` using CMake FetchContent. The production catalogue, bounded PARAM.SFO parser, transactional discovery coordinator and user-mode Vita filesystem provider are compiled into the Core build and linked through `psbbv_games_vita_adapter`.
 
-For local development, pass `-DPSBBV_GAMES_SOURCE_DIR=/path/to/PSBBV-Games` to use a working checkout instead of the pinned remote revision. The Core build disables the node's host test executables while the standalone Games repository continues to run them in its own CI.
+For local development, pass `-DPSBBV_GAMES_SOURCE_DIR=/path/to/PSBBV-Games` to use a working checkout instead of the pin. The Core build disables the node's host test executables while the standalone Games repository continues to run them in its own CI.
 
-The Core App now starts a bounded discovery job on a background Vita thread the first time the Games channel is opened, publishes the completed result to the UI through an acquire/release completion flag, and joins the worker during orderly shutdown. The workspace presents a sorted preview of the first five discovered titles. Launch and return-to-shell are still absent, so the node remains `planned` until those lifecycle gates and physical Vita validation are complete.
+The App contains a bounded background discovery worker and a five-row browser presentation path. **That path is currently dormant:** the channel registry still declares Games as `planned`, and `UiState` rejects every channel that is not `implemented`. Therefore a user cannot currently open Games from Home and the discovery worker is not reachable through normal navigation. This is intentional until the node's acceptance gates are met.
+
+Games title launch and return-to-shell remain absent. The compile/link integration is not proof of working on-device discovery; physical Vita scanning, thread lifecycle, suspend/resume and storage behavior remain unverified.
