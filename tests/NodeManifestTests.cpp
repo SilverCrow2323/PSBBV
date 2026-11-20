@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <string>
 
 namespace {
 void require(bool condition, const char* message) {
@@ -33,7 +34,51 @@ int main() {
     require(std::strcmp(manifest.id, "factory.spdw.psbbv.media") == 0, "stable ID parsed");
     require(manifest.category == NodeCategory::Media, "category parsed");
     require(manifest.availability == NodeAvailability::Planned, "manifest cannot promote planned node");
+    require(manifest.capabilityCount == 1 &&
+            std::strcmp(manifest.capabilities[0], "media.catalog.read") == 0,
+            "capability declaration is retained in bounded parsed data");
+    require(manifest.permissionCount == 1 &&
+            std::strcmp(manifest.permissions[0], "storage.private") == 0,
+            "permission declaration is retained in bounded parsed data");
     require(validateBuiltinManifest(manifest).ok(), "manifest resolves to compiled-in node");
+
+
+    const std::string missingCapabilities = replaceOnce(
+        Valid, "  \"capabilities\": [\"media.catalog.read\"],\n", "");
+    result = parseNodeManifest(missingCapabilities.c_str(), missingCapabilities.size(), manifest);
+    require(result.error == ManifestError::MissingField, "missing capabilities field rejected");
+
+    const std::string missingPermissions = replaceOnce(
+        Valid, "  \"permissions\": [\"storage.private\"],\n", "");
+    result = parseNodeManifest(missingPermissions.c_str(), missingPermissions.size(), manifest);
+    require(result.error == ManifestError::MissingField, "missing permissions field rejected");
+
+    const std::string wrongCapabilitiesType = replaceOnce(
+        Valid, "[\"media.catalog.read\"]", "\"media.catalog.read\"");
+    result = parseNodeManifest(wrongCapabilitiesType.c_str(), wrongCapabilitiesType.size(), manifest);
+    require(result.error == ManifestError::InvalidField, "capabilities must be an array of strings");
+
+    const std::string malformedCapability = replaceOnce(
+        Valid, "media.catalog.read", "Media.catalog.read");
+    result = parseNodeManifest(malformedCapability.c_str(), malformedCapability.size(), manifest);
+    require(result.error == ManifestError::InvalidField, "malformed capability identifiers rejected");
+
+    const std::string duplicateCapability = replaceOnce(
+        Valid, "[\"media.catalog.read\"]",
+        "[\"media.catalog.read\", \"media.catalog.read\"]");
+    result = parseNodeManifest(duplicateCapability.c_str(), duplicateCapability.size(), manifest);
+    require(result.error == ManifestError::InvalidField, "duplicate capabilities rejected");
+
+    const std::string unknownPermission = replaceOnce(
+        Valid, "storage.private", "filesystem.root");
+    result = parseNodeManifest(unknownPermission.c_str(), unknownPermission.size(), manifest);
+    require(result.error == ManifestError::InvalidField, "unknown permissions rejected");
+
+    const std::string duplicatePermission = replaceOnce(
+        Valid, "[\"storage.private\"]",
+        "[\"storage.private\", \"storage.private\"]");
+    result = parseNodeManifest(duplicatePermission.c_str(), duplicatePermission.size(), manifest);
+    require(result.error == ManifestError::InvalidField, "duplicate permissions rejected");
 
     const char* duplicate = R"({"manifestVersion":1,"manifestVersion":1})";
     result = parseNodeManifest(duplicate, std::strlen(duplicate), manifest);
