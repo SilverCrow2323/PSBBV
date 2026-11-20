@@ -89,6 +89,12 @@ int main() {
     result = parseNodeManifest(unknownPermission.c_str(), unknownPermission.size(), manifest);
     require(result.error == ManifestError::InvalidField, "unknown permissions rejected");
 
+    const std::string tooManyPermissions = replaceOnce(
+        Valid, "[\"storage.private\"]",
+        "[\"media.read\", \"media.write\", \"network.client\", \"storage.private\", \"storage.shared.read\", \"input.global\", \"media.read\"]");
+    result = parseNodeManifest(tooManyPermissions.c_str(), tooManyPermissions.size(), manifest);
+    require(result.error == ManifestError::InvalidField, "permission array overflow rejected");
+
     const std::string duplicatePermission = replaceOnce(
         Valid, "[\"storage.private\"]",
         "[\"storage.private\", \"storage.private\"]");
