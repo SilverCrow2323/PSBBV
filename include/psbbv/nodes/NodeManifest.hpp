@@ -11,6 +11,10 @@ constexpr std::size_t ManifestIdCapacity = 129;
 constexpr std::size_t ManifestNameCapacity = 65;
 constexpr std::size_t ManifestVersionCapacity = 32;
 constexpr std::size_t ManifestDescriptionCapacity = 281;
+constexpr std::size_t ManifestMaxCapabilities = 16;
+constexpr std::size_t ManifestMaxPermissions = 6;
+constexpr std::size_t ManifestCapabilityCapacity = 97;
+constexpr std::size_t ManifestPermissionCapacity = 32;
 
 struct ParsedNodeManifest final {
     char id[ManifestIdCapacity]{};
@@ -22,6 +26,10 @@ struct ParsedNodeManifest final {
     NodeCategory category;
     NodePlatform platform;
     NodeAvailability availability;
+    char capabilities[ManifestMaxCapabilities][ManifestCapabilityCapacity]{};
+    char permissions[ManifestMaxPermissions][ManifestPermissionCapacity]{};
+    std::uint8_t capabilityCount = 0;
+    std::uint8_t permissionCount = 0;
 };
 
 enum class ManifestError : std::uint8_t {
