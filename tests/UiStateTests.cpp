@@ -99,5 +99,5 @@ int main() {
     chord.activateMenuItem(2);
     require(chord.shouldQuit(), "Exit menu item requests clean quit");
 
-    std::cout << "PSBBV UI state: all checks passed.\\n";
+    std::cout << "PSBBV UI state: all checks passed.\n";
 }
