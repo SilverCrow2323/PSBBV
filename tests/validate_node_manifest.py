@@ -70,6 +70,21 @@ def main():
     malformed_runtime["runtime"] = {"kind": "builtin", "unexpected": True}
     cases.append(("unknown runtime property", malformed_runtime))
 
+    too_many_capabilities = copy.deepcopy(VALID_MANIFEST)
+    too_many_capabilities["capabilities"] = [f"media.item{i}" for i in range(17)]
+    cases.append(("too many capabilities", too_many_capabilities))
+
+    too_many_permissions = copy.deepcopy(VALID_MANIFEST)
+    too_many_permissions["permissions"] = [
+        "media.read", "media.write", "network.client",
+        "storage.private", "storage.shared.read", "input.global", "media.read"
+    ]
+    cases.append(("too many permissions", too_many_permissions))
+
+    malformed_capability = copy.deepcopy(VALID_MANIFEST)
+    malformed_capability["capabilities"] = ["Invalid.Capability"]
+    cases.append(("malformed capability identifier", malformed_capability))
+
     for label, manifest in cases:
         expect_invalid(validator, manifest, label)
 
