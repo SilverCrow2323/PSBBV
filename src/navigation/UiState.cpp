@@ -20,11 +20,44 @@ std::size_t firstImplementedChannel() noexcept {
 
 } // namespace
 
+std::uint32_t UiState::directionPulse(std::uint32_t heldButtons) noexcept {
+    const std::uint32_t direction = heldButtons & (button::Up | button::Down);
+    if (direction != button::Up && direction != button::Down) {
+        // Releasing both directions, or holding both, cancels the repeat clock.
+        heldDirection_ = 0;
+        directionHoldFrames_ = 0;
+        directionRepeatFrames_ = 0;
+        return 0;
+    }
+
+    if (direction != heldDirection_) {
+        heldDirection_ = direction;
+        directionHoldFrames_ = 0;
+        directionRepeatFrames_ = 0;
+        return direction;
+    }
+
+    if (directionHoldFrames_ < DirectionRepeatDelayFrames) {
+        ++directionHoldFrames_;
+        if (directionHoldFrames_ == DirectionRepeatDelayFrames) return direction;
+        return 0;
+    }
+
+    ++directionRepeatFrames_;
+    if (directionRepeatFrames_ >= DirectionRepeatIntervalFrames) {
+        directionRepeatFrames_ = 0;
+        return direction;
+    }
+    return 0;
+}
+
 void UiState::update(std::uint32_t heldButtons) noexcept {
     const std::uint32_t pressed = heldButtons & ~previousButtons_;
     previousButtons_ = heldButtons;
 
     if (shouldQuit_) return;
+
+    const std::uint32_t direction = directionPulse(heldButtons);
 
     if ((pressed & button::Start) != 0) {
         if (view_ == View::Menu) closeMenu();
@@ -45,11 +78,10 @@ void UiState::update(std::uint32_t heldButtons) noexcept {
 
         // Opposing directions in one sample cancel rather than arbitrarily
         // selecting whichever branch runs last.
-        const bool up = (pressed & button::Up) != 0;
-        const bool down = (pressed & button::Down) != 0;
-        if (up != down)
-            selectedMenuItem_ = up ? (selectedMenuItem_ + 2) % 3
-                                   : (selectedMenuItem_ + 1) % 3;
+        if (direction == button::Up)
+            selectedMenuItem_ = (selectedMenuItem_ + 2) % 3;
+        else if (direction == button::Down)
+            selectedMenuItem_ = (selectedMenuItem_ + 1) % 3;
         if ((pressed & button::Cross) != 0) activateFocusedMenuItem();
         return;
     }
@@ -76,9 +108,8 @@ void UiState::update(std::uint32_t heldButtons) noexcept {
 
     if (!isImplementedChannel(selectedChannel_)) selectedChannel_ = first;
 
-    const bool up = (pressed & button::Up) != 0;
-    const bool down = (pressed & button::Down) != 0;
-    if (up != down) {
+    if (direction == button::Up || direction == button::Down) {
+        const bool up = direction == button::Up;
         std::size_t candidate = selectedChannel_;
         for (std::size_t visited = 0; visited < count; ++visited) {
             candidate = up ? (candidate + count - 1) % count
@@ -134,4 +165,4 @@ void UiState::activateFocusedMenuItem() noexcept {
     }
 }
 
-} // namespace psbbv
+} // namespace psbbv::navigation

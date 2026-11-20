@@ -99,5 +99,27 @@ int main() {
     chord.activateMenuItem(2);
     require(chord.shouldQuit(), "Exit menu item requests clean quit");
 
+    // Holding a direction moves once immediately, then repeats after the
+    // configured vblank delay and interval. The test is frame-deterministic.
+    UiState repeat;
+    repeat.update(button::Start);
+    repeat.update(0);
+    repeat.update(button::Down);
+    require(repeat.selectedMenuItem() == 1, "held Down moves immediately");
+    for (std::uint16_t frame = 1; frame < DirectionRepeatDelayFrames; ++frame)
+        repeat.update(button::Down);
+    require(repeat.selectedMenuItem() == 1, "D-pad does not repeat before the initial delay");
+    repeat.update(button::Down);
+    require(repeat.selectedMenuItem() == 2, "D-pad repeats after the initial delay");
+    for (std::uint16_t frame = 1; frame < DirectionRepeatIntervalFrames; ++frame)
+        repeat.update(button::Down);
+    require(repeat.selectedMenuItem() == 2, "D-pad repeat observes the configured interval");
+    repeat.update(button::Down);
+    require(repeat.selectedMenuItem() == 0, "held Down wraps menu focus on repeat");
+    repeat.update(button::Up | button::Down);
+    require(repeat.selectedMenuItem() == 0, "opposing held directions cancel repeat");
+    repeat.update(button::Up);
+    require(repeat.selectedMenuItem() == 2, "changing direction starts a fresh immediate step");
+
     std::cout << "PSBBV UI state: all checks passed.\n";
 }
