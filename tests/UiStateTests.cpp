@@ -7,7 +7,7 @@
 
 namespace {
 void require(bool ok, const char* message) {
-    if (!ok) { std::cerr << "FAIL: " << message << '\\n'; std::exit(EXIT_FAILURE); }
+    if (!ok) { std::cerr << "FAIL: " << message << '\n'; std::exit(EXIT_FAILURE); }
 }
 }
 
