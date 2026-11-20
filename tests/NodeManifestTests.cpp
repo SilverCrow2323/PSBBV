@@ -68,6 +68,16 @@ int main() {
     result = parseNodeManifest(malformedCapability.c_str(), malformedCapability.size(), manifest);
     require(result.error == ManifestError::InvalidField, "malformed capability identifiers rejected");
 
+    std::string tooManyCapabilities = replaceOnce(
+        Valid, "[\"media.catalog.read\"]", "[");
+    for (int i = 0; i < 17; ++i) {
+        if (i != 0) tooManyCapabilities += ", ";
+        tooManyCapabilities += "\"cap.item" + std::to_string(i) + "\"";
+    }
+    tooManyCapabilities += "]";
+    result = parseNodeManifest(tooManyCapabilities.c_str(), tooManyCapabilities.size(), manifest);
+    require(result.error == ManifestError::InvalidField, "capability array overflow rejected");
+
     const std::string duplicateCapability = replaceOnce(
         Valid, "[\"media.catalog.read\"]",
         "[\"media.catalog.read\", \"media.catalog.read\"]");
