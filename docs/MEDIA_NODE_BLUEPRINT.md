@@ -14,9 +14,7 @@
 
 PSBBV Media is a separately developed media-center node for the PSBBV ecosystem. Its intended experience is comparable in breadth to a modern Kodi-style media center, while its interface, navigation, branding, and interaction design remain original SPDW Factory work.
 
-Proposed repository: `SilverCrow2323/PSBBV-Media`.
-
-This blueprint does not imply that the repository has been created or that playback, IPTV, Stream4me, or Kodi add-on compatibility is already implemented.
+Repository: [`SilverCrow2323/PSBBV-Media`](https://github.com/SilverCrow2323/PSBBV-Media) exists and is maintained separately from Core. Its current implementation contains a bounded catalogue model, snapshot codec, and backend-neutral persistence orchestration with host tests. This blueprint does not imply that playback, IPTV, Stream4me, or Kodi add-on compatibility is already implemented.
 
 ## Product areas
 
@@ -89,9 +87,10 @@ PS Vita support will likely need a narrower feature matrix than desktop. The UI 
 
 ## Milestones
 
-- [ ] Create repository and SPDW project skeleton.
-- [ ] Define shared PSBBV Node API integration and manifest.
-- [ ] Build platform-neutral media catalog and metadata model.
+- [x] Create repository and SPDW project skeleton.
+- [x] Define initial PSBBV Node API manifest and schema validation.
+- [x] Build the initial platform-neutral media catalogue model and metadata structure.
+- [x] Implement snapshot codec and backend-neutral persistence orchestration with host tests.
 - [ ] Add local library scanner with safe, cancellable indexing.
 - [ ] Prototype desktop playback backend and measure supported formats.
 - [ ] Implement Movies and TV Shows library views.
