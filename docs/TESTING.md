@@ -16,11 +16,10 @@
 
 | Field | Current CI candidate |
 |---|---|
-| Core source | `6e9cb2c42d113ad6c4db1013cb5102e1edf21cbd` |
-| Workflow | [Vita Build #44895313787](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787) |
-| Artifact | [PSBBV-VPK #14704185108](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787/artifacts/14704185108) |
-| Artifact ZIP size | 151,520 bytes |
-| Artifact ZIP SHA-256 | `65ae7afb53443b7eafbd77edd7b15302c6dcb0803817fa6e908cd929ba8db4b9` |
+| Core source commit | See the immutable SHA in the [candidate manifest](releases/v0.1.0-rc.1-manifest.json) |
+| Workflow run | Pinned in the [candidate manifest](releases/v0.1.0-rc.1-manifest.json) |
+| Download artifact | Pinned in the [candidate manifest](releases/v0.1.0-rc.1-manifest.json) |
+| Artifact ZIP size and SHA-256 | Pinned in the [candidate manifest](releases/v0.1.0-rc.1-manifest.json) |
 | VPK internal payload | 155,674 bytes |
 | SFO identity checked by CI | `SCBV00001` / `00.10` |
 
