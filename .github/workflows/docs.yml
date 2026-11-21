@@ -8,12 +8,14 @@ on:
     paths:
       - "docs/**"
       - "tools/validate_release_candidate.py"
+      - "tests/test_release_candidate_manifest.py"
       - ".github/workflows/docs.yml"
       - "README.md"
   pull_request:
     paths:
       - "docs/**"
       - "tools/validate_release_candidate.py"
+      - "tests/test_release_candidate_manifest.py"
       - ".github/workflows/docs.yml"
       - "README.md"
   workflow_dispatch:
@@ -44,6 +46,7 @@ jobs:
           python3 -m json.tool docs/release-manifest.example.json > /dev/null
           python3 -m json.tool docs/releases/v0.1.0-rc.1-manifest.json > /dev/null
           python3 tools/validate_release_candidate.py
+          python3 -m unittest discover -s tests -p 'test_release_candidate_manifest.py' -v
           grep -q 'href="nodes.html"' docs/index.html
           grep -q 'PSBBV Core' README.md
       - name: Configure Pages
