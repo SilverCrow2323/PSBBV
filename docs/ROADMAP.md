@@ -26,7 +26,7 @@
 - [x] VitaSDK/CMake application target.
 - [x] libvita2d render loop and system font baseline.
 - [x] D-pad, Cross, Circle, and Start navigation.
-- [x] Front touchscreen navigation.
+- [x] Front touchscreen application-menu interaction.
 - [x] Application menu with About and Exit actions.
 - [x] Branded Home view and a non-interactive list of planned channel identities.
 - [x] Initial SVG identity and Vita LiveArea package resources.
@@ -37,9 +37,11 @@
 - [x] Restore the underlying view when closing the application menu.
 - [x] Touch activation is edge-triggered to avoid repeated actions while a finger remains down.
 - [x] Host tests for focus movement, menu navigation, return paths, and clean-exit requests.
-- [x] ✅ Confirm a green CI VPK build (Vita Build #83, VitaSDK 2026.08, VPK artifact inspected).
-- [ ] 🟠 Install and test the VPK on a physical Vita.
-- [ ] 🟠 Verify suspend/resume and resource recovery.
+- [x] Frame-based D-pad repeat with deterministic host coverage.
+- [x] Automated VPK structural, path-safety, LiveArea and SFO identity verification.
+- [x] Exact-head CI VPK build: [run #44895313787](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787).
+- [ ] 🟠 Install and test the exact candidate VPK on a physical Vita.
+- [ ] 🟠 Verify suspend/resume, resource recovery, frame pacing and clean shutdown.
 
 ## Phase 0.5 — Define the node ecosystem
 
@@ -79,6 +81,7 @@
 - [x] Keep discovery read-only until launch and return-to-shell lifecycle are implemented.
 
 The Games discovery code is a source-level foundation only. Games remains PLANNED and non-openable until device-side discovery, catalog behavior, and launch/return lifecycle are verified.
+
 - [ ] Applications discovery and metadata model.
 - [ ] Games filtering, favourites, recently used views, and title launch/return lifecycle.
 
@@ -99,12 +102,30 @@ Every channel needs a real data source, a failure model, and useful offline beha
 - [ ] Settings and persistent preferences.
 - [ ] Localization infrastructure; English remains the initial language.
 - [ ] Compatibility and performance testing on hardware.
-- [ ] Confirm the final VPK title ID.
+- [ ] Confirm the final VPK Title ID; `SCBV00001` is still provisional.
 - [ ] Release notes, checksums, and reproducible package build.
+- [ ] Complete the release manifest with exact integrated node revisions.
+- [ ] Record physical Vita acceptance for the exact release candidate.
+
+## Phase 4.1 — 0.1.0 release candidate
+
+- [x] Establish Core version `0.1.0` in CMake.
+- [x] Build candidate VPK from `dev/foundation` at `6e9cb2c42d113ad6c4db1013cb5102e1edf21cbd`.
+- [x] Pass 10/10 host CTest executables and 9/9 VPK verifier unit tests.
+- [x] Pass manifest schema validation (one positive fixture, nine negative fixtures).
+- [x] Pass VitaSDK 2026.08 cross-build and automated VPK verification.
+- [x] Upload candidate artifact [#14704185108](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787/artifacts/14704185108).
+- [x] Prepare candidate notes and a machine-readable, explicitly non-stable release record.
+- [ ] 🟠 Install and validate this exact artifact on a physical Vita.
+- [ ] Confirm Title ID ownership/non-conflict and final packaging identity.
+- [ ] Review and sign off the release manifest and limitations.
+- [ ] Only then decide whether to publish a stable `v0.1.0`.
 
 ## 🧨 The release rule
 
-A cross-build is not a hardware release. No version is called stable until the VPK installs and launches on real hardware, core navigation is tested, suspend/resume is checked, and CI is green.
+A cross-build is not a hardware release. No version is called stable until the VPK installs and launches on real hardware, core shell navigation is tested, suspend/resume and shutdown are checked, the package identity is final, the release manifest is complete, and CI is green.
+
+A release candidate may be shared as a CI artifact for testing. It must not be presented as an official stable release.
 
 ---
 
