@@ -11,6 +11,7 @@
 
 #include "psbbv/navigation/ChannelRegistry.hpp"
 #include "psbbv/navigation/MenuHitTest.hpp"
+#include "psbbv/navigation/GamesBrowserHitTest.hpp"
 #include "psbbv/navigation/UiState.hpp"
 #include "psbbv/nodes/NodeRegistry.hpp"
 #include "psbbv/ui/Theme.hpp"
@@ -165,13 +166,9 @@ void App::handleTouch(int x, int y) noexcept {
             navigation::channelAt(state_.selectedChannel());
         if (channel != nullptr && channel->id == navigation::ChannelId::Games &&
             gamesScan_.lifecycle.status() == navigation::GamesDiscoveryStatus::Succeeded) {
-            constexpr int firstRowTop = 302;
-            constexpr int rowHeight = 27;
-            if (x >= 305 && x <= 889 && y >= firstRowTop &&
-                y < firstRowTop + rowHeight * static_cast<int>(navigation::GamesBrowserState::VisibleRows)) {
-                const std::size_t row = static_cast<std::size_t>((y - firstRowTop) / rowHeight);
-                gamesBrowser_.select(gamesBrowser_.firstVisibleIndex() + row);
-            }
+            const std::size_t index = navigation::gamesBrowserItemAtTouch(
+                x, y, gamesBrowser_.firstVisibleIndex(), gamesScan_.catalogue.size());
+            if (index != navigation::NoGamesBrowserItem) gamesBrowser_.select(index);
         }
         if (y >= 480 && x <= 180) state_.back();
         return;
