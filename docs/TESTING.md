@@ -10,72 +10,76 @@
 
 </div>
 
-> **Important:** a successful cross-build does not prove that the app installs, launches, or behaves correctly on a Vita. This is where the hardware gets a vote.
+> **Release boundary:** a successful VitaSDK cross-build proves that the toolchain produced a structurally valid VPK. It does not prove installation, launch, controls, rendering, suspend/resume or compatibility on a physical Vita.
 
-## 📦 Build and package
+## 📦 Exact candidate under test
 
-- [ ] Confirm the Vita Build workflow completed successfully, including the automated VPK ZIP/CRC, path-safety, LiveArea asset and SFO identity verifier.
-- [ ] Download the PSBBV-VPK artifact from that successful run and record its SHA-256.
-- [ ] Verify the VPK installs without an error.
-- [ ] Check the LiveArea title, icon, background, and startup artwork.
+| Field | Current CI candidate |
+|---|---|
+| Core source | `6e9cb2c42d113ad6c4db1013cb5102e1edf21cbd` |
+| Workflow | [Vita Build #44895313787](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787) |
+| Artifact | [PSBBV-VPK #14704185108](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787/artifacts/14704185108) |
+| Artifact ZIP size | 151,520 bytes |
+| Artifact ZIP SHA-256 | `65ae7afb53443b7eafbd77edd7b15302c6dcb0803817fa6e908cd929ba8db4b9` |
+| VPK internal payload | 155,674 bytes |
+| SFO identity checked by CI | `SCBV00001` / `00.10` |
+
+The SHA-256 above identifies the **downloaded GitHub Actions artifact ZIP**, not the VPK file extracted from it. Calculate and record the VPK's own SHA-256 after extracting the artifact. Do not substitute one digest for the other.
+
+## 🤖 Automated evidence — exact HEAD
+
+- [x] Ten CTest executables passed (10/10).
+- [x] Nine VPK verifier unit tests passed.
+- [x] Node manifest schema: valid fixture accepted and nine invalid fixtures rejected.
+- [x] VitaSDK 2026.08 cross-build completed.
+- [x] VPK verifier accepted ZIP/CRC structure, safe paths, required LiveArea assets and SFO identity.
+- [x] GitHub Actions uploaded the VPK artifact.
+
+These are automated CI results. They are not physical-device results.
+
+## 🧭 Shell and navigation — physical Vita
+
+- [ ] Install this exact VPK on the target Vita.
+- [ ] Confirm the LiveArea title, icon, background and startup artwork.
 - [ ] Confirm the installed package reports Title ID `SCBV00001` and version `00.10`.
-- [ ] Confirm SCBV00001 does not conflict with an installed title before release.
+- [ ] Confirm the provisional Title ID does not conflict with another installed title.
+- [ ] Launch from LiveArea and confirm the expected 960 × 544 landscape canvas.
+- [ ] Inspect wordmark, typography, contrast and clipping at handheld distance.
+- [ ] Open and close the application menu with Start.
+- [ ] Navigate the application menu with D-pad Up/Down and verify wraparound and repeat feel.
+- [ ] Activate menu options with Cross and return/close with Circle.
+- [ ] Open About PSBBV, return, then open the menu over About and use Resume; verify focus returns to the underlying view.
+- [ ] Verify menu touch hitboxes: row interiors activate; the 8 px gaps and outside edges do not.
+- [ ] Tap outside the menu and verify it dismisses without activating an underlying item.
+- [ ] Hold a finger on a menu row and verify activation is edge-triggered, not repeated.
 
-## 🚀 Startup and shutdown
+## 🚪 Channel and node boundary — do not test imaginary features
 
-- [ ] Launch PSBBV from LiveArea.
-- [ ] Confirm the screen uses the expected 960 × 544 landscape canvas.
-- [ ] Check the wordmark and all text at handheld distance.
-- [ ] Open the application menu with Start.
-- [ ] Navigate to Exit Application and confirm clean shutdown.
-- [ ] Relaunch and repeat.
+All six registry entries (Games, Applications, Network, Media, Downloads and System) are currently `PLANNED`. They are metadata, not openable destinations.
 
-## 🎮 Physical controls
+- [ ] Confirm planned channel entries are visibly non-interactive and do not open placeholder screens.
+- [ ] Confirm no planned channel displays a false READY/connected/working state.
+- [ ] Do not mark channel navigation as passed by tapping a planned entry.
+- [ ] Do not claim Games is device-validated: its discovery/browser code is compiled, but the channel remains gated and game launching is not implemented.
 
-- [ ] Move down through all six channels.
-- [ ] Move up through all six channels.
-- [ ] Confirm selection wraps at both ends.
-- [ ] Hold D-pad Up/Down and confirm focus repeats smoothly after the initial delay.
-- [ ] Open a channel using Cross.
-- [ ] Return to Home using Circle.
-- [ ] Open and close the application menu.
-- [ ] Open About PSBBV and return with Circle and Cross.
-- [ ] Open the menu while About PSBBV is visible, choose Resume, then confirm Circle/Cross returns to the original Home or Channel view rather than trapping focus in About.
+## 🎮 Games discovery — future hardware gate
 
-## 🧭 Input-state regression tests
+Only run this section when the Games channel is deliberately enabled by a later reviewed change. The current candidate must not be reported as passing it.
 
-The host CI suite runs independent executables for the channel registry, UI state, node registry, manifest parser, lifecycle policy, node jobs, Games browser state, Games discovery retry lifecycle and touch-coordinate mapping. The UI tests cover button edge detection, held-button behavior, menu focus, About navigation, restoring a channel behind the menu, returning Home, clean-exit requests, opposing D-pad inputs cancelling, focus wraparound, and Circle taking priority over Cross in a simultaneous menu chord. They also verify frame-based D-pad repeat: one immediate movement, an 18-vblank initial delay, then one repeat every five frames. Opening or closing the menu with Start resets the repeat clock, so a D-pad hold from the previous view cannot jump the newly focused surface; a fresh delay is required. The frame model is deterministic host evidence, not a substitute for testing the physical controller's repeat feel and frame pacing.
+- [ ] Open Games and scan installed titles under the fixed `ux0:/app` root.
+- [ ] Confirm bounded PARAM.SFO parsing and title sorting.
+- [ ] Browse beyond the five-row viewport; verify wraparound and touch selection.
+- [ ] Verify retry after discovery failure and worker join/reset ordering.
+- [ ] Confirm no title launches until launch/return lifecycle is implemented and tested.
 
-## 🎮 Games catalogue browsing
+## 🔋 Lifecycle, stability and performance — physical Vita
 
-- [ ] Open the Games channel and wait for the installed-title scan to finish.
-- [ ] Confirm titles are sorted by name and only installed `ux0:/app` entries appear.
-- [ ] Browse past the fifth title with D-pad Down; confirm the five-row window scrolls without losing focus.
-- [ ] Verify Up/Down wrap from the first title to the last and back.
-- [ ] Tap a visible row and confirm its focus marker moves to that title.
-- [ ] Tap the three-pixel gaps between Games rows and confirm they do not select either neighbour; on a partial final page, confirm empty rows do nothing.
-- [ ] Confirm no title launches: this build is read-only discovery, not a game launcher.
-- [ ] If discovery fails, confirm the screen explains the error and press Cross to retry without restarting PSBBV.
-- [ ] Confirm a retry joins the previous worker before clearing scan state, then starts exactly one new scan.
-- [ ] Return to Home with Circle and reopen Games after success without starting a second scan.
-
-## 👆 Front touchscreen
-
-- [ ] Tap each channel row and confirm the correct channel opens.
-- [ ] Tap each Home shortcut card.
-- [ ] Tap each application-menu option.
-- [ ] Tap the gaps between application-menu rows and confirm the menu stays open without activating a neighbouring option; tap outside the panel to dismiss it.
-- [ ] Tap outside the menu and confirm it dismisses without activating an underlying item.
-- [ ] Hold a finger on the panel and confirm there is no repeated activation.
-
-## 🔋 Lifecycle and performance
-
-- [ ] Suspend the Vita while PSBBV is running.
-- [ ] Resume and confirm rendering and input continue.
-- [ ] Repeat suspend/resume and check for visual corruption.
+- [ ] Suspend the Vita while PSBBV is running; resume and verify rendering/input recovery.
+- [ ] Repeat suspend/resume and check for visual corruption or stale input.
+- [ ] Verify clean shutdown from the application menu.
 - [ ] Observe frame pacing while navigating.
-- [ ] Watch for abnormal memory growth during extended use.
-- [ ] Confirm exit works after touch sampling has been enabled.
+- [ ] Watch for abnormal memory growth during an extended session.
+- [ ] Repeat launch, menu, About, suspend/resume and shutdown after a cold restart.
 
 ## 📝 Test record
 
@@ -83,12 +87,14 @@ The host CI suite runs independent executables for the channel registry, UI stat
 |---|---|
 | Vita model | |
 | Firmware / homebrew environment | |
-| VPK SHA-256 | |
+| Candidate commit | `6e9cb2c42d113ad6c4db1013cb5102e1edf21cbd` |
+| Artifact ID | `14704185108` |
+| Extracted VPK SHA-256 | |
 | Test date | |
 | Result | |
-| Notes / issues | |
+| Notes / issue links | |
 
-Do not mark a test as passed from memory. Record what was tested, on which device, and with which build.
+Do not mark a test as passed from memory. Record the exact device, environment, package and observed result.
 
 ---
 
