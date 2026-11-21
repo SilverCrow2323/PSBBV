@@ -5,11 +5,13 @@ on:
     branches: [main]
     paths:
       - "docs/**"
+      - "tools/validate_release_candidate.py"
       - ".github/workflows/docs.yml"
       - "README.md"
   pull_request:
     paths:
       - "docs/**"
+      - "tools/validate_release_candidate.py"
       - ".github/workflows/docs.yml"
       - "README.md"
   workflow_dispatch:
@@ -36,7 +38,10 @@ jobs:
           test -s docs/nodes.html
           test -s docs/publishing.html
           test -s docs/CORE-RELEASE-MANIFEST.md
+          test -s docs/releases/v0.1.0-rc.1.md
           python3 -m json.tool docs/release-manifest.example.json > /dev/null
+          python3 -m json.tool docs/releases/v0.1.0-rc.1-manifest.json > /dev/null
+          python3 tools/validate_release_candidate.py
           grep -q 'href="nodes.html"' docs/index.html
           grep -q 'PSBBV Core' README.md
       - name: Configure Pages
