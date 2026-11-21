@@ -1,0 +1,28 @@
+{
+  "manifest_schema": "psbbv.core-release/v1",
+  "product": "PSBBV Core",
+  "core_version": "0.0.0-dev",
+  "channel": "foundation",
+  "official_release": false,
+  "release_date": null,
+  "source": {
+    "repository": "SilverCrow2323/PSBBV",
+    "commit": null
+  },
+  "nodes": [
+    {"id": "games", "repository": null, "commit": null, "included": false, "status": "unregistered"},
+    {"id": "applications", "repository": null, "commit": null, "included": false, "status": "unregistered"},
+    {"id": "network", "repository": null, "commit": null, "included": false, "status": "unregistered"},
+    {"id": "media", "repository": null, "commit": null, "included": false, "status": "unregistered"},
+    {"id": "downloads", "repository": null, "commit": null, "included": false, "status": "unregistered"},
+    {"id": "system", "repository": null, "commit": null, "included": false, "status": "unregistered"}
+  ],
+  "artifacts": [],
+  "validation": {
+    "ci": null,
+    "vpk_integrity": null,
+    "hardware_acceptance": null
+  },
+  "known_limitations": [],
+  "checksums": []
+}

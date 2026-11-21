@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="180" viewBox="0 0 760 180" role="img" aria-labelledby="title desc">
+  <title id="title">SPDW Factory</title>
+  <desc id="desc">SPDW Factory wordmark with a red geometric symbol on a charcoal background.</desc>
+  <rect width="760" height="180" rx="18" fill="#090B10"/>
+  <path d="M48 42H118L158 90L118 138H48L88 90Z" fill="none" stroke="#E42F3D" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M70 90H136" stroke="#F5F7FA" stroke-width="5"/>
+  <text x="192" y="94" fill="#F5F7FA" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="800" letter-spacing="-1">SPDW FACTORY</text>
+  <text x="195" y="128" fill="#9CA7B6" font-family="Arial, Helvetica, sans-serif" font-size="16" letter-spacing="4">BUILT WITH INTENT</text>
+</svg>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d4ff43">
+  <meta name="description" content="PSBBV development milestones and release gates.">
+  <title>Roadmap · PSBBV Core / SPDW Factory</title>
+  <link rel="icon" href="assets/spdw-factory-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/spdw-docs.css">
+  <script defer src="assets/spdw-docs.js"></script>
+</head>
+<body>
+<div class="shell">
+
+<div class="topline"><span>SPDW FACTORY <span style="opacity:.55">/</span> FIELD NOTES</span><span class="right">PSBBV CORE · FOUNDATION BUILD · 00.10</span></div>
+<aside class="sidebar">
+  <a class="brand" href="index.html">
+    <span class="brand-mark">SP</span>
+    <span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">Documentation lab</span></span>
+  </a>
+  <div class="nav-label">Start here</div>
+  <a class="nav-link " href="index.html"><span class="nav-icon">⌂</span>Project home</a>
+  <div class="nav-label">The manual</div>
+  <a class="nav-link " href="product.html"><span class="nav-icon">✳</span>Product brief</a>
+  <a class="nav-link" href="nodes.html"><span class="nav-icon">▦</span>Core node registry</a>
+  <a class="nav-link " href="architecture.html"><span class="nav-icon">⌘</span>Architecture</a>
+  <a class="nav-link " href="design.html"><span class="nav-icon">◈</span>Design language</a>
+  <a class="nav-link " href="style.html"><span class="nav-icon">✎</span>SPDW style guide</a>
+  <a class="nav-link active" href="roadmap.html"><span class="nav-icon">↗</span>Roadmap</a>
+  <a class="nav-link " href="testing.html"><span class="nav-icon">✓</span>Hardware tests</a>
+  <div class="nav-label">Project links</div>
+  <a class="nav-link" href="https://github.com/SilverCrow2323/PSBBV/blob/main/README.md"><span class="nav-icon">⌁</span>Repository README</a>
+  <a class="nav-link" href="https://github.com/SilverCrow2323/PSBBV"><span class="nav-icon">◉</span>GitHub repository ↗</a>
+  <div class="sidebar-bottom">
+    <div class="sidebar-note"><strong>Pretty is not a substitute for true.</strong><span>Planned means planned. Working means working. We label the difference.</span></div>
+  </div>
+</aside>
+<main class="content">
+  <div class="mobile-head">
+    <a class="brand" href="index.html"><span class="brand-mark">SP</span><span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">PSBBV field notes</span></span></a>
+    <button class="mobile-toggle" data-nav-toggle aria-expanded="false">☰ Menu</button>
+  </div>
+  
+<div class="breadcrumb"><a href="index.html">Project home</a><span class="slash">/</span><span>Roadmap</span></div>
+<section class="hero">
+  <span class="eyebrow">04 / Roadmap</span>
+  <h1>BUILD THE FLOOR. <em>THEN THE HOUSE.</em></h1>
+  <p>First the shell behaves. Then the channels get real jobs. Then we polish, test and release. Skipping the boring foundations is how projects become exciting bug museums.</p>
+  <div class="meta-row"><span class="pill acid">CI package validated</span><span class="pill dark">No public release yet</span></div>
+</section>
+<section class="section">
+  <div class="section-head"><div><div class="kicker">The build order</div><h2>One milestone at a time.</h2></div><p>The cross-build and package internals are verified. Physical Vita validation remains a separate gate.</p></div>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-mark"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><span class="pill acid">CI verified · device test pending</span><h3>Phase 0 — Native foundation</h3><p>VitaSDK/CMake, libvita2d, Home navigation, front touch, application menu and branding are in source. Vita Build #83 produced a VPK whose package contents and LiveArea PNGs were inspected. Physical Vita testing remains open.</p></div></div>
+    <div class="timeline-item"><div class="timeline-mark"><div class="timeline-dot" style="background:#60d9ed"></div><div class="timeline-line"></div></div><div class="timeline-content"><span class="pill violet">Next</span><h3>Phase 1 — UI foundation</h3><p>Reusable components, transitions, focus restoration, configurable button mapping, asset cache and measured frame pacing.</p></div></div>
+    <div class="timeline-item"><div class="timeline-mark"><div class="timeline-dot" style="background:#8a76f4"></div><div class="timeline-line"></div></div><div class="timeline-content"><span class="pill violet">Planned</span><h3>Phase 2 — Local content model</h3><p>Typed metadata, safe discovery, empty/loading/error states, sorting and filters. Read-only first; destructive management comes only with proper safeguards.</p></div></div>
+    <div class="timeline-item"><div class="timeline-mark"><div class="timeline-dot" style="background:#ff5c50"></div><div class="timeline-line"></div></div><div class="timeline-content"><span class="pill coral">Planned</span><h3>Phase 3 — Channel modules</h3><p>Games, Applications, Network, Media, Downloads and System. Each needs a real data source, a failure model and documented offline behavior.</p></div></div>
+    <div class="timeline-item"><div class="timeline-mark"><div class="timeline-dot" style="background:#d4ff43"></div></div><div class="timeline-content"><span class="pill">Later</span><h3>Phase 4 — Polish & release</h3><p>Settings, localization, finished LiveArea art, compatibility testing, release notes and reproducible packages. No stable label until hardware says yes.</p></div></div>
+  </div>
+</section>
+<section class="section">
+  <div class="callout warn"><div class="callout-icon">🚦</div><div><strong>Release rule: green is not gold</strong><p>A CI build proves the code cross-compiles and packages. It does not prove the VPK installs, launches, survives suspend/resume or feels good in your hands.</p></div></div>
+</section>
+<section class="section prose">
+  <div class="kicker">Done means done</div>
+  <h2>Release gates</h2>
+  <div class="grid two">
+    <div class="card"><h3>Build gate</h3><p>Reproducible toolchain, successful VPK artifact, recorded SDK version and checksum.</p></div>
+    <div class="card"><h3>Device gate</h3><p>Install, startup, input, suspend/resume, performance and clean exit verified on real hardware.</p></div>
+    <div class="card"><h3>Product gate</h3><p>Implemented features work; placeholders are clearly labelled; no fake success states.</p></div>
+    <div class="card"><h3>Release gate</h3><p>Title ID confirmed, changelog written, install/update/uninstall path tested and docs updated.</p></div>
+  </div>
+</section>
+  <footer class="doc-footer"><span><strong>SPDW FACTORY</strong> &nbsp;—&nbsp; Built with intent. Documented with attitude.</span><span><a href="index.html">Back to project home ↑</a></span></footer>
+</main>
+</div>
+</body>
+</html>

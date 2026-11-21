@@ -1,0 +1,6 @@
+title: PSBBV — SPDW Factory
+description: The visual field guide for PlayStation Broadband Vita.
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d4ff43">
+  <meta name="description" content="PSBBV runtime layers, responsibilities and frame loop.">
+  <title>Architecture · PSBBV Core / SPDW Factory</title>
+  <link rel="icon" href="assets/spdw-factory-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/spdw-docs.css">
+  <script defer src="assets/spdw-docs.js"></script>
+</head>
+<body>
+<div class="shell">
+
+<div class="topline"><span>SPDW FACTORY <span style="opacity:.55">/</span> FIELD NOTES</span><span class="right">PSBBV CORE · FOUNDATION BUILD · 00.10</span></div>
+<aside class="sidebar">
+  <a class="brand" href="index.html">
+    <span class="brand-mark">SP</span>
+    <span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">Documentation lab</span></span>
+  </a>
+  <div class="nav-label">Start here</div>
+  <a class="nav-link " href="index.html"><span class="nav-icon">⌂</span>Project home</a>
+  <div class="nav-label">The manual</div>
+  <a class="nav-link " href="product.html"><span class="nav-icon">✳</span>Product brief</a>
+  <a class="nav-link" href="nodes.html"><span class="nav-icon">▦</span>Core node registry</a>
+  <a class="nav-link active" href="architecture.html"><span class="nav-icon">⌘</span>Architecture</a>
+  <a class="nav-link " href="design.html"><span class="nav-icon">◈</span>Design language</a>
+  <a class="nav-link " href="style.html"><span class="nav-icon">✎</span>SPDW style guide</a>
+  <a class="nav-link " href="roadmap.html"><span class="nav-icon">↗</span>Roadmap</a>
+  <a class="nav-link " href="testing.html"><span class="nav-icon">✓</span>Hardware tests</a>
+  <div class="nav-label">Project links</div>
+  <a class="nav-link" href="https://github.com/SilverCrow2323/PSBBV/blob/main/README.md"><span class="nav-icon">⌁</span>Repository README</a>
+  <a class="nav-link" href="https://github.com/SilverCrow2323/PSBBV"><span class="nav-icon">◉</span>GitHub repository ↗</a>
+  <div class="sidebar-bottom">
+    <div class="sidebar-note"><strong>Pretty is not a substitute for true.</strong><span>Planned means planned. Working means working. We label the difference.</span></div>
+  </div>
+</aside>
+<main class="content">
+  <div class="mobile-head">
+    <a class="brand" href="index.html"><span class="brand-mark">SP</span><span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">PSBBV field notes</span></span></a>
+    <button class="mobile-toggle" data-nav-toggle aria-expanded="false">☰ Menu</button>
+  </div>
+  
+<div class="breadcrumb"><a href="index.html">Project home</a><span class="slash">/</span><span>Architecture</span></div>
+<section class="hero">
+  <span class="eyebrow">02 / Architecture</span>
+  <h1>SMALL LAYERS. <em>CLEAR JOBS.</em></h1>
+  <p>The Vita has limited resources. Our architecture should spend them on the experience—not on a dependency maze with a fancy README.</p>
+  <div class="meta-row"><span class="pill acid">C++17</span><span class="pill dark">VitaSDK + CMake</span><span class="pill dark">libvita2d baseline</span></div>
+</section>
+<section class="section">
+  <div class="section-head"><div><div class="kicker">Runtime map</div><h2>How the pieces should talk.</h2></div><p>Each layer owns a job. Rendering draws. Navigation navigates. Nobody sneaks a blocking network request into a frame.</p></div>
+  <div class="diagram"><img src="assets/psbbv-architecture.svg" alt="PSBBV runtime architecture layered diagram"><div class="diagram-caption">The intended shape of the application. Not every box is a separate source module yet.</div></div>
+</section>
+<section class="section">
+  <div class="section-head"><div><div class="kicker">Who owns what</div><h2>Five jobs. No mystery meat.</h2></div></div>
+  <div class="grid two">
+    <article class="card"><div class="card-icon">🔌</div><h3>Platform & lifecycle</h3><p>Owns Vita APIs, startup, shutdown, input sampling, display and suspend/resume. Keep the platform boundary narrow and reviewable.</p></article>
+    <article class="card"><div class="card-icon">🧭</div><h3>Navigation</h3><p>Owns route, focused item, back stack and transitions. Unknown channel IDs return safely to Home; focus must not be hidden inside drawing code.</p></article>
+    <article class="card"><div class="card-icon">🗂️</div><h3>Channel registry</h3><p>Stores stable IDs, titles, art references and explicit availability: implemented, planned, unavailable or disabled.</p></article>
+    <article class="card"><div class="card-icon">🖼️</div><h3>Views & rendering</h3><p>Views describe content and interaction targets. Rendering performs no filesystem scans, network calls or blocking platform work.</p></article>
+    <article class="card"><div class="card-icon">💾</div><h3>Persistence</h3><p>Stores only preferences we actually need. Missing or corrupt settings fall back to safe defaults instead of bricking Home.</p></article>
+    <article class="card dark"><div class="card-icon">🧯</div><h3>Failure behavior</h3><p>An optional subsystem can fail without taking the whole navigator down. Offline and unavailable states are part of the design, not afterthoughts.</p></article>
+  </div>
+</section>
+<section class="section prose">
+  <div class="kicker">The frame loop</div>
+  <h2>One frame, one clear route.</h2>
+  <ol>
+    <li>Sample physical and touch input.</li>
+    <li>Convert platform input into actions and update navigation state.</li>
+    <li>Update animation using elapsed time—not wishful thinking about the frame rate.</li>
+    <li>Render the current view.</li>
+    <li>Present the frame.</li>
+    <li>Handle lifecycle requests through the lifecycle owner.</li>
+  </ol>
+  <div class="callout"><div class="callout-icon">⏱</div><div><strong>No blocking I/O in the render path</strong><p>Network, storage scans and content discovery belong in bounded tasks outside the main frame loop. A menu animation should not wait for a server.</p></div></div>
+</section>
+<section class="section">
+  <div class="section-head"><div><div class="kicker">Current source map</div><h2>Where the code lives today.</h2></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Path</th><th>Responsibility</th><th>State</th></tr></thead><tbody>
+  <tr><td><code>src/main.cpp</code></td><td>Vita entry point, renderer, input sampling, main loop and cleanup.</td><td><span class="pill acid">Present</span></td></tr>
+  <tr><td><code>src/app/App.cpp</code></td><td>Navigation state, Home, availability-gated channel routing and application menu; planned nodes have no generic placeholder view.</td><td><span class="pill acid">Present</span></td></tr>
+  <tr><td><code>include/psbbv/app/App.hpp</code></td><td>Application interface and state ownership.</td><td><span class="pill acid">Present</span></td></tr>
+  <tr><td><code>include/psbbv/ui/Theme.hpp</code></td><td>Centralized visual colour tokens.</td><td><span class="pill acid">Present</span></td></tr>
+  <tr><td><code>docs/</code></td><td>Product, design, architecture and testing material.</td><td><span class="pill acid">Present</span></td></tr>
+  </tbody></table></div>
+</section>
+  <footer class="doc-footer"><span><strong>SPDW FACTORY</strong> &nbsp;—&nbsp; Built with intent. Documented with attitude.</span><span><a href="index.html">Back to project home ↑</a></span></footer>
+</main>
+</div>
+</body>
+</html>

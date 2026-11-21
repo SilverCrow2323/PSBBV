@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#d4ff43">
+<meta name="description" content="PSBBV Core node registry: Games, Applications, Network, Media, Downloads and System.">
+<title>Core node registry · PSBBV Core / SPDW Factory</title>
+<link rel="icon" href="assets/spdw-factory-mark.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/spdw-docs.css"><script defer src="assets/spdw-docs.js"></script>
+<style>
+.node-banner{width:100%;max-height:230px;object-fit:contain;object-position:left center;background:#11131a;border-radius:18px;padding:18px;margin:18px 0 26px}
+.node-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.node-card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:22px;position:relative;overflow:hidden}
+.node-card:after{content:attr(data-index);position:absolute;right:14px;top:2px;font-size:58px;font-weight:1000;color:rgba(17,19,26,.06);line-height:1}
+.node-card h3{font-size:22px;margin:5px 0}.node-card p{color:var(--muted);margin:0}
+.node-card .node-role{font-size:10px;font-weight:950;letter-spacing:.15em;color:#747987;text-transform:uppercase}
+.node-state{display:inline-block;margin-top:16px;padding:5px 9px;border-radius:99px;background:#f0eee7;color:#5b5f68;font-size:9px;font-weight:900;letter-spacing:.1em}
+.release-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center;margin:20px 0}
+.release-flow div{padding:16px;border-radius:14px;background:#11131a;color:#fff;text-align:center;font-weight:850;font-size:12px}
+.release-flow b{color:#ff5c50}
+@media(max-width:720px){.node-grid{grid-template-columns:1fr}.release-flow{grid-template-columns:1fr}.release-flow b{transform:rotate(90deg);text-align:center}}
+</style>
+</head>
+<body><div class="shell">
+<div class="topline"><span>SPDW FACTORY <span style="opacity:.55">/</span> FIELD NOTES</span><span class="right">PSBBV CORE · NODE REGISTRY</span></div>
+<aside class="sidebar">
+<a class="brand" href="index.html"><span class="brand-mark">SP</span><span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">PSBBV Core documentation</span></span></a>
+<div class="nav-label">Start here</div><a class="nav-link" href="index.html"><span class="nav-icon">⌂</span>Project home</a>
+<div class="nav-label">The manual</div><a class="nav-link" href="product.html"><span class="nav-icon">✳</span>Product brief</a><a class="nav-link" href="architecture.html"><span class="nav-icon">⌘</span>Architecture</a><a class="nav-link active" href="nodes.html"><span class="nav-icon">▦</span>Core node registry</a><a class="nav-link" href="design.html"><span class="nav-icon">◈</span>Design language</a><a class="nav-link" href="roadmap.html"><span class="nav-icon">↗</span>Roadmap</a><a class="nav-link" href="testing.html"><span class="nav-icon">✓</span>Hardware tests</a>
+<div class="nav-label">Release authority</div><a class="nav-link" href="publishing.html"><span class="nav-icon">🚀</span>Official releases</a>
+<div class="nav-label">Project links</div><a class="nav-link" href="https://github.com/SilverCrow2323/PSBBV/releases"><span class="nav-icon">⬇</span>Core releases ↗</a><a class="nav-link" href="https://github.com/SilverCrow2323/PSBBV"><span class="nav-icon">◉</span>Core repository ↗</a>
+<div class="sidebar-bottom"><div class="sidebar-note"><strong>Core owns the release stamp.</strong><span>Node repositories supply components. Core publishes the integrated product.</span></div></div>
+</aside>
+<main class="content">
+<div class="mobile-head"><a class="brand" href="index.html"><span class="brand-mark">SP</span><span><span class="brand-name">SPDW FACTORY</span><span class="brand-sub">PSBBV Core field notes</span></span></a><button class="mobile-toggle" data-nav-toggle aria-expanded="false">☰ Menu</button></div>
+<div class="breadcrumb"><a href="index.html">Project home</a><span class="slash">/</span><span>Core node registry</span></div>
+<section class="hero"><div class="hero-grid"><div><span class="eyebrow">PSBBV CORE / 06 SYSTEM NODES</span><h1>ONE CORE.<br><em>SIX WORLDS.</em></h1><p>The node registry defines the product boundaries of PSBBV. Each node owns a focused capability; Core owns the integrated shell, compatibility contract and official release.</p><div class="meta-row"><span class="pill acid">CENTRAL RELEASE AUTHORITY</span><span class="pill dark">MODULAR PRODUCT</span></div></div><div class="hero-art"><img src="../assets/branding/psbbv-docs-banner.svg" alt="Original PSBBV Core project banner artwork"></div></div></section>
+<section class="section"><div class="section-head"><div><div class="kicker">01 / The product map</div><h2>Six nodes. Clear boundaries.</h2></div><p>These are the six functional domains registered by Core. The registry describes their intended responsibilities; it does not imply that every feature is implemented or included in the current foundation build.</p></div>
+<div class="node-grid">
+<article class="node-card" data-index="01"><div class="node-role">Node 01 / Discovery & library</div><h3>Games</h3><p>Game discovery, library metadata, collection views, compatibility information and launch hand-off. Core defines how game entries appear and how availability is reported.</p><span class="node-state">INTEGRATION REVISION: TRACKED BY CORE</span></article>
+<article class="node-card" data-index="02"><div class="node-role">Node 02 / Software hub</div><h3>Applications</h3><p>Homebrew and application discovery, package information, installation hand-off and update visibility. Installation must respect Vita package and platform constraints.</p><span class="node-state">INTEGRATION REVISION: TRACKED BY CORE</span></article>
+<article class="node-card" data-index="03"><div class="node-role">Node 03 / Connectivity</div><h3>Network</h3><p>Network status, connection-aware services and remote endpoints. Offline behaviour is a first-class state; the interface must never block the frame while waiting for a network response.</p><span class="node-state">INTEGRATION REVISION: TRACKED BY CORE</span></article>
+<article class="node-card" data-index="04"><div class="node-role">Node 04 / Personal library</div><h3>Media</h3><p>Media browsing and presentation surfaces, with clear separation between metadata, local files and playback capabilities actually supported by the current build.</p><span class="node-state">INTEGRATION REVISION: TRACKED BY CORE</span></article>
+<article class="node-card" data-index="05"><div class="node-role">Node 05 / Delivery</div><h3>Downloads</h3><p>Download queue and transfer state, integrity checks and safe hand-off to package or content workflows. Interrupted transfers must be visible and recoverable.</p><span class="node-state">INTEGRATION REVISION: TRACKED BY CORE</span></article>
+<article class="node-card" data-index="06"><div class="node-role">Node 06 / Device control</div><h3>System</h3><p>Device information, preferences and system-level actions exposed through explicit permissions and guarded operations. Destructive actions require deliberate confirmation.</p><span class="node-state">INTEGRATION REVISION: TRACKED BY CORE</span></article>
+</div></section>
+<section class="section"><div class="section-head"><div><div class="kicker">02 / Release chain</div><h2>How a node becomes part of PSBBV.</h2></div><p>A component is not automatically part of a release just because its repository builds. Core records the exact revision that passed integration.</p></div>
+<div class="release-flow"><div>NODE SOURCE<br><small>Independent development</small></div><b>→</b><div>CORE INTEGRATION<br><small>Contract + compatibility</small></div><b>→</b><div>OFFICIAL RELEASE<br><small>Versioned package + evidence</small></div></div>
+<div class="callout warn"><div class="callout-icon">!</div><div><strong>Release manifest is the source of truth</strong><p>Each official Core release must list its Core version, node repository and commit revisions, included features, generated artifacts, checksums, known limitations and validation evidence. A node omitted from the manifest is not part of that release.</p></div></div>
+</section>
+<section class="section prose"><div class="kicker">03 / Contract rules</div><h2>What every node must provide.</h2><ol><li>A stable node identifier and human-readable title.</li><li>An explicit availability state: implemented, planned, unavailable or disabled.</li><li>A version or source revision that Core can pin.</li><li>Bounded work outside the render path; no blocking network or storage operations in a frame.</li><li>Graceful failure and offline behaviour, with errors surfaced to the user.</li><li>Documented permissions, data ownership and recovery behaviour.</li></ol><p>Repository links and pinned revisions will be added here as each node's canonical repository and integration contract are registered. No placeholder URLs and no invented version numbers.</p></section>
+<footer class="doc-footer"><span><strong>SPDW FACTORY</strong> — Built with intent. Documented with attitude.</span><span><a href="index.html">Back to project home ↑</a></span></footer>
+</main></div></body></html>
