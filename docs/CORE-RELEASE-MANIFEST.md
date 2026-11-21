@@ -7,7 +7,7 @@ The release manifest is the authoritative record of what an official integrated 
 - **PSBBV Core** owns the product version, release tag, integrated VPK/package, release notes and checksums.
 - Each node owns its source and tests. Core pins the exact node commit included in an integrated release.
 - A node that is not listed as included in the manifest is not part of that release.
-- Development/foundation builds must keep `official_release: false`.
+- Development/foundation builds and release candidates must keep `official_release: false`.
 
 ## Required release record
 
@@ -19,14 +19,20 @@ Copy [release-manifest.example.json](release-manifest.example.json) into the rel
 4. CI, VPK integrity and real-device acceptance evidence.
 5. Known limitations and any compatibility restrictions.
 
-Do not use a branch name such as `main` as a revision. Pin immutable commit SHAs. Do not mark a node included merely because its repository exists.
+Do not use a branch name such as `main` as a revision. Pin immutable commit SHAs. Do not mark a node included merely because its repository exists. Distinguish an Actions artifact ZIP digest from the digest of the extracted VPK.
 
 ## Release gate
 
-An official release may be tagged only after the manifest is complete, the integrated package is built from the pinned revisions, the automated VPK verifier confirms ZIP/CRC integrity, safe paths, required LiveArea assets and the expected `sce_sys/param.sfo` identity, the required Vita hardware checks are recorded, and the release notes accurately describe the tested feature set.
+An official stable release may be tagged only after the manifest is complete, the integrated package is built from the pinned revisions, the automated VPK verifier confirms ZIP/CRC integrity, safe paths, required LiveArea assets and the expected `sce_sys/param.sfo` identity, the required Vita hardware checks are recorded, and the release notes accurately describe the tested feature set.
 
-A successful cross-build is necessary evidence, not hardware acceptance. A website deployment is documentation publishing, not a software release.
+A successful cross-build is necessary evidence, not hardware acceptance. A website deployment is documentation publishing, not a software release. A release candidate may be circulated as a CI artifact for device testing, but it must not be represented as a stable release.
+
+## Current 0.1.0 candidate
+
+The preparation record for [PSBBV Core 0.1.0-rc.1](releases/v0.1.0-rc.1.md) is pinned to commit `6e9cb2c42d113ad6c4db1013cb5102e1edf21cbd` and CI artifact `14704185108`. Its machine-readable manifest is [v0.1.0-rc.1-manifest.json](releases/v0.1.0-rc.1-manifest.json).
+
+The record intentionally sets `official_release: false`, leaves the release tag/date empty, excludes all six planned nodes, marks `SCBV00001` provisional, and leaves hardware acceptance pending. The recorded SHA-256 is for the Actions artifact ZIP, not the extracted VPK.
 
 ## Current foundation state
 
-The example manifest intentionally contains no node repositories, commits or artifacts. Those fields remain unregistered until the canonical node repositories and integration revisions are confirmed. The current PSBBV foundation build is not labelled as an official stable release.
+The generic example manifest intentionally contains no node repositories, commits or artifacts. The current foundation candidate is not an official stable release. Do not publish a stable tag until the exact candidate has passed physical Vita validation and its package identity is final.
