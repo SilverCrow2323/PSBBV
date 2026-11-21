@@ -22,6 +22,29 @@ PSBBV Core registers six planned node identities: Games, Applications, Network, 
 > **SPDW FACTORY / PROJECT FILE 001**  
 > PSBBN's channel-first spirit. A Vita-native experience. A lot more thought than another icon grid.
 
+## 🧩 Federated module repositories
+
+PSBBV is split into a small native Core and independently versioned capability nodes. A repository existing does not mean its feature is already wired into the Vita UI.
+
+| Node | Repository | Responsibility |
+|---|---|---|
+| Core | [PSBBV](https://github.com/SilverCrow2323/PSBBV) | Native shell, navigation, rendering and node orchestration |
+| Games | [PSBBV-Games](https://github.com/SilverCrow2323/PSBBV-Games) | Installed-title discovery, catalogue metadata and launch boundary |
+| Applications | [PSBBV-Applications](https://github.com/SilverCrow2323/PSBBV-Applications) | Homebrew/application catalogue and discovery |
+| Media | [PSBBV-Media](https://github.com/SilverCrow2323/PSBBV-Media) | Media metadata and provider integration |
+| Network | [PSBBV-Network](https://github.com/SilverCrow2323/PSBBV-Network) | Network capability contracts and provider adapters |
+| Downloads | [PSBBV-Downloads](https://github.com/SilverCrow2323/PSBBV-Downloads) | Download queue, staging and integrity boundaries |
+| System | [PSBBV-System](https://github.com/SilverCrow2323/PSBBV-System) | Device/system information and safe system actions |
+
+### Integration rules
+
+- Core owns navigation, lifecycle and presentation; nodes own domain logic and expose versioned manifests/contracts.
+- Node discovery and manifest validation must fail closed: an invalid or incompatible node is unavailable, not partially loaded.
+- Network and download nodes must expose explicit state and errors; the UI must never simulate completion.
+- Destructive or privileged system actions require a visible preview and explicit confirmation. Read-only probes remain separate from mutation APIs.
+- Offline navigation and locally available catalogues must remain usable without a network connection.
+- CI for a node proves its own contract/build checks. Core integration and physical Vita behaviour require separate validation.
+
 ## 🧭 What's PSBBV?
 
 PSBBV is an independent PlayStation Vita homebrew navigator. It brings the broader, console-like navigation concept of PlayStation Broadband Navigator into a modern handheld frontend: channels, contextual workspaces, local content and optional connected experiences.
