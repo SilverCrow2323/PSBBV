@@ -14,10 +14,11 @@
 
 ## 📦 Build and package
 
-- [ ] Confirm the Vita Build workflow completed successfully.
-- [ ] Download the PSBBV-VPK artifact from that successful run.
+- [ ] Confirm the Vita Build workflow completed successfully, including the automated VPK ZIP/CRC, path-safety, LiveArea asset and SFO identity verifier.
+- [ ] Download the PSBBV-VPK artifact from that successful run and record its SHA-256.
 - [ ] Verify the VPK installs without an error.
 - [ ] Check the LiveArea title, icon, background, and startup artwork.
+- [ ] Confirm the installed package reports Title ID `SCBV00001` and version `00.10`.
 - [ ] Confirm SCBV00001 does not conflict with an installed title before release.
 
 ## 🚀 Startup and shutdown

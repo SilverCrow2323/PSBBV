@@ -23,7 +23,7 @@ Do not use a branch name such as `main` as a revision. Pin immutable commit SHAs
 
 ## Release gate
 
-An official release may be tagged only after the manifest is complete, the integrated package is built from the pinned revisions, package integrity passes, the required Vita hardware checks are recorded, and the release notes accurately describe the tested feature set.
+An official release may be tagged only after the manifest is complete, the integrated package is built from the pinned revisions, the automated VPK verifier confirms ZIP/CRC integrity, safe paths, required LiveArea assets and the expected `sce_sys/param.sfo` identity, the required Vita hardware checks are recorded, and the release notes accurately describe the tested feature set.
 
 A successful cross-build is necessary evidence, not hardware acceptance. A website deployment is documentation publishing, not a software release.
 
