@@ -29,11 +29,15 @@ def make_sfo(title_id="SCBV00001", version="00.10", title="PSBBV"):
 
 
 def write_vpk(path, *, title_id="SCBV00001", version="00.10", title="PSBBV",
-              missing=(), extra=(), bad_sfo=False, bad_xml=False, duplicate=False,
-              symlink=False):
+              missing=(), extra=(), bad_sfo=False, bad_sfo_magic=False,
+              bad_xml=False, duplicate=False, symlink=False):
     files = {
         "eboot.bin": b"PSBBV-SELF",
-        "sce_sys/param.sfo": b"not-a-real-sfo" if bad_sfo else make_sfo(title_id, version, title),
+        "sce_sys/param.sfo": (
+            b"not-a-real-sfo" if bad_sfo else
+            b"X" * 20 if bad_sfo_magic else
+            make_sfo(title_id, version, title)
+        ),
         "sce_sys/icon0.png": b"\x89PNG\r\n\x1a\nicon",
         "sce_sys/livearea/contents/bg.png": b"\x89PNG\r\n\x1a\nbg",
         "sce_sys/livearea/contents/startup.png": b"\x89PNG\r\n\x1a\nstartup",
@@ -90,10 +94,17 @@ class VpkVerificationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "missing required files"):
                 self.verify(path)
 
-    def test_rejects_invalid_param_sfo(self):
+    def test_rejects_truncated_param_sfo(self):
         with tempfile.TemporaryDirectory() as temporary:
-            path = Path(temporary) / "bad-sfo.vpk"
+            path = Path(temporary) / "truncated-sfo.vpk"
             write_vpk(path, bad_sfo=True)
+            with self.assertRaisesRegex(ValueError, "is truncated"):
+                self.verify(path)
+
+    def test_rejects_invalid_param_sfo_magic(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "bad-magic.vpk"
+            write_vpk(path, bad_sfo_magic=True)
             with self.assertRaisesRegex(ValueError, "invalid PSF magic"):
                 self.verify(path)
 
