@@ -16,12 +16,12 @@
 
 | Field | Current CI candidate |
 |---|---|
-| Core source commit | `d64976c27d3434fdef76f79af36793da8af88ba4` |
-| Workflow run | [Vita Build #44895995146](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146) |
-| Download artifact | [PSBBV-VPK #14703673489](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146/artifacts/14703673489) |
+| Core source commit | `413df7d8be300d60b953169cf93c3a17940bd24f` |
+| Workflow run | [Vita Build #44941640583](https://github.com/SilverCrow2323/PSBBV/actions/runs/44941640583) |
+| Download artifact | [PSBBV-VPK #14721901529](https://github.com/SilverCrow2323/PSBBV/actions/runs/44941640583/artifacts/14721901529) |
 | Artifact ZIP size | 151,520 bytes |
-| Artifact ZIP SHA-256 | `3e3663ddcee47c5cf5d0d98220f7ab896da94d8e9f721da66adb1b3d3b56876f` |
-| Extracted VPK SHA-256 | `370a52f43350a8cbf1a9dfc488083f4eb52f77caa30b41166e53bf58c810839d` |
+| Artifact ZIP SHA-256 | `a044bbae8669503e45f40eda8b0cc85f87fe3f8f78a49618a51972e41ceacb00` |
+| Extracted VPK SHA-256 | `cf162a529f4461cb5f72449a417433e6b8567c77b3c3a6a43da1360e7f1caa63` |
 | SFO identity checked by CI | `SCBV00001` / `00.10` |
 
 The ZIP and VPK digests identify different files. The machine-readable [candidate manifest](releases/v0.1.0-rc.1-manifest.json) is the canonical record and its validator checks that the source commit, workflow, artifact URL, artifact ID and both digests agree.
@@ -88,9 +88,9 @@ Only run this section when the Games channel is deliberately enabled by a later 
 |---|---|
 | Vita model | |
 | Firmware / homebrew environment | |
-| Candidate commit | `d64976c27d3434fdef76f79af36793da8af88ba4` |
-| Artifact ID | `14703673489` |
-| Extracted VPK SHA-256 | `370a52f43350a8cbf1a9dfc488083f4eb52f77caa30b41166e53bf58c810839d` |
+| Candidate commit | `413df7d8be300d60b953169cf93c3a17940bd24f` |
+| Artifact ID | `14721901529` |
+| Extracted VPK SHA-256 | `cf162a529f4461cb5f72449a417433e6b8567c77b3c3a6a43da1360e7f1caa63` |
 | Test date | |
 | Result | |
 | Notes / issue links | |
