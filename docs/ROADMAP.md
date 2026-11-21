@@ -114,7 +114,7 @@ Every channel needs a real data source, a failure model, and useful offline beha
 - [x] Pass 10/10 host CTest executables and 9/9 VPK verifier unit tests.
 - [x] Pass manifest schema validation (one positive fixture, nine negative fixtures).
 - [x] Pass VitaSDK 2026.08 cross-build and automated VPK verification.
-- [x] Upload candidate artifact [#14704185108](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787/artifacts/14704185108).
+- [x] Upload a candidate VPK; the current immutable run, artifact ID and archive digest are pinned in the [candidate manifest](releases/v0.1.0-rc.1-manifest.json).
 - [x] Prepare candidate notes and a machine-readable, explicitly non-stable release record.
 - [ ] 🟠 Install and validate this exact artifact on a physical Vita.
 - [ ] Confirm Title ID ownership/non-conflict and final packaging identity.
