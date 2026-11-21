@@ -16,16 +16,17 @@
 
 | Field | Current CI candidate |
 |---|---|
-| Core source commit | See the immutable SHA in the [candidate manifest](releases/v0.1.0-rc.1-manifest.json) |
-| Workflow run | Pinned in the [candidate manifest](releases/v0.1.0-rc.1-manifest.json) |
-| Download artifact | Pinned in the [candidate manifest](releases/v0.1.0-rc.1-manifest.json) |
-| Artifact ZIP size and SHA-256 | Pinned in the [candidate manifest](releases/v0.1.0-rc.1-manifest.json) |
-| VPK internal payload | 155,674 bytes |
+| Core source commit | `d64976c27d3434fdef76f79af36793da8af88ba4` |
+| Workflow run | [Vita Build #44895995146](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146) |
+| Download artifact | [PSBBV-VPK #14703673489](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146/artifacts/14703673489) |
+| Artifact ZIP size | 151,520 bytes |
+| Artifact ZIP SHA-256 | `3e3663ddcee47c5cf5d0d98220f7ab896da94d8e9f721da66adb1b3d3b56876f` |
+| Extracted VPK SHA-256 | `370a52f43350a8cbf1a9dfc488083f4eb52f77caa30b41166e53bf58c810839d` |
 | SFO identity checked by CI | `SCBV00001` / `00.10` |
 
-The SHA-256 above identifies the **downloaded GitHub Actions artifact ZIP**, not the VPK file extracted from it. Calculate and record the VPK's own SHA-256 after extracting the artifact. Do not substitute one digest for the other.
+The ZIP and VPK digests identify different files. The machine-readable [candidate manifest](releases/v0.1.0-rc.1-manifest.json) is the canonical record and its validator checks that the source commit, workflow, artifact URL, artifact ID and both digests agree.
 
-## 🤖 Automated evidence — exact HEAD
+## 🤖 Automated evidence — exact candidate
 
 - [x] Ten CTest executables passed (10/10).
 - [x] Nine VPK verifier unit tests passed.
@@ -33,6 +34,7 @@ The SHA-256 above identifies the **downloaded GitHub Actions artifact ZIP**, not
 - [x] VitaSDK 2026.08 cross-build completed.
 - [x] VPK verifier accepted ZIP/CRC structure, safe paths, required LiveArea assets and SFO identity.
 - [x] GitHub Actions uploaded the VPK artifact.
+- [x] Release candidate manifest provenance tests reject mixed run/artifact/commit/checksum records.
 
 These are automated CI results. They are not physical-device results.
 
@@ -86,9 +88,9 @@ Only run this section when the Games channel is deliberately enabled by a later 
 |---|---|
 | Vita model | |
 | Firmware / homebrew environment | |
-| Candidate commit | `6e9cb2c42d113ad6c4db1013cb5102e1edf21cbd` |
-| Artifact ID | `14704185108` |
-| Extracted VPK SHA-256 | |
+| Candidate commit | `d64976c27d3434fdef76f79af36793da8af88ba4` |
+| Artifact ID | `14703673489` |
+| Extracted VPK SHA-256 | `370a52f43350a8cbf1a9dfc488083f4eb52f77caa30b41166e53bf58c810839d` |
 | Test date | |
 | Result | |
 | Notes / issue links | |
