@@ -10,7 +10,7 @@
   "source": {
     "repository": "SilverCrow2323/PSBBV",
     "branch": "dev/foundation",
-    "commit": "6e9cb2c42d113ad6c4db1013cb5102e1edf21cbd"
+    "commit": "99e31a03ca1961018e39c3c30bcd490e8a26bf0c"
   },
   "package_identity": {
     "name": "PSBBV",
@@ -33,10 +33,10 @@
       "kind": "github-actions-artifact-archive",
       "platform": "PlayStation Vita",
       "size_bytes": 151520,
-      "sha256": "65ae7afb53443b7eafbd77edd7b15302c6dcb0803817fa6e908cd929ba8db4b9",
+      "sha256": "a02228f22e356e6ba585fddaaee359e17991f6cbba6873942aaa54e962dc72a6",
       "digest_scope": "downloaded GitHub Actions artifact ZIP; not the extracted VPK digest",
-      "artifact_id": 14704185108,
-      "workflow_run_id": 44895313787,
+      "artifact_id": 14703643632,
+      "workflow_run_id": 44895920470,
       "url": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787/artifacts/14704185108"
     }
   ],
