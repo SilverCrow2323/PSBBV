@@ -57,9 +57,15 @@ void UiState::update(std::uint32_t heldButtons) noexcept {
 
     if (shouldQuit_) return;
 
-    const std::uint32_t direction = directionPulse(heldButtons);
-
     if ((pressed & button::Start) != 0) {
+        // Start changes the focused surface. A held direction may continue,
+        // but its repeat delay must restart instead of leaking across views.
+        const std::uint32_t heldDirection = heldButtons & (button::Up | button::Down);
+        heldDirection_ = (heldDirection == button::Up || heldDirection == button::Down)
+            ? heldDirection
+            : 0;
+        directionHoldFrames_ = 0;
+        directionRepeatFrames_ = 0;
         if (view_ == View::Menu) closeMenu();
         else {
             menuReturnView_ = view_;
@@ -67,6 +73,8 @@ void UiState::update(std::uint32_t heldButtons) noexcept {
         }
         return;
     }
+
+    const std::uint32_t direction = directionPulse(heldButtons);
 
     if (view_ == View::Menu) {
         // Back is the menu's highest-priority action. A Cross chord must not

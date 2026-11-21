@@ -121,5 +121,21 @@ int main() {
     repeat.update(button::Up);
     require(repeat.selectedMenuItem() == 2, "changing direction starts a fresh immediate step");
 
+    // Opening a new surface must not inherit a nearly-expired D-pad repeat.
+    UiState transition;
+    transition.update(button::Down);
+    for (std::uint16_t frame = 1; frame < DirectionRepeatDelayFrames; ++frame)
+        transition.update(button::Down);
+    transition.update(button::Down | button::Start);
+    require(transition.view() == View::Menu, "Start opens the menu while Down is held");
+    require(transition.selectedMenuItem() == 0, "opening the menu preserves the initial Resume focus");
+    for (std::uint16_t frame = 1; frame < DirectionRepeatDelayFrames; ++frame)
+        transition.update(button::Down);
+    require(transition.selectedMenuItem() == 0,
+            "menu focus does not inherit the Home view's partially elapsed repeat clock");
+    transition.update(button::Down);
+    require(transition.selectedMenuItem() == 1,
+            "held Down moves menu focus only after a fresh full repeat delay");
+
     std::cout << "PSBBV UI state: all checks passed.\n";
 }
