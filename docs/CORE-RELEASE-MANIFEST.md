@@ -29,9 +29,14 @@ A successful cross-build is necessary evidence, not hardware acceptance. A websi
 
 ## Current 0.1.0 candidate
 
-The preparation record for [PSBBV Core 0.1.0-rc.1](releases/v0.1.0-rc.1.md) is pinned to commit `6e9cb2c42d113ad6c4db1013cb5102e1edf21cbd` and CI artifact `14704185108`. Its machine-readable manifest is [v0.1.0-rc.1-manifest.json](releases/v0.1.0-rc.1-manifest.json).
+The current [PSBBV Core 0.1.0-rc.1](releases/v0.1.0-rc.1.md) candidate is built from immutable Core commit `d64976c27d3434fdef76f79af36793da8af88ba4`.
 
-The record intentionally sets `official_release: false`, leaves the release tag/date empty, excludes all six planned nodes, marks `SCBV00001` provisional, and leaves hardware acceptance pending. The recorded SHA-256 is for the Actions artifact ZIP, not the extracted VPK.
+- Vita Build: [run #44895995146](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146).
+- Actions artifact: [#14703673489](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146/artifacts/14703673489), 151,520 bytes.
+- Artifact ZIP SHA-256: `3e3663ddcee47c5cf5d0d98220f7ab896da94d8e9f721da66adb1b3d3b56876f`.
+- Extracted `PSBBV.vpk` SHA-256: `370a52f43350a8cbf1a9dfc488083f4eb52f77caa30b41166e53bf58c810839d`.
+
+The machine-readable [candidate manifest](releases/v0.1.0-rc.1-manifest.json) binds the Core source SHA, workflow run, artifact ID, canonical artifact URL and both file digests. Its validator rejects cross-run or checksum mismatches. It intentionally keeps `official_release: false`, leaves the release tag/date empty, excludes all six node repositories from the package, marks `SCBV00001` provisional and leaves hardware acceptance pending.
 
 ## Current foundation state
 
