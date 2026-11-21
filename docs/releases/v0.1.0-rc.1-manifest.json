@@ -10,7 +10,7 @@
   "source": {
     "repository": "SilverCrow2323/PSBBV",
     "branch": "dev/foundation",
-    "commit": "99e31a03ca1961018e39c3c30bcd490e8a26bf0c"
+    "commit": "d64976c27d3434fdef76f79af36793da8af88ba4"
   },
   "package_identity": {
     "name": "PSBBV",
@@ -20,34 +20,76 @@
     "cmake_project_version": "0.1.0"
   },
   "nodes": [
-    {"id": "games", "repository": "SilverCrow2323/PSBBV-Games", "commit": "a2f331dd58e288fd1d9e47b4502d39e54bfbae34", "included": false, "status": "compiled-catalogue-foundation-only; channel remains planned"},
-    {"id": "applications", "repository": null, "commit": null, "included": false, "status": "planned; not shipped"},
-    {"id": "network", "repository": null, "commit": null, "included": false, "status": "planned; not shipped"},
-    {"id": "media", "repository": null, "commit": null, "included": false, "status": "planned; not shipped"},
-    {"id": "downloads", "repository": null, "commit": null, "included": false, "status": "planned; not shipped"},
-    {"id": "system", "repository": null, "commit": null, "included": false, "status": "planned; not shipped"}
+    {
+      "id": "games",
+      "repository": "SilverCrow2323/PSBBV-Games",
+      "commit": "a2f331dd58e288fd1d9e47b4502d39e54bfbae34",
+      "included": false,
+      "status": "compiled-catalogue-foundation-only; channel remains planned"
+    },
+    {
+      "id": "applications",
+      "repository": null,
+      "commit": null,
+      "included": false,
+      "status": "planned; not shipped"
+    },
+    {
+      "id": "network",
+      "repository": null,
+      "commit": null,
+      "included": false,
+      "status": "planned; not shipped"
+    },
+    {
+      "id": "media",
+      "repository": "SilverCrow2323/PSBBV-Media",
+      "commit": "f802290f2a1643d772d432302870a61b85962518",
+      "included": false,
+      "status": "separate host-tested node foundation; not linked into this Core package"
+    },
+    {
+      "id": "downloads",
+      "repository": null,
+      "commit": null,
+      "included": false,
+      "status": "planned; not shipped"
+    },
+    {
+      "id": "system",
+      "repository": null,
+      "commit": null,
+      "included": false,
+      "status": "planned; not shipped"
+    }
   ],
   "artifacts": [
     {
-      "name": "PSBBV-VPK.zip",
+      "name": "PSBBV-VPK",
+      "file_name": "PSBBV-VPK.zip",
       "kind": "github-actions-artifact-archive",
       "platform": "PlayStation Vita",
       "size_bytes": 151520,
-      "sha256": "a02228f22e356e6ba585fddaaee359e17991f6cbba6873942aaa54e962dc72a6",
+      "sha256": "3e3663ddcee47c5cf5d0d98220f7ab896da94d8e9f721da66adb1b3d3b56876f",
       "digest_scope": "downloaded GitHub Actions artifact ZIP; not the extracted VPK digest",
-      "artifact_id": 14703643632,
-      "workflow_run_id": 44895920470,
-      "url": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787/artifacts/14704185108"
+      "artifact_id": 14703673489,
+      "workflow_run_id": 44895995146,
+      "url": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146/artifacts/14703673489",
+      "extracted_vpk": {
+        "name": "PSBBV.vpk",
+        "sha256": "370a52f43350a8cbf1a9dfc488083f4eb52f77caa30b41166e53bf58c810839d",
+        "digest_scope": "SHA-256 of extracted VPK file bytes"
+      }
     }
   ],
   "validation": {
-    "workflow_run": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787",
-    "workflow_head_commit": "6e9cb2c42d113ad6c4db1013cb5102e1edf21cbd",
+    "workflow_run": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146",
+    "workflow_head_commit": "d64976c27d3434fdef76f79af36793da8af88ba4",
     "host_ctest": "success; 10 of 10",
     "vpk_verifier_unit_tests": "success; 9 of 9",
     "node_manifest_schema": "success; one positive fixture and nine negative fixtures",
     "vita_sdk_cross_build": "success; VitaSDK 2026.08",
-    "vpk_integrity": "success; ZIP/CRC, safe paths, LiveArea assets and SFO identity verified",
+    "vpk_integrity": "success; ZIP/CRC, safe paths, required LiveArea assets and SFO identity verified",
     "hardware_acceptance": "pending; no physical Vita evidence for this exact artifact"
   },
   "known_limitations": [
@@ -55,14 +97,18 @@
     "Games discovery/browser code is a compiled foundation only; the Games channel remains gated and game launching is not implemented.",
     "NodeJob is an allocation-free state policy, not a real scheduler or UI-thread delivery system.",
     "SCBV00001 is provisional and must be checked for conflict before a public release.",
-    "Physical install, launch, input/touch, suspend/resume, shutdown, frame pacing and memory checks have not been recorded for this exact artifact.",
-    "The SHA-256 recorded above identifies the GitHub Actions artifact ZIP. The extracted VPK requires its own independently calculated SHA-256."
+    "Physical install, launch, input/touch, suspend/resume, shutdown, frame pacing and memory checks have not been recorded for this exact artifact."
   ],
   "checksums": [
     {
       "algorithm": "sha256",
-      "scope": "github-actions-artifact-zip",
-      "value": "65ae7afb53443b7eafbd77edd7b15302c6dcb0803817fa6e908cd929ba8db4b9"
+      "scope": "downloaded GitHub Actions artifact ZIP; not the extracted VPK digest",
+      "value": "3e3663ddcee47c5cf5d0d98220f7ab896da94d8e9f721da66adb1b3d3b56876f"
+    },
+    {
+      "algorithm": "sha256",
+      "scope": "extracted PSBBV.vpk file bytes",
+      "value": "370a52f43350a8cbf1a9dfc488083f4eb52f77caa30b41166e53bf58c810839d"
     }
   ]
 }
