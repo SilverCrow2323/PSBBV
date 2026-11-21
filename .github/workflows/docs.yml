@@ -2,7 +2,9 @@ name: SPDW Documentation
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - 'dev/**'
     paths:
       - "docs/**"
       - "tools/validate_release_candidate.py"
@@ -45,7 +47,7 @@ jobs:
           grep -q 'href="nodes.html"' docs/index.html
           grep -q 'PSBBV Core' README.md
       - name: Configure Pages
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
       - name: Upload documentation site
         if: github.event_name != 'pull_request'
@@ -54,7 +56,7 @@ jobs:
           path: docs
 
   deploy:
-    if: github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     name: Publish SPDW field guide
     environment:
       name: github-pages
