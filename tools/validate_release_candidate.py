@@ -9,9 +9,9 @@ from typing import Any, Dict
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs/releases/v0.1.0-rc.1-manifest.json"
-RUN_URL = re.compile(r"^https://github\\.com/SilverCrow2323/PSBBV/actions/runs/(\\d+)$")
+RUN_URL = re.compile(r"^https://github\.com/SilverCrow2323/PSBBV/actions/runs/(\d+)$")
 ARTIFACT_URL = re.compile(
-    r"^https://github\\.com/SilverCrow2323/PSBBV/actions/runs/(\\d+)/artifacts/(\\d+)$"
+    r"^https://github\.com/SilverCrow2323/PSBBV/actions/runs/(\d+)/artifacts/(\d+)$"
 )
 SHA1 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
