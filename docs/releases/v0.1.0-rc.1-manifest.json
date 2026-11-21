@@ -10,7 +10,7 @@
   "source": {
     "repository": "SilverCrow2323/PSBBV",
     "branch": "dev/foundation",
-    "commit": "d64976c27d3434fdef76f79af36793da8af88ba4"
+    "commit": "413df7d8be300d60b953169cf93c3a17940bd24f"
   },
   "package_identity": {
     "name": "PSBBV",
@@ -70,21 +70,21 @@
       "kind": "github-actions-artifact-archive",
       "platform": "PlayStation Vita",
       "size_bytes": 151520,
-      "sha256": "3e3663ddcee47c5cf5d0d98220f7ab896da94d8e9f721da66adb1b3d3b56876f",
+      "sha256": "a044bbae8669503e45f40eda8b0cc85f87fe3f8f78a49618a51972e41ceacb00",
       "digest_scope": "downloaded GitHub Actions artifact ZIP; not the extracted VPK digest",
-      "artifact_id": 14703673489,
-      "workflow_run_id": 44895995146,
-      "url": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146/artifacts/14703673489",
+      "artifact_id": 14721901529,
+      "workflow_run_id": 44941640583,
+      "url": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44941640583/artifacts/14721901529",
       "extracted_vpk": {
         "name": "PSBBV.vpk",
-        "sha256": "370a52f43350a8cbf1a9dfc488083f4eb52f77caa30b41166e53bf58c810839d",
+        "sha256": "cf162a529f4461cb5f72449a417433e6b8567c77b3c3a6a43da1360e7f1caa63",
         "digest_scope": "SHA-256 of extracted VPK file bytes"
       }
     }
   ],
   "validation": {
-    "workflow_run": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44895995146",
-    "workflow_head_commit": "d64976c27d3434fdef76f79af36793da8af88ba4",
+    "workflow_run": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44941640583",
+    "workflow_head_commit": "413df7d8be300d60b953169cf93c3a17940bd24f",
     "host_ctest": "success; 10 of 10",
     "vpk_verifier_unit_tests": "success; 9 of 9",
     "node_manifest_schema": "success; one positive fixture and nine negative fixtures",
@@ -103,12 +103,12 @@
     {
       "algorithm": "sha256",
       "scope": "downloaded GitHub Actions artifact ZIP; not the extracted VPK digest",
-      "value": "3e3663ddcee47c5cf5d0d98220f7ab896da94d8e9f721da66adb1b3d3b56876f"
+      "value": "a044bbae8669503e45f40eda8b0cc85f87fe3f8f78a49618a51972e41ceacb00"
     },
     {
       "algorithm": "sha256",
       "scope": "extracted PSBBV.vpk file bytes",
-      "value": "370a52f43350a8cbf1a9dfc488083f4eb52f77caa30b41166e53bf58c810839d"
+      "value": "cf162a529f4461cb5f72449a417433e6b8567c77b3c3a6a43da1360e7f1caa63"
     }
   ]
 }
