@@ -53,6 +53,7 @@ The host CI suite runs independent executables for the channel registry, UI stat
 - [ ] Browse past the fifth title with D-pad Down; confirm the five-row window scrolls without losing focus.
 - [ ] Verify Up/Down wrap from the first title to the last and back.
 - [ ] Tap a visible row and confirm its focus marker moves to that title.
+- [ ] Tap the three-pixel gaps between Games rows and confirm they do not select either neighbour; on a partial final page, confirm empty rows do nothing.
 - [ ] Confirm no title launches: this build is read-only discovery, not a game launcher.
 - [ ] If discovery fails, confirm the screen explains the error and press Cross to retry without restarting PSBBV.
 - [ ] Confirm a retry joins the previous worker before clearing scan state, then starts exactly one new scan.
