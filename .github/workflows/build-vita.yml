@@ -58,10 +58,10 @@ jobs:
 
       - name: Build with VitaSDK
         run: |
-          docker run --rm \\
-            -v "$PWD:/workspace" \\
-            -w /workspace \\
-            vitasdk/vitasdk:2026.08 \\
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            -w /workspace \
+            vitasdk/vitasdk:2026.08 \
             sh -lc 'vdpm install libvita2d && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --parallel'
 
       - name: Verify VPK structure, SFO identity and payload boundary
