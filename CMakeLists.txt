@@ -79,6 +79,14 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
 
     add_test(NAME psbbv_games_browser COMMAND psbbv_games_browser_tests)
 
+    add_executable(psbbv_games_browser_hit_test_tests
+        tests/GamesBrowserHitTestTests.cpp
+    )
+    target_include_directories(psbbv_games_browser_hit_test_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_compile_options(psbbv_games_browser_hit_test_tests PRIVATE -Wall -Wextra -Wpedantic)
+
+    add_test(NAME psbbv_games_browser_hit_testing COMMAND psbbv_games_browser_hit_test_tests)
+
     add_executable(psbbv_games_discovery_lifecycle_tests
         tests/GamesDiscoveryLifecycleTests.cpp
     )
