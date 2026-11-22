@@ -13,8 +13,7 @@ on:
       - "tools/**"
       - "schemas/**"
       - "sce_sys/**"
-      - "docs/releases/*.md"
-      - "docs/releases/*.json"
+      # Release evidence is validated by docs.yml; it does not change the VPK.
       - ".github/workflows/build-vita.yml"
   pull_request:
     paths:
