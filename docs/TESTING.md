@@ -16,12 +16,12 @@
 
 | Field | Current CI candidate |
 |---|---|
-| Core source commit | `78123e1ac903d78520459ef2e93e9a9b3706c52e` |
-| Workflow run | [Vita Build #44941821390](https://github.com/SilverCrow2323/PSBBV/actions/runs/44941821390) |
-| Download artifact | [PSBBV-VPK #14721982599](https://github.com/SilverCrow2323/PSBBV/actions/runs/44941821390/artifacts/14721982599) |
-| Artifact ZIP size | 151,521 bytes |
-| Artifact ZIP SHA-256 | `f2f46b5e1965d07bac3d3190423c79d20c817ea7b40bf8890d69db7c38159407` |
-| Extracted VPK SHA-256 | `a03fc396e36f28b7c546a0611a42cc593a342d64981da6c3f27e548562132809` |
+| Core source commit | `35d9b33ecf94910d4580a81e9904d315535819f3` |
+| Workflow run | [Vita Build #44951624335](https://github.com/SilverCrow2323/PSBBV/actions/runs/44951624335) |
+| Download artifact | [PSBBV-VPK #14726275373](https://github.com/SilverCrow2323/PSBBV/actions/runs/44951624335/artifacts/14726275373) |
+| Artifact ZIP size | 151,520 bytes |
+| Artifact ZIP SHA-256 | `d45c6a78c37488944371f527349421d4a83fbdbf52a57867e70c99f10ffa93d2` |
+| Extracted VPK SHA-256 | `5106612bdb8bd4d293cf834e8e404079ee237899e39dabdd53dd36b17a6825f7` |
 | SFO identity checked by CI | `SCBV00001` / `00.10` |
 
 The ZIP and VPK digests identify different files. The machine-readable [candidate manifest](releases/v0.1.0-rc.1-manifest.json) is the canonical record and its validator checks that the source commit, workflow, artifact URL, artifact ID and both digests agree.
@@ -88,9 +88,9 @@ Only run this section when the Games channel is deliberately enabled by a later 
 |---|---|
 | Vita model | |
 | Firmware / homebrew environment | |
-| Candidate commit | `78123e1ac903d78520459ef2e93e9a9b3706c52e` |
-| Artifact ID | `14721982599` |
-| Extracted VPK SHA-256 | `a03fc396e36f28b7c546a0611a42cc593a342d64981da6c3f27e548562132809` |
+| Candidate commit | `35d9b33ecf94910d4580a81e9904d315535819f3` |
+| Artifact ID | `14726275373` |
+| Extracted VPK SHA-256 | `5106612bdb8bd4d293cf834e8e404079ee237899e39dabdd53dd36b17a6825f7` |
 | Test date | |
 | Result | |
 | Notes / issue links | |
