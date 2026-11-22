@@ -29,12 +29,12 @@ A successful cross-build is necessary evidence, not hardware acceptance. A websi
 
 ## Current 0.1.0 candidate
 
-The current [PSBBV Core 0.1.0-rc.1](releases/v0.1.0-rc.1.md) candidate is built from immutable Core commit `78123e1ac903d78520459ef2e93e9a9b3706c52e`.
+The current [PSBBV Core 0.1.0-rc.1](releases/v0.1.0-rc.1.md) candidate is built from immutable Core commit `69248236dad2d70b6e679d43743500416d4e04e4`.
 
-- Vita Build: [run #44941821390](https://github.com/SilverCrow2323/PSBBV/actions/runs/44941821390).
-- Actions artifact: [#14721982599](https://github.com/SilverCrow2323/PSBBV/actions/runs/44941821390/artifacts/14721982599), 151,521 bytes.
-- Artifact ZIP SHA-256: `f2f46b5e1965d07bac3d3190423c79d20c817ea7b40bf8890d69db7c38159407`.
-- Extracted `PSBBV.vpk` SHA-256: `a03fc396e36f28b7c546a0611a42cc593a342d64981da6c3f27e548562132809`.
+- Vita Build: [run #45009617246](https://github.com/SilverCrow2323/PSBBV/actions/runs/45009617246).
+- Actions artifact: [#14749281626](https://github.com/SilverCrow2323/PSBBV/actions/runs/45009617246/artifacts/14749281626), 151,521 bytes.
+- Artifact ZIP SHA-256: `5d6dc10f5b402d1b19ed526f05f1f9e19627bee1e324dda2e4a4b5c6175000ea`.
+- Extracted `PSBBV.vpk` SHA-256: `d704631f5679c32e3e9144423ccdf6433ea746de2979ff52ec1a72dcd5b0bd9e`.
 
 The machine-readable [candidate manifest](releases/v0.1.0-rc.1-manifest.json) binds the Core source SHA, workflow run, artifact ID, canonical artifact URL and both file digests. Its validator rejects cross-run or checksum mismatches. It intentionally keeps `official_release: false`, leaves the release tag/date empty, excludes all six node repositories from the package, marks `SCBV00001` provisional and leaves hardware acceptance pending.
 

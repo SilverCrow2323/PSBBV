@@ -13,6 +13,27 @@ class ReleaseCandidateManifestTests(unittest.TestCase):
     def test_current_candidate_manifest_is_consistent(self):
         validate_manifest(copy.deepcopy(FIXTURE))
 
+    def test_human_readable_candidate_documents_match_manifest_provenance(self):
+        artifact = FIXTURE["artifacts"][0]
+        source_commit = FIXTURE["source"]["commit"]
+        run_id = str(artifact["workflow_run_id"])
+        artifact_id = str(artifact["artifact_id"])
+        zip_sha = artifact["sha256"]
+        vpk_sha = artifact["extracted_vpk"]["sha256"]
+        documents = [
+            ROOT / "docs/releases/v0.1.0-rc.1.md",
+            ROOT / "docs/TESTING.md",
+            ROOT / "docs/CORE-RELEASE-MANIFEST.md",
+        ]
+        for path in documents:
+            content = path.read_text(encoding="utf-8")
+            with self.subTest(document=path.name):
+                self.assertIn(source_commit, content)
+                self.assertIn(run_id, content)
+                self.assertIn(artifact_id, content)
+                self.assertIn(zip_sha, content)
+                self.assertIn(vpk_sha, content)
+
     def assert_rejected_after(self, mutate):
         payload = copy.deepcopy(FIXTURE)
         mutate(payload)
