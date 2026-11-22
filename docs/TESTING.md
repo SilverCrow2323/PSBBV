@@ -35,6 +35,7 @@ The ZIP and VPK digests identify different files. The machine-readable [candidat
 - [x] VPK verifier accepted ZIP/CRC structure, safe paths, required LiveArea assets and SFO identity.
 - [x] GitHub Actions uploaded the VPK artifact.
 - [x] Release candidate manifest provenance tests reject mixed run/artifact/commit/checksum records.
+- Release-manifest and field-guide-only edits are checked by **SPDW Documentation**; they do not trigger another VitaSDK package build.
 
 These are automated CI results. They are not physical-device results.
 
