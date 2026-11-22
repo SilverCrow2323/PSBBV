@@ -10,7 +10,7 @@
   "source": {
     "repository": "SilverCrow2323/PSBBV",
     "branch": "dev/foundation",
-    "commit": "78123e1ac903d78520459ef2e93e9a9b3706c52e"
+    "commit": "35d9b33ecf94910d4580a81e9904d315535819f3"
   },
   "package_identity": {
     "name": "PSBBV",
@@ -69,22 +69,22 @@
       "file_name": "PSBBV-VPK.zip",
       "kind": "github-actions-artifact-archive",
       "platform": "PlayStation Vita",
-      "size_bytes": 151521,
-      "sha256": "f2f46b5e1965d07bac3d3190423c79d20c817ea7b40bf8890d69db7c38159407",
+      "size_bytes": 151520,
+      "sha256": "d45c6a78c37488944371f527349421d4a83fbdbf52a57867e70c99f10ffa93d2",
       "digest_scope": "downloaded GitHub Actions artifact ZIP; not the extracted VPK digest",
-      "artifact_id": 14721982599,
-      "workflow_run_id": 44941821390,
-      "url": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44941821390/artifacts/14721982599",
+      "artifact_id": 14726275373,
+      "workflow_run_id": 44951624335,
+      "url": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44951624335/artifacts/14726275373",
       "extracted_vpk": {
         "name": "PSBBV.vpk",
-        "sha256": "a03fc396e36f28b7c546a0611a42cc593a342d64981da6c3f27e548562132809",
+        "sha256": "5106612bdb8bd4d293cf834e8e404079ee237899e39dabdd53dd36b17a6825f7",
         "digest_scope": "SHA-256 of extracted VPK file bytes"
       }
     }
   ],
   "validation": {
-    "workflow_run": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44941821390",
-    "workflow_head_commit": "78123e1ac903d78520459ef2e93e9a9b3706c52e",
+    "workflow_run": "https://github.com/SilverCrow2323/PSBBV/actions/runs/44951624335",
+    "workflow_head_commit": "35d9b33ecf94910d4580a81e9904d315535819f3",
     "host_ctest": "success; 10 of 10",
     "vpk_verifier_unit_tests": "success; 9 of 9",
     "node_manifest_schema": "success; one positive fixture and nine negative fixtures",
@@ -103,12 +103,12 @@
     {
       "algorithm": "sha256",
       "scope": "downloaded GitHub Actions artifact ZIP; not the extracted VPK digest",
-      "value": "f2f46b5e1965d07bac3d3190423c79d20c817ea7b40bf8890d69db7c38159407"
+      "value": "d45c6a78c37488944371f527349421d4a83fbdbf52a57867e70c99f10ffa93d2"
     },
     {
       "algorithm": "sha256",
       "scope": "extracted PSBBV.vpk file bytes",
-      "value": "a03fc396e36f28b7c546a0611a42cc593a342d64981da6c3f27e548562132809"
+      "value": "5106612bdb8bd4d293cf834e8e404079ee237899e39dabdd53dd36b17a6825f7"
     }
   ]
 }
