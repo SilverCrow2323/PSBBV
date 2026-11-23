@@ -1,0 +1,74 @@
+name: Vita Build
+
+on:
+  push:
+    branches:
+      - main
+      - dev/**
+    paths:
+      - "CMakeLists.txt"
+      - "src/**"
+      - "include/**"
+      - "tests/**"
+      - "tools/**"
+      - "schemas/**"
+      - "sce_sys/**"
+      # Release evidence is validated by docs.yml; it does not change the VPK.
+      - ".github/workflows/build-vita.yml"
+  pull_request:
+    paths:
+      - "CMakeLists.txt"
+      - "src/**"
+      - "include/**"
+      - "tests/**"
+      - "tools/**"
+      - "schemas/**"
+      - "sce_sys/**"
+      - ".github/workflows/build-vita.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vita-build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-vpk:
+    name: Build PSBBV VPK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Run host unit tests
+        run: |
+          cmake -S . -B build-host-tests -DPSBBV_BUILD_HOST_TESTS_ONLY=ON -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build-host-tests --parallel
+          ctest --test-dir build-host-tests --output-on-failure
+          python3 -m unittest discover -s tests -p 'test_verify_vpk.py' -v
+          python3 -m unittest discover -s tests -p 'test_release_candidate_manifest.py' -v
+
+      - name: Validate node manifest schema and fixtures
+        run: |
+          python3 -m pip install --disable-pip-version-check jsonschema==4.25.1
+          python3 tests/validate_node_manifest.py
+
+      - name: Build with VitaSDK
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            -w /workspace \
+            vitasdk/vitasdk:2026.08 \
+            sh -lc 'vdpm install libvita2d && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --parallel'
+
+      - name: Verify VPK structure, SFO identity and payload boundary
+        run: python3 tools/verify_vpk.py build/PSBBV.vpk --title-id SCBV00001 --version 00.10 --name PSBBV
+
+      - name: Upload VPK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PSBBV-VPK
+          path: build/PSBBV.vpk
+          if-no-files-found: error

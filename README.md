@@ -1,39 +1,37 @@
-# PSBBV
+<div align="center">
+<img src="docs/assets/spdw-factory-mark.svg" alt="SPDW Factory visual signature" width="220">
 
-**PlayStation Broadband Vita**  
-*The next generation of PlayStation navigation.*
+# PSBBV Core — PlayStation Broadband Vita
+**A modern, native Vita navigator inspired by PSBBN.**
 
-PSBBV is an independent, native homebrew navigator for PlayStation Vita, inspired by the channel-based experience and visual identity of PlayStation Broadband Navigator (PSBBN).
+[![Vita Build](https://github.com/SilverCrow2323/PSBBV/actions/workflows/build-vita.yml/badge.svg?branch=dev/foundation)](https://github.com/SilverCrow2323/PSBBV/actions/workflows/build-vita.yml)
+[![SPDW Field Guide](https://img.shields.io/badge/SPDW-Field%20Guide-d4ff43?labelColor=11131a)](docs/index.html)
+[![Platform](https://img.shields.io/badge/Platform-PS%20Vita-ff5c50)](#)
+[![Status](https://img.shields.io/badge/Status-0.1.0%20RC%20prep-8a76f4)](docs/releases/v0.1.0-rc.1.md)
 
-The goal is not to recreate PSBBN pixel-for-pixel or to build another conventional game launcher. PSBBV aims to bring that broader, console-like navigation concept to Vita with a refined interface, modern interaction design, and useful system-aware features.
+### Core node registry
 
-> PSBBV is an independent homebrew project. It is not affiliated with, endorsed by, or sponsored by Sony Interactive Entertainment.
+PSBBV Core registers six planned node identities: Games, Applications, Network, Media, Downloads and System. They are roadmap metadata, not openable destinations. See the [node registry](docs/nodes.html) for responsibilities, boundaries and release-manifest rules.
 
-## Project status
+## [OPEN THE ONLINE SPDW FIELD GUIDE ↗](https://silvercrow2323.github.io/PSBBV/)
+[Local source preview](docs/index.html) · [GitHub repository](https://github.com/SilverCrow2323/PSBBV)
+</div>
 
-PSBBV is in its foundation stage. The repository currently establishes the native application architecture, rendering baseline, input loop, design direction, and Vita build pipeline.
+---
 
-The first interface milestone targets the Vita's native **960 × 544** display and provides a navigable set of channel entry points. Channel functionality will be implemented incrementally; entries that are not implemented yet are presentation scaffolding, not claims of working services.
+> **SPDW FACTORY / PROJECT FILE 001**  
+> PSBBN's channel-first spirit. A Vita-native experience. A lot more thought than another icon grid.
 
-## Core principles
+## 🧩 Federated module repositories
 
-- **Native first:** a homebrew application built for PlayStation Vita, not a desktop or web UI port.
-- **PSBBN heritage:** channel-oriented navigation, contextual content, and a cohesive digital environment.
-- **Modern execution:** clear hierarchy, restrained motion, legible typography, and deliberate spacing.
-- **Hardware-aware:** responsive controls, modest memory use, and predictable frame pacing.
-- **Offline-capable:** core navigation must remain useful without a network connection.
-- **Honest functionality:** unfinished features must be clearly identified and must never masquerade as working services.
-
-## Federated module repositories
-
-PSBBV is split into a small native Core and independently versioned capability nodes. The repositories below own their respective domains; a node being present does not mean its feature is already wired into the Vita UI.
+PSBBV is split into a small native Core and independently versioned capability nodes. A repository existing does not mean its feature is already wired into the Vita UI.
 
 | Node | Repository | Responsibility |
 |---|---|---|
 | Core | [PSBBV](https://github.com/SilverCrow2323/PSBBV) | Native shell, navigation, rendering and node orchestration |
-| Games | [PSBBV-Games](https://github.com/SilverCrow2323/PSBBV-Games) | Installed-title discovery, catalogue metadata, favourites and launch boundary |
+| Games | [PSBBV-Games](https://github.com/SilverCrow2323/PSBBV-Games) | Installed-title discovery, catalogue metadata and launch boundary |
 | Applications | [PSBBV-Applications](https://github.com/SilverCrow2323/PSBBV-Applications) | Homebrew/application catalogue and discovery |
-| Media | [PSBBV-Media](https://github.com/SilverCrow2323/PSBBV-Media) | Media metadata and media-provider integration |
+| Media | [PSBBV-Media](https://github.com/SilverCrow2323/PSBBV-Media) | Media metadata and provider integration |
 | Network | [PSBBV-Network](https://github.com/SilverCrow2323/PSBBV-Network) | Network capability contracts and provider adapters |
 | Downloads | [PSBBV-Downloads](https://github.com/SilverCrow2323/PSBBV-Downloads) | Download queue, staging and integrity boundaries |
 | System | [PSBBV-System](https://github.com/SilverCrow2323/PSBBV-System) | Device/system information and safe system actions |
@@ -47,93 +45,147 @@ PSBBV is split into a small native Core and independently versioned capability n
 - Offline navigation and locally available catalogues must remain usable without a network connection.
 - CI for a node proves its own contract/build checks. Core integration and physical Vita behaviour require separate validation.
 
-## Technology
+## 🧭 What's PSBBV?
 
-- C++17
-- VitaSDK (supported release channel: 2026.08)
-- CMake
-- libvita2d for GPU-accelerated 2D rendering
-- Vita system APIs for lifecycle and controller input
+PSBBV is an independent PlayStation Vita homebrew navigator. It brings the broader, console-like navigation concept of PlayStation Broadband Navigator into a modern handheld frontend: channels, contextual workspaces, local content and optional connected experiences.
 
-The renderer is intentionally small. The project will add dependencies only when they solve a concrete product requirement.
+We're not doing a pixel-perfect PSBBN replica. We're taking the good idea, updating the experience and making it fit the hardware.
 
-## Build
+<sub>Independent community project. Not affiliated with, endorsed by, or sponsored by Sony Interactive Entertainment.</sub>
 
-### 1. Install VitaSDK
+## 🏛️ Core is the official project hub
 
-Follow the official [VitaSDK getting started guide](https://vitasdk.org/). On Linux, the release-channel installation flow is:
+PSBBV Core owns the integrated product identity, navigation, node registration, lifecycle, permissions, compatibility contracts and the official release channel. The six node repositories (Games, Applications, Network, Media, Downloads and System) are independently developed components. Their builds and tags do not replace an integrated Core release.
 
-~~~sh
-git clone https://github.com/vitasdk/vdpm
-cd vdpm
-VITASDK_CHANNEL=2026.08 ./bootstrap-vitasdk.sh
-~~~
+**Release contract:** [Core release manifest](docs/CORE-RELEASE-MANIFEST.md) and [example manifest](docs/release-manifest.example.json).
 
-Set the SDK environment variables in your shell:
+**Current candidate:** [PSBBV Core 0.1.0-rc.1 notes](docs/releases/v0.1.0-rc.1.md) · [machine-readable candidate manifest](docs/releases/v0.1.0-rc.1-manifest.json) · [Vita Build #44895313787](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787).
 
-~~~sh
-export VITASDK=/usr/local/vitasdk
-export PATH="$VITASDK/bin:$PATH"
-~~~
+**Official integrated releases:** [PSBBV Core Releases](https://github.com/SilverCrow2323/PSBBV/releases). Each stable release must identify the Core version, compatible node revisions, included VPK/package artifacts, checksums, known limitations and validation evidence. The current candidate is not a published release.
 
-### 2. Install the renderer dependency
+## 🚦 Status: 0.1.0 release-candidate preparation
 
-~~~sh
-vdpm install libvita2d
-~~~
+| Area | Current state |
+|---|---|
+| VitaSDK / CMake application target | **Implemented in source** |
+| 960 × 544 Home renderer | **Implemented in source** |
+| D-pad, Cross, Circle and Start navigation | **Implemented in source** |
+| Front touchscreen application menu | **Implemented in source; host-tested hitboxes** |
+| About and application menu | **Implemented in source** |
+| Host test suite | **10/10 CTest + 9/9 VPK verifier tests passed** |
+| Node manifest schema and parser | **Automated validation passed** |
+| VitaSDK cross-build and VPK verifier | **Passed on candidate HEAD** |
+| Six channel modules | **Planned metadata only; not openable** |
+| Real Vita installation and lifecycle test | **Pending for exact candidate artifact** |
+| Final Title ID | **SCBV00001 provisional; conflict check pending** |
 
-### 3. Configure and build
+<details><summary><strong>🧯 What does “release candidate” actually mean?</strong></summary>
+The shell can be cross-compiled and packaged into a VPK. The six channel entries are registry metadata only: they are labelled PLANNED and cannot be opened. The Games discovery/browser code is compiled as a foundation but is not exposed as a user-facing Games channel, and game launching is not implemented.
 
-From the repository root:
+The exact candidate passed automated tests and VPK verification. It has not yet been installed or validated on a physical Vita. It is not a stable release.
+</details>
 
-~~~sh
-cmake -S . -B build
-cmake --build build --parallel
-~~~
-
-The build produces PSBBV.vpk in the build directory. Install it on a compatible, homebrew-enabled PlayStation Vita for hardware testing.
-
-A Docker-based build is also supported by the GitHub Actions workflow. See [VitaSDK documentation](https://vitasdk.org/) for SDK installation, package management, and toolchain details.
-
-## Initial controls
+## 🎛️ First interaction map
 
 | Input | Action |
 |---|---|
-| D-pad Up / Down | Move between channels |
-| Cross | Open the selected channel |
-| Start | Exit the application |
+| D-pad / left stick Up / Down | Move focus on Home and in the application menu; analog input uses the same frame-based repeat path |
+| Cross | Activate the focused menu item |
+| Circle | Return or close the application menu |
+| Start | Open or close the application menu |
+| Front touchscreen | Activate application-menu items; planned channels are not touch targets |
+| Left stick | Vertical focus movement with a 48-unit deadzone around the 128 center position |
 
-The initial channel screens are visual foundations. Full channel implementations and configurable controls are planned work.
+The back touch panel is not used in this candidate.
 
-## Repository map
+## 🧩 Six doors, one house
+
+These are roadmap identities, not open destinations in the current candidate.
+
+| Channel | Job | State |
+|---|---|---|
+| 🎮 Games | Local game collection and shortcuts | Planned |
+| 🛠️ Applications | Homebrew and installed utilities | Planned |
+| 🌐 Network | Connectivity and optional online features | Planned |
+| 🎧 Media | Local music, video and images | Planned |
+| 📦 Downloads | Transfer tasks and completed downloads | Planned |
+| ⚙️ System | Device information and PSBBV preferences | Planned |
+
+No fake progress bars. No pretend network lights. A feature gets the “implemented” label when it has a real handler and real data behind it.
+
+## 🧱 Technology
+
+- **C++17** — native application code.
+- **VitaSDK** — platform toolchain and system APIs.
+- **CMake** — reproducible project and VPK build.
+- **libvita2d** — initial GPU-backed 2D rendering prototype.
+
+### Build it
+
+Requirements: VitaSDK, CMake 3.16+, and libvita2d installed through vdpm.
+
+~~~sh
+vdpm install libvita2d
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+~~~
+
+The configured package target generates PSBBV.vpk inside the build directory. The automated **Vita Build** workflow uses the VitaSDK 2026.08 container image and uploads a PSBBV-VPK artifact when successful.
+
+## 📚 The SPDW Field Guide
+
+Documentation is part of the product. It should be useful, visual, direct and enjoyable to read—not a grey wall of text that looks like it was faxed from 2004.
+
+| Guide | What you'll find |
+|---|---|
+| [✳ Product brief](docs/product.html) | Scope, goals, non-goals and acceptance criteria |
+| [⌘ Architecture](docs/architecture.html) | Runtime layers, ownership and frame loop |
+| [◈ Design language](docs/design.html) | Visual identity, palette and interaction rules |
+| [↗ Roadmap](docs/roadmap.html) | Milestones and release gates |
+| [✓ Hardware tests](docs/testing.html) | Exact candidate, CI evidence and Vita checklist |
+| [🚀 Publishing guide](docs/publishing.html) | Enable GitHub Pages and publish the SPDW field guide |
+| [🧩 Node API](docs/NODE_API.md) | Shared lifecycle, manifest, permissions, and compatibility contract |
+| [🎬 Media blueprint](docs/MEDIA_NODE_BLUEPRINT.md) | Independent media-center product and Kodi compatibility plan |
+| [🚀 0.1.0-rc.1 notes](docs/releases/v0.1.0-rc.1.md) | Candidate scope, artifact and known limitations |
+| [📋 Release manifest](docs/CORE-RELEASE-MANIFEST.md) | Stable release authority and acceptance gates |
+
+**[OPEN THE FULL SPDW DOCUMENTATION PORTAL ↗](https://silvercrow2323.github.io/PSBBV/)**
+
+> **Publishing note:** this is the expected GitHub Pages address. The one-time Pages source selection is still required; use the local [docs preview](docs/index.html) until a successful deployment is confirmed.
+
+## 🗂️ Repository map
 
 ~~~text
 .
-├── .github/workflows/   # Automated Vita builds
-├── assets/branding/     # Source brand artwork
-├── docs/                # Product, design, and architecture documentation
-├── include/              # Public application headers
+├── .github/workflows/         # Vita build and documentation deployment
+├── assets/branding/           # Editable PSBBV mark
+├── docs/
+│   ├── assets/                # SPDW visual system and diagrams
+│   ├── releases/              # Candidate notes and immutable evidence
+│   ├── *.html                 # Branded documentation portal
+│   ├── *.md                   # Source documentation
+│   └── _config.yml            # GitHub Pages settings
+├── include/psbbv/             # Application and UI headers
+├── sce_sys/                   # VPK icon and LiveArea resources
 ├── src/
-│   ├── app/              # Application state and navigation
-│   └── main.cpp          # Vita entry point and lifecycle
+│   ├── app/                   # Navigation and application views
+│   └── main.cpp               # Vita entry point and frame loop
+├── tools/                     # Package and release-candidate validators
 ├── CMakeLists.txt
 └── README.md
 ~~~
 
-## Project identity
+## 🏭 The SPDW rule
 
-- Product name: **PSBBV**
-- Full name: **PlayStation Broadband Vita**
-- Display resolution: **960 × 544**
-- Initial VPK title ID: SCBV00001 (provisional; confirm before a public release)
-- Documentation and user-facing interface language: **English**
+Build the thing. Explain the thing. Make both worth opening.
 
-The visual identity follows the proposed PSBBN-to-PSBBV transition: a darkened legacy vertical stroke and a red Vita-facing V accent. The final production logo and LiveArea artwork will be refined as part of the design work.
+All project-facing documentation, source comments and user-facing UI strings are written in English. A repository licence has not yet been selected; until one is added, all rights are reserved by the copyright holder.
 
-## Contributing and licensing
+<div align="center">
+**SPDW FACTORY**  
+*Built with intent. Documented with attitude.*
+</div>
 
-The architecture and contribution workflow are still being established. A repository license has deliberately not been selected yet; until one is added, all rights are reserved by the copyright holder. Please open an issue before proposing substantial changes.
+## The ecosystem
 
-## Acknowledgements
-
-PSBBV builds on the work of the Vita homebrew community and the maintainers of [VitaSDK](https://github.com/vitasdk) and [libvita2d](https://github.com/xerpi/libvita2d).
+See the [PSBBV Ecosystem Map](docs/ECOSYSTEM.md) for repository ownership, node boundaries, manifest policy and the Core integration model.

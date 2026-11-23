@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="180" viewBox="0 0 640 180" role="img" aria-labelledby="title desc">
+  <title id="title">PSBBV — PlayStation Broadband Vita</title>
+  <desc id="desc">A white PSBB wordmark, a dark graphite legacy stroke, and a red V.</desc>
+  <rect width="640" height="180" fill="#080A0E"/>
+  <text x="38" y="112" fill="#F4F6F8" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" letter-spacing="-3">PSBB</text>
+  <path d="M 286 43 V 118" stroke="#454B56" stroke-width="7" stroke-linecap="square"/>
+  <path d="M 300 44 L 330 120 L 360 44" fill="none" stroke="#E42F3D" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+  <text x="390" y="92" fill="#A5ADB9" font-family="Arial, Helvetica, sans-serif" font-size="17" letter-spacing="1.5">PLAYSTATION</text>
+  <text x="390" y="119" fill="#A5ADB9" font-family="Arial, Helvetica, sans-serif" font-size="17" letter-spacing="1.5">BROADBAND VITA</text>
+</svg>

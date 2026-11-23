@@ -1,0 +1,22 @@
+# CMake
+/build/
+/cmake-build-*/
+/CMakeFiles/
+/CMakeCache.txt
+/cmake_install.cmake
+/Makefile
+
+# VitaSDK build products
+*.vpk
+*.self
+*.elf
+*.o
+*.a
+*.prx
+*.su
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

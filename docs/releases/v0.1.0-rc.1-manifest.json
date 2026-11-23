@@ -1,0 +1,114 @@
+{
+  "manifest_schema": "psbbv.core-release/v1",
+  "product": "PSBBV Core",
+  "core_version": "0.1.0-rc.1",
+  "channel": "release-candidate",
+  "official_release": false,
+  "candidate_prepared_date": "2026-11-21",
+  "release_date": null,
+  "release_tag": null,
+  "source": {
+    "repository": "SilverCrow2323/PSBBV",
+    "branch": "dev/foundation",
+    "commit": "69248236dad2d70b6e679d43743500416d4e04e4"
+  },
+  "package_identity": {
+    "name": "PSBBV",
+    "title_id": "SCBV00001",
+    "title_id_status": "provisional",
+    "vita_app_version": "00.10",
+    "cmake_project_version": "0.1.0"
+  },
+  "nodes": [
+    {
+      "id": "games",
+      "repository": "SilverCrow2323/PSBBV-Games",
+      "commit": "a2f331dd58e288fd1d9e47b4502d39e54bfbae34",
+      "included": false,
+      "status": "compiled-catalogue-foundation-only; channel remains planned"
+    },
+    {
+      "id": "applications",
+      "repository": null,
+      "commit": null,
+      "included": false,
+      "status": "planned; not shipped"
+    },
+    {
+      "id": "network",
+      "repository": null,
+      "commit": null,
+      "included": false,
+      "status": "planned; not shipped"
+    },
+    {
+      "id": "media",
+      "repository": "SilverCrow2323/PSBBV-Media",
+      "commit": "f802290f2a1643d772d432302870a61b85962518",
+      "included": false,
+      "status": "separate host-tested node foundation; not linked into this Core package"
+    },
+    {
+      "id": "downloads",
+      "repository": null,
+      "commit": null,
+      "included": false,
+      "status": "planned; not shipped"
+    },
+    {
+      "id": "system",
+      "repository": null,
+      "commit": null,
+      "included": false,
+      "status": "planned; not shipped"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "PSBBV-VPK",
+      "file_name": "PSBBV-VPK.zip",
+      "kind": "github-actions-artifact-archive",
+      "platform": "PlayStation Vita",
+      "size_bytes": 151521,
+      "sha256": "5d6dc10f5b402d1b19ed526f05f1f9e19627bee1e324dda2e4a4b5c6175000ea",
+      "digest_scope": "downloaded GitHub Actions artifact ZIP; not the extracted VPK digest",
+      "artifact_id": 14749281626,
+      "workflow_run_id": 45009617246,
+      "url": "https://github.com/SilverCrow2323/PSBBV/actions/runs/45009617246/artifacts/14749281626",
+      "extracted_vpk": {
+        "name": "PSBBV.vpk",
+        "sha256": "d704631f5679c32e3e9144423ccdf6433ea746de2979ff52ec1a72dcd5b0bd9e",
+        "digest_scope": "SHA-256 of extracted VPK file bytes"
+      }
+    }
+  ],
+  "validation": {
+    "workflow_run": "https://github.com/SilverCrow2323/PSBBV/actions/runs/45009617246",
+    "workflow_head_commit": "69248236dad2d70b6e679d43743500416d4e04e4",
+    "host_ctest": "success; 10 of 10",
+    "vpk_verifier_unit_tests": "success; 9 of 9",
+    "node_manifest_schema": "success; one positive fixture and nine negative fixtures",
+    "vita_sdk_cross_build": "success; VitaSDK 2026.08",
+    "vpk_integrity": "success; ZIP/CRC, safe paths, required LiveArea assets and SFO identity verified",
+    "hardware_acceptance": "pending; no physical Vita evidence for this exact artifact"
+  },
+  "known_limitations": [
+    "The six Core node identities remain PLANNED and are not openable destinations.",
+    "Games discovery/browser code is a compiled foundation only; the Games channel remains gated and game launching is not implemented.",
+    "NodeJob is an allocation-free state policy, not a real scheduler or UI-thread delivery system.",
+    "SCBV00001 is provisional and must be checked for conflict before a public release.",
+    "Physical install, launch, input/touch, suspend/resume, shutdown, frame pacing and memory checks have not been recorded for this exact artifact."
+  ],
+  "checksums": [
+    {
+      "algorithm": "sha256",
+      "scope": "downloaded GitHub Actions artifact ZIP; not the extracted VPK digest",
+      "value": "5d6dc10f5b402d1b19ed526f05f1f9e19627bee1e324dda2e4a4b5c6175000ea"
+    },
+    {
+      "algorithm": "sha256",
+      "scope": "extracted PSBBV.vpk file bytes",
+      "value": "d704631f5679c32e3e9144423ccdf6433ea746de2979ff52ec1a72dcd5b0bd9e"
+    }
+  ]
+}

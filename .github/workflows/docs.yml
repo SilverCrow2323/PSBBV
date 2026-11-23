@@ -1,0 +1,72 @@
+name: SPDW Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - 'dev/**'
+    paths:
+      - "docs/**"
+      - "tools/validate_release_candidate.py"
+      - "tests/test_release_candidate_manifest.py"
+      - ".github/workflows/docs.yml"
+      - "README.md"
+  pull_request:
+    paths:
+      - "docs/**"
+      - "tools/validate_release_candidate.py"
+      - "tests/test_release_candidate_manifest.py"
+      - ".github/workflows/docs.yml"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: spdw-docs-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Package and validate the field guide
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Validate Core documentation and release manifest
+        run: |
+          test -s docs/index.html
+          test -s docs/nodes.html
+          test -s docs/publishing.html
+          test -s docs/CORE-RELEASE-MANIFEST.md
+          test -s docs/releases/v0.1.0-rc.1.md
+          python3 -m json.tool docs/release-manifest.example.json > /dev/null
+          python3 -m json.tool docs/releases/v0.1.0-rc.1-manifest.json > /dev/null
+          python3 tools/validate_release_candidate.py
+          python3 -m unittest discover -s tests -p 'test_release_candidate_manifest.py' -v
+          grep -q 'href="nodes.html"' docs/index.html
+          grep -q 'PSBBV Core' README.md
+      - name: Configure Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+      - name: Upload documentation site
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    name: Publish SPDW field guide
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

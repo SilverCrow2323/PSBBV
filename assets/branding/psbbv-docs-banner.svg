@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="420" viewBox="0 0 1440 420" role="img" aria-labelledby="title desc">
+  <title id="title">SPDW Factory — PSBBV documentation</title>
+  <desc id="desc">A dark, red-accented editorial banner for the PSBBV project, signed SPDW Factory.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#090B10"/>
+      <stop offset="0.55" stop-color="#121722"/>
+      <stop offset="1" stop-color="#090B10"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF5967"/>
+      <stop offset="1" stop-color="#D91F35"/>
+    </linearGradient>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#FFFFFF" stroke-opacity=".045" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1440" height="420" fill="url(#bg)"/>
+  <rect width="1440" height="420" fill="url(#grid)"/>
+  <path d="M1000 -40L1450 410M1120 -40L1570 410M1240 -40L1690 410" fill="none" stroke="#E42F3D" stroke-opacity=".13" stroke-width="3"/>
+  <path d="M0 350H1440" stroke="#E42F3D" stroke-opacity=".35"/>
+  <rect x="92" y="84" width="7" height="228" rx="3" fill="url(#red)"/>
+  <text x="132" y="174" fill="#F5F7FA" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="800" letter-spacing="-3">PSBBV</text>
+  <text x="136" y="224" fill="#ADB6C4" font-family="Arial, Helvetica, sans-serif" font-size="26" letter-spacing="5">PLAYSTATION BROADBAND VITA</text>
+  <text x="136" y="292" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700">THE MANUAL HAS A PULSE.</text>
+  <text x="136" y="330" fill="#9CA7B6" font-family="Arial, Helvetica, sans-serif" font-size="20">Native Vita navigation. Clear docs. Zero grey-wall energy.</text>
+  <g transform="translate(1060 125)">
+    <path d="M0 0H70L122 82L174 0H244L122 184Z" fill="none" stroke="url(#red)" stroke-width="12" stroke-linejoin="round"/>
+    <path d="M79 110H165" stroke="#687487" stroke-width="3"/>
+    <text x="122" y="152" text-anchor="middle" fill="#F5F7FA" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" letter-spacing="3">SPDW</text>
+  </g>
+  <text x="136" y="390" fill="#E42F3D" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" letter-spacing="4">SPDW FACTORY  /  PRODUCT DOCUMENTATION</text>
+</svg>
