@@ -89,11 +89,12 @@ The exact candidate passed automated tests and VPK verification. It has not yet 
 
 | Input | Action |
 |---|---|
-| D-pad Up / Down | Navigate application-menu items while the menu is open |
+| D-pad / left stick Up / Down | Move focus on Home and in the application menu; analog input uses the same frame-based repeat path |
 | Cross | Activate the focused menu item |
 | Circle | Return or close the application menu |
 | Start | Open or close the application menu |
 | Front touchscreen | Activate application-menu items; planned channels are not touch targets |
+| Left stick | Vertical focus movement with a 48-unit deadzone around the 128 center position |
 
 The back touch panel is not used in this candidate.
 

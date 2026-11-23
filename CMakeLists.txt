@@ -102,6 +102,14 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
     target_compile_options(psbbv_touch_mapping_tests PRIVATE -Wall -Wextra -Wpedantic)
 
     add_test(NAME psbbv_touch_mapping COMMAND psbbv_touch_mapping_tests)
+
+    add_executable(psbbv_analog_stick_mapping_tests
+        tests/AnalogStickMappingTests.cpp
+    )
+    target_include_directories(psbbv_analog_stick_mapping_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_compile_options(psbbv_analog_stick_mapping_tests PRIVATE -Wall -Wextra -Wpedantic)
+
+    add_test(NAME psbbv_analog_stick_mapping COMMAND psbbv_analog_stick_mapping_tests)
     return()
 endif()
 

@@ -8,6 +8,7 @@
 #include <vita2d.h>
 
 #include "psbbv/app/App.hpp"
+#include "psbbv/navigation/AnalogStickMapping.hpp"
 #include "psbbv/navigation/TouchMapping.hpp"
 
 namespace {
@@ -71,7 +72,9 @@ int main(int, char**) {
             }
         }
 
-        app.update(controller.buttons, touchX, touchY);
+        const std::uint32_t heldButtons =
+            psbbv::navigation::mergeControllerInput(controller.buttons, controller.ly);
+        app.update(heldButtons, touchX, touchY);
 
         vita2d_start_drawing();
         vita2d_clear_screen();

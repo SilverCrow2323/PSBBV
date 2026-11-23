@@ -27,6 +27,7 @@
 - [x] libvita2d render loop and system font baseline.
 - [x] D-pad, Cross, Circle, and Start navigation.
 - [x] Front touchscreen application-menu interaction.
+- [x] Vertical left-stick navigation with a 48-unit deadzone and the shared D-pad repeat path (host-tested; physical calibration pending).
 - [x] Application menu with About and Exit actions.
 - [x] Branded Home view and a non-interactive list of planned channel identities.
 - [x] Initial SVG identity and Vita LiveArea package resources.
