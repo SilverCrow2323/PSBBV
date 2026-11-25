@@ -12,7 +12,7 @@ namespace psbbv {
 class App final {
 public:
     explicit App(vita2d_pgf* font) noexcept;
-    ~App() noexcept = default;
+    ~App() noexcept;
 
     void shutdown() noexcept;
 
