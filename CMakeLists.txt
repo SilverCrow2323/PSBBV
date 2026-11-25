@@ -70,31 +70,6 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
 
     add_test(NAME psbbv_node_jobs COMMAND psbbv_node_job_tests)
 
-    add_executable(psbbv_games_browser_tests
-        tests/GamesBrowserStateTests.cpp
-        src/navigation/GamesBrowserState.cpp
-    )
-    target_include_directories(psbbv_games_browser_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_compile_options(psbbv_games_browser_tests PRIVATE -Wall -Wextra -Wpedantic)
-
-    add_test(NAME psbbv_games_browser COMMAND psbbv_games_browser_tests)
-
-    add_executable(psbbv_games_browser_hit_test_tests
-        tests/GamesBrowserHitTestTests.cpp
-    )
-    target_include_directories(psbbv_games_browser_hit_test_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_compile_options(psbbv_games_browser_hit_test_tests PRIVATE -Wall -Wextra -Wpedantic)
-
-    add_test(NAME psbbv_games_browser_hit_testing COMMAND psbbv_games_browser_hit_test_tests)
-
-    add_executable(psbbv_games_discovery_lifecycle_tests
-        tests/GamesDiscoveryLifecycleTests.cpp
-    )
-    target_include_directories(psbbv_games_discovery_lifecycle_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_compile_options(psbbv_games_discovery_lifecycle_tests PRIVATE -Wall -Wextra -Wpedantic)
-
-    add_test(NAME psbbv_games_discovery_lifecycle COMMAND psbbv_games_discovery_lifecycle_tests)
-
     add_executable(psbbv_touch_mapping_tests
         tests/TouchMappingTests.cpp
     )
@@ -143,7 +118,6 @@ add_executable(PSBBV
     src/app/App.cpp
     src/navigation/ChannelRegistry.cpp
     src/navigation/UiState.cpp
-    src/navigation/GamesBrowserState.cpp
     src/nodes/NodeRegistry.cpp
     src/nodes/NodeManifest.cpp
     src/nodes/NodeLifecycle.cpp
