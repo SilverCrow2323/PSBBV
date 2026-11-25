@@ -5,8 +5,9 @@ The release manifest is the authoritative record of what an official integrated 
 ## One release authority
 
 - **PSBBV Core** owns the product version, release tag, integrated VPK/package, release notes and checksums.
-- Each node owns its source and tests. Core pins the exact node commit included in an integrated release.
-- A node that is not listed as included in the manifest is not part of that release.
+- The six domain repositories are development workspaces. They may contribute source and tests, but are not separately installable products and do not publish independent PSBBV releases.
+- When code from a workspace is integrated, Core records its source provenance for traceability; the official version, tag, package and release notes belong only to Core.
+- A workspace contribution that is not listed in the manifest is not represented as part of that Core release.
 - Development/foundation builds and release candidates must keep `official_release: false`.
 
 ## Required release record
@@ -14,7 +15,7 @@ The release manifest is the authoritative record of what an official integrated 
 Copy [release-manifest.example.json](release-manifest.example.json) into the release preparation workspace and fill in:
 
 1. The Core version, release channel, date and exact Core commit.
-2. For each of the six nodes, the canonical repository, exact commit, inclusion flag and integration state.
+2. For each domain workspace that contributed code, record its canonical repository, source commit and integration state. This is provenance, not a separately versioned runtime dependency.
 3. Every distributable artifact, with filename, platform, size and SHA-256.
 4. CI, VPK integrity and real-device acceptance evidence.
 5. Known limitations and any compatibility restrictions.
