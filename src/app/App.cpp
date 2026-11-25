@@ -1,9 +1,7 @@
 #include "psbbv/app/App.hpp"
 
-#include <algorithm>
 #include <array>
 #include <cstddef>
-#include <cstdio>
 
 #include <psp2/ctrl.h>
 
@@ -11,9 +9,7 @@
 
 #include "psbbv/navigation/ChannelRegistry.hpp"
 #include "psbbv/navigation/MenuHitTest.hpp"
-#include "psbbv/navigation/GamesBrowserHitTest.hpp"
 #include "psbbv/navigation/UiState.hpp"
-#include "psbbv/nodes/NodeRegistry.hpp"
 #include "psbbv/ui/Theme.hpp"
 
 namespace psbbv {
@@ -33,124 +29,20 @@ constexpr std::array<const char*, 3> MenuItems{{
 App::App(vita2d_pgf* font) noexcept
     : font_(font),
       state_(),
-      touchWasDown_(false),
-      gamesScan_() {
-    gamesScan_.source = games::vita::makeVitaDiscoverySource(gamesScan_.providerContext);
-    gamesScan_.job.id = 1;
-}
+      touchWasDown_(false) {}
 
-App::~App() noexcept {
-    shutdown();
-}
+App::~App() noexcept = default;
 
-void App::shutdown() noexcept {
-    if (gamesScan_.threadId >= 0) {
-        int exitStatus = 0;
-        sceKernelWaitThreadEnd(gamesScan_.threadId, &exitStatus, nullptr);
-        sceKernelDeleteThread(gamesScan_.threadId);
-        gamesScan_.threadId = -1;
-    }
-}
+void App::shutdown() noexcept {}
 
 void App::update(std::uint32_t buttons, int touchX, int touchY) noexcept {
     state_.update(buttons);
     const bool touchDown = touchX >= 0 && touchY >= 0;
     if (touchDown && !touchWasDown_) handleTouch(touchX, touchY);
     touchWasDown_ = touchDown;
-
-    const std::uint32_t pressed = buttons & ~previousGamesButtons_;
-    previousGamesButtons_ = buttons;
-    if (state_.view() == navigation::View::Channel) {
-        const navigation::ChannelDefinition* channel =
-            navigation::channelAt(state_.selectedChannel());
-        if (channel != nullptr && channel->id == navigation::ChannelId::Games) {
-            if ((pressed & SCE_CTRL_CROSS) != 0 &&
-                gamesScan_.lifecycle.status() == navigation::GamesDiscoveryStatus::Failed) {
-                retryGamesDiscovery();
-            }
-            if (gamesScan_.lifecycle.status() == navigation::GamesDiscoveryStatus::Succeeded) {
-                gamesBrowser_.setItemCount(gamesScan_.catalogue.size());
-                if ((pressed & SCE_CTRL_UP) != 0) gamesBrowser_.moveUp();
-                if ((pressed & SCE_CTRL_DOWN) != 0) gamesBrowser_.moveDown();
-            }
-        }
-    }
-    startGamesDiscovery();
 }
 
 bool App::shouldQuit() const noexcept { return state_.shouldQuit(); }
-
-void App::startGamesDiscovery() noexcept {
-    if (state_.view() != navigation::View::Channel) return;
-    const navigation::ChannelDefinition* channel =
-        navigation::channelAt(state_.selectedChannel());
-    if (channel == nullptr || channel->id != navigation::ChannelId::Games) return;
-    if (!gamesScan_.lifecycle.begin()) return;
-
-    const SceUID thread = sceKernelCreateThread(
-        "psbbv_games_scan", &App::gamesDiscoveryThread,
-        0x10000100, 0x10000, 0, 0, nullptr);
-    if (thread < 0) {
-        startNodeJob(gamesScan_.job);
-        failNodeJob(gamesScan_.job, thread, "Could not create the Games discovery worker");
-        gamesScan_.lifecycle.finish(false);
-        return;
-    }
-
-    gamesScan_.threadId = thread;
-    const int started = sceKernelStartThread(thread, sizeof(App*), this);
-    if (started < 0) {
-        startNodeJob(gamesScan_.job);
-        failNodeJob(gamesScan_.job, started, "Could not start the Games discovery worker");
-        sceKernelDeleteThread(thread);
-        gamesScan_.threadId = -1;
-        gamesScan_.lifecycle.finish(false);
-    }
-}
-
-void App::retryGamesDiscovery() noexcept {
-    if (gamesScan_.lifecycle.status() != navigation::GamesDiscoveryStatus::Failed) return;
-
-    // The worker publishes Failed immediately before returning. Join and
-    // delete it before resetting any memory that the worker previously owned.
-    if (gamesScan_.threadId >= 0) {
-        int exitStatus = 0;
-        if (sceKernelWaitThreadEnd(gamesScan_.threadId, &exitStatus, nullptr) < 0) return;
-        if (sceKernelDeleteThread(gamesScan_.threadId) < 0) return;
-        gamesScan_.threadId = -1;
-    }
-
-    if (!gamesScan_.lifecycle.retry()) return;
-    gamesScan_.catalogue = games::Catalogue{};
-    gamesScan_.report = games::DiscoveryReport{};
-    gamesScan_.job = nodes::NodeJob{};
-    gamesScan_.job.id = 1;
-    gamesBrowser_.setItemCount(0);
-}
-
-int App::gamesDiscoveryThread(SceSize args, void* argument) noexcept {
-    (void)args;
-    auto* app = static_cast<App*>(argument);
-    if (app == nullptr) return -1;
-
-    GamesScanState& scan = app->gamesScan_;
-    if (!startNodeJob(scan.job).ok()) {
-        scan.lifecycle.finish(false);
-        return -1;
-    }
-
-    scan.report = games::discoverInstalledTitles(
-        scan.catalogue, scan.source, scan.scratch, sizeof(scan.scratch));
-    if (scan.report.error == games::DiscoveryError::None) {
-        completeNodeJob(scan.job);
-        scan.lifecycle.finish(true);
-    } else {
-        failNodeJob(scan.job, static_cast<std::int32_t>(scan.report.error),
-                    "Installed-title discovery failed");
-        scan.lifecycle.finish(false);
-    }
-    return 0;
-}
 
 void App::handleTouch(int x, int y) noexcept {
     using navigation::View;
@@ -162,14 +54,6 @@ void App::handleTouch(int x, int y) noexcept {
     }
     if (state_.view() == View::About) { state_.back(); return; }
     if (state_.view() == View::Channel) {
-        const navigation::ChannelDefinition* channel =
-            navigation::channelAt(state_.selectedChannel());
-        if (channel != nullptr && channel->id == navigation::ChannelId::Games &&
-            gamesScan_.lifecycle.status() == navigation::GamesDiscoveryStatus::Succeeded) {
-            const std::size_t index = navigation::gamesBrowserItemAtTouch(
-                x, y, gamesBrowser_.firstVisibleIndex(), gamesScan_.catalogue.size());
-            if (index != navigation::NoGamesBrowserItem) gamesBrowser_.select(index);
-        }
         if (y >= 480 && x <= 180) state_.back();
         return;
     }
@@ -315,107 +199,22 @@ void App::renderChannel() const noexcept {
 
     const navigation::ChannelDefinition* channel =
         navigation::channelAt(state_.selectedChannel());
-    if (channel == nullptr) {
-        renderHome();
-        return;
-    }
-    if (channel->availability != navigation::ChannelAvailability::Implemented) {
+    if (channel == nullptr || channel->availability != navigation::ChannelAvailability::Implemented) {
         renderHome();
         return;
     }
 
-    const nodes::NodeDefinition* node = nodes::findNode(channel->nodeId);
-    const nodes::NodeAvailability status = node == nullptr
-        ? nodes::NodeAvailability::Unavailable
-        : nodes::effectiveAvailability(
-            *node,
-            nodes::HostApiMajor,
-            nodes::HostApiMinor,
-            nodes::NodePlatform::Vita
-        );
-
-    const char* availability = "UNAVAILABLE";
-    switch (status) {
-        case nodes::NodeAvailability::Ready: availability = "READY"; break;
-        case nodes::NodeAvailability::Planned: availability = "PLANNED"; break;
-        case nodes::NodeAvailability::Unavailable: availability = "UNAVAILABLE"; break;
-        case nodes::NodeAvailability::Disabled: availability = "DISABLED"; break;
-        case nodes::NodeAvailability::Error: availability = "ERROR"; break;
-    }
-
-    if (channel->id == navigation::ChannelId::Games) {
-        renderGamesChannel(availability);
-        return;
-    }
-
-    // No generic channel screen: a destination needs its own real renderer.
-    renderHome();
-}
-
-void App::renderGamesChannel(const char* availability) const noexcept {
-    using namespace ui::theme;
-
+    // A channel is only openable after its implementation is integrated into
+    // this Core build and registered as Implemented. Never imply readiness
+    // merely because a development workspace exists in another repository.
     vita2d_draw_rectangle(270, 118, 654, 347, Panel);
     vita2d_draw_rectangle(270, 118, 654, 1, Border);
     vita2d_draw_rectangle(270, 118, 4, 347, Accent);
-
-    drawText(305, 158, Accent, 0.52f, "GAMES /");
-    drawText(392, 158, TextMuted, 0.52f, availability);
-    drawText(305, 210, TextPrimary, 1.22f, "YOUR GAMES");
-    drawText(307, 241, TextSecondary, 0.62f, "Read-only discovery from ux0:/app");
-
-    const navigation::GamesDiscoveryStatus status = gamesScan_.lifecycle.status();
-    char statusLine[96]{};
-    if (status == navigation::GamesDiscoveryStatus::Idle) {
-        std::snprintf(statusLine, sizeof(statusLine), "DISCOVERY NOT STARTED");
-    } else if (status == navigation::GamesDiscoveryStatus::Running) {
-        std::snprintf(statusLine, sizeof(statusLine), "SCANNING INSTALLED TITLES...");
-    } else if (status == navigation::GamesDiscoveryStatus::Failed) {
-        std::snprintf(statusLine, sizeof(statusLine), "SCAN FAILED / CODE %d",
-                      static_cast<int>(gamesScan_.job.result.code));
-    } else {
-        std::snprintf(statusLine, sizeof(statusLine), "SCAN COMPLETE / %u TITLES",
-                      static_cast<unsigned>(gamesScan_.catalogue.size()));
-    }
-    drawText(307, 280, TextSecondary, 0.56f, statusLine);
-
-    if (status == navigation::GamesDiscoveryStatus::Running) {
-        drawText(307, 330, TextMuted, 0.52f, "THE SCAN RUNS IN THE BACKGROUND.");
-    } else if (status == navigation::GamesDiscoveryStatus::Failed) {
-        drawText(307, 330, TextMuted, 0.50f, "CHECK ux0: THEN PRESS CROSS TO RETRY THE SCAN.");
-    } else if (status == navigation::GamesDiscoveryStatus::Succeeded &&
-               gamesScan_.catalogue.size() == 0) {
-        drawText(307, 330, TextMuted, 0.52f, "NO VALID INSTALLED TITLES WERE FOUND.");
-    } else if (status == navigation::GamesDiscoveryStatus::Succeeded) {
-        const games::GameRecord* ordered[games::MaxGames]{};
-        const std::size_t count = gamesScan_.catalogue.sorted(
-            games::SortOrder::TitleAscending, ordered, games::MaxGames);
-        const std::size_t first = gamesBrowser_.firstVisibleIndex();
-        const std::size_t visible = std::min<std::size_t>(
-            gamesBrowser_.visibleCount(), count > first ? count - first : 0);
-        for (std::size_t i = 0; i < visible; ++i) {
-            const std::size_t index = first + i;
-            const int rowTop = 302 + static_cast<int>(i) * 27;
-            const int y = rowTop + 17;
-            const games::GameRecord* game = ordered[index];
-            if (game == nullptr) continue;
-            const bool selected = index == gamesBrowser_.selectedIndex();
-            if (selected) vita2d_draw_rectangle(305, rowTop, 584, 24, PanelSelected);
-            drawText(310, y, selected ? Accent : TextMuted, 0.43f, selected ? ">" : "");
-            drawText(328, y, selected ? TextPrimary : TextSecondary, 0.54f, game->title);
-            drawText(790, y, TextMuted, 0.43f, game->titleId);
-            if (game->favorite) drawText(755, y, Accent, 0.43f, "*");
-        }
-        char browseLine[96]{};
-        std::snprintf(browseLine, sizeof(browseLine),
-                      "SHOWING %u-%u OF %u / UP-DOWN TO BROWSE",
-                      static_cast<unsigned>(first + 1),
-                      static_cast<unsigned>(first + visible),
-                      static_cast<unsigned>(count));
-        drawText(315, 463, TextMuted, 0.43f, browseLine);
-    }
-
-    drawText(305, 486, TextMuted, 0.43f, "DISCOVERY ONLY / GAME LAUNCH IS NOT ENABLED YET.");
+    drawText(305, 158, Accent, 0.52f, channel->title);
+    drawText(305, 220, TextPrimary, 0.90f, "WORKSPACE NOT INTEGRATED");
+    drawText(307, 258, TextSecondary, 0.58f, "This channel will become available in a future Core build.");
+    drawText(307, 302, TextMuted, 0.48f, "Development repositories are not standalone Vita modules.");
+    drawText(307, 486, TextMuted, 0.43f, "CIRCLE  BACK");
 }
 
 void App::renderAbout() const noexcept {
@@ -471,22 +270,11 @@ void App::renderFooter() const noexcept {
     if (state_.view() == navigation::View::Menu) {
         drawText(32, 524, TextSecondary, 0.48f, "D-PAD  SELECT");
         drawText(196, 524, TextSecondary, 0.48f, "CROSS  CONFIRM");
-    } else if (state_.view() == navigation::View::About) {
+    } else if (state_.view() == navigation::View::About ||
+               state_.view() == navigation::View::Channel) {
         drawText(32, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
-    } else if (state_.view() == navigation::View::Channel) {
-        const navigation::ChannelDefinition* channel =
-            navigation::channelAt(state_.selectedChannel());
-        if (channel != nullptr && channel->id == navigation::ChannelId::Games) {
-            if (gamesScan_.lifecycle.status() == navigation::GamesDiscoveryStatus::Failed)
-                drawText(32, 524, TextSecondary, 0.48f, "CROSS  RETRY SCAN");
-            else
-                drawText(32, 524, TextSecondary, 0.48f, "D-PAD  BROWSE GAMES");
-            drawText(236, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
-        } else {
-            drawText(32, 524, TextSecondary, 0.48f, "CIRCLE  BACK");
-        }
     } else {
-        drawText(32, 524, TextSecondary, 0.48f, "CHANNELS: ALL PLANNED");
+        drawText(32, 524, TextSecondary, 0.48f, "CHANNELS: PLANNED");
         drawText(196, 524, TextSecondary, 0.48f, "START: MENU");
     }
 
