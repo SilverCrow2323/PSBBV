@@ -24,7 +24,7 @@ PSBBV Core registers six planned node identities: Games, Applications, Network, 
 
 ## 🧩 Federated module repositories
 
-PSBBV is split into a small native Core and independently versioned capability nodes. A repository existing does not mean its feature is already wired into the Vita UI.
+PSBBV is one native Vita product with one official release stream, owned exclusively by this Core repository. The six domain repositories are separate development workspaces used to design, implement and test capabilities before they are deliberately integrated into Core. They are not independently installable Vita modules and do not have independent PSBBV product releases.
 
 | Node | Repository | Responsibility |
 |---|---|---|
@@ -38,12 +38,12 @@ PSBBV is split into a small native Core and independently versioned capability n
 
 ### Integration rules
 
-- Core owns navigation, lifecycle and presentation; nodes own domain logic and expose versioned manifests/contracts.
+- Core owns the complete application, navigation, lifecycle, presentation and every official release. Domain workspaces provide code and tests that are integrated into Core deliberately.
 - Node discovery and manifest validation must fail closed: an invalid or incompatible node is unavailable, not partially loaded.
 - Network and download nodes must expose explicit state and errors; the UI must never simulate completion.
 - Destructive or privileged system actions require a visible preview and explicit confirmation. Read-only probes remain separate from mutation APIs.
 - Offline navigation and locally available catalogues must remain usable without a network connection.
-- CI for a node proves its own contract/build checks. Core integration and physical Vita behaviour require separate validation.
+- CI in a development workspace proves only that workspace's checks. Only the integrated Core build is a PSBBV product build; physical Vita behaviour requires separate validation.
 
 ## 🧭 What's PSBBV?
 
@@ -55,13 +55,13 @@ We're not doing a pixel-perfect PSBBN replica. We're taking the good idea, updat
 
 ## 🏛️ Core is the official project hub
 
-PSBBV Core owns the integrated product identity, navigation, node registration, lifecycle, permissions, compatibility contracts and the official release channel. The six node repositories (Games, Applications, Network, Media, Downloads and System) are independently developed components. Their builds and tags do not replace an integrated Core release.
+PSBBV Core owns the integrated product identity, navigation, node registration, lifecycle, permissions, compatibility contracts and the official release channel. The six domain repositories (Games, Applications, Network, Media, Downloads and System) are development workspaces only. Their commits and test results may be integrated into Core, but they are not separately released PSBBV products.
 
 **Release contract:** [Core release manifest](docs/CORE-RELEASE-MANIFEST.md) and [example manifest](docs/release-manifest.example.json).
 
 **Current candidate:** [PSBBV Core 0.1.0-rc.1 notes](docs/releases/v0.1.0-rc.1.md) · [machine-readable candidate manifest](docs/releases/v0.1.0-rc.1-manifest.json) · [Vita Build #44895313787](https://github.com/SilverCrow2323/PSBBV/actions/runs/44895313787).
 
-**Official integrated releases:** [PSBBV Core Releases](https://github.com/SilverCrow2323/PSBBV/releases). Each stable release must identify the Core version, compatible node revisions, included VPK/package artifacts, checksums, known limitations and validation evidence. The current candidate is not a published release.
+**Official integrated releases:** [PSBBV Core Releases](https://github.com/SilverCrow2323/PSBBV/releases). Each stable release identifies the Core version, the exact source revisions integrated from development workspaces (where applicable), the VPK artifact, checksums, known limitations and validation evidence. Only PSBBV Core publishes an official release. The current candidate is not a published release.
 
 ## 🚦 Status: 0.1.0 release-candidate preparation
 
@@ -80,7 +80,7 @@ PSBBV Core owns the integrated product identity, navigation, node registration, 
 | Final Title ID | **SCBV00001 provisional; conflict check pending** |
 
 <details><summary><strong>🧯 What does “release candidate” actually mean?</strong></summary>
-The shell can be cross-compiled and packaged into a VPK. The six channel entries are registry metadata only: they are labelled PLANNED and cannot be opened. The Games discovery/browser code is compiled as a foundation but is not exposed as a user-facing Games channel, and game launching is not implemented.
+The shell can be cross-compiled and packaged into a VPK. The six channel entries are registry metadata only: they are labelled PLANNED and cannot be opened. No domain workspace is fetched or built as a dependency of the Core shell. The channel identities remain planned until their implementation is integrated directly into Core.
 
 The exact candidate passed automated tests and VPK verification. It has not yet been installed or validated on a physical Vita. It is not a stable release.
 </details>
