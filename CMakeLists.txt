@@ -70,31 +70,6 @@ if(PSBBV_BUILD_HOST_TESTS_ONLY)
 
     add_test(NAME psbbv_node_jobs COMMAND psbbv_node_job_tests)
 
-    add_executable(psbbv_games_browser_tests
-        tests/GamesBrowserStateTests.cpp
-        src/navigation/GamesBrowserState.cpp
-    )
-    target_include_directories(psbbv_games_browser_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_compile_options(psbbv_games_browser_tests PRIVATE -Wall -Wextra -Wpedantic)
-
-    add_test(NAME psbbv_games_browser COMMAND psbbv_games_browser_tests)
-
-    add_executable(psbbv_games_browser_hit_test_tests
-        tests/GamesBrowserHitTestTests.cpp
-    )
-    target_include_directories(psbbv_games_browser_hit_test_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_compile_options(psbbv_games_browser_hit_test_tests PRIVATE -Wall -Wextra -Wpedantic)
-
-    add_test(NAME psbbv_games_browser_hit_testing COMMAND psbbv_games_browser_hit_test_tests)
-
-    add_executable(psbbv_games_discovery_lifecycle_tests
-        tests/GamesDiscoveryLifecycleTests.cpp
-    )
-    target_include_directories(psbbv_games_discovery_lifecycle_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_compile_options(psbbv_games_discovery_lifecycle_tests PRIVATE -Wall -Wextra -Wpedantic)
-
-    add_test(NAME psbbv_games_discovery_lifecycle COMMAND psbbv_games_discovery_lifecycle_tests)
-
     add_executable(psbbv_touch_mapping_tests
         tests/TouchMappingTests.cpp
     )
@@ -130,25 +105,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Pin the independently maintained Games node to a reviewed commit.
-# Developers may point this at a local checkout without changing the pin.
-include(FetchContent)
-set(PSBBV_GAMES_GIT_TAG "a2f331dd58e288fd1d9e47b4502d39e54bfbae34"
-    CACHE STRING "Reviewed PSBBV-Games commit")
-set(PSBBV_GAMES_SOURCE_DIR "" CACHE PATH "Optional local PSBBV-Games checkout")
-set(PSBBV_GAMES_BUILD_HOST_TESTS OFF CACHE BOOL "Do not cross-build host tests" FORCE)
-set(PSBBV_GAMES_BUILD_VITA_ADAPTER ON CACHE BOOL "Build the Vita filesystem provider" FORCE)
-
-if(PSBBV_GAMES_SOURCE_DIR)
-    add_subdirectory("${PSBBV_GAMES_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/psbbv-games")
-else()
-    FetchContent_Declare(psbbv_games
-        GIT_REPOSITORY https://github.com/SilverCrow2323/PSBBV-Games.git
-        GIT_TAG ${PSBBV_GAMES_GIT_TAG}
-        GIT_SHALLOW FALSE
-    )
-    FetchContent_MakeAvailable(psbbv_games)
-endif()
+# The Core is a standalone Vita application. Domain workspaces are
+# developed in separate repositories and are integrated here deliberately;
+# building the Core must never fetch or build a node repository.
 
 set(VITA_APP_NAME "PSBBV")
 set(VITA_TITLEID "SCBV00001")
@@ -159,7 +118,6 @@ add_executable(PSBBV
     src/app/App.cpp
     src/navigation/ChannelRegistry.cpp
     src/navigation/UiState.cpp
-    src/navigation/GamesBrowserState.cpp
     src/nodes/NodeRegistry.cpp
     src/nodes/NodeManifest.cpp
     src/nodes/NodeLifecycle.cpp
@@ -177,7 +135,6 @@ target_compile_options(PSBBV PRIVATE
 )
 
 target_link_libraries(PSBBV PRIVATE
-    psbbv_games_vita_adapter
     vita2d
     SceDisplay_stub
     SceGxm_stub

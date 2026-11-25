@@ -20,19 +20,20 @@
 | [PSBBV-Downloads](https://github.com/SilverCrow2323/PSBBV-Downloads) | Cancellable transfer queue, safe destinations and integrity verification | Blocking UI work or unconfirmed overwrite of user data |
 | [PSBBV-System](https://github.com/SilverCrow2323/PSBBV-System) | Preferences, supported diagnostics, safe cache management and redacted reports | Arbitrary shell execution or unsupported privileged settings |
 
-## Integration model
+## Product and integration model
 
 - Core owns the application process and the global frame/input lifecycle.
 - Each node owns its domain models, use cases, provider adapters and workspace screens.
 - Nodes communicate through the versioned Node API and typed host services; they do not reach into another node's private implementation.
 - Network, storage and input access are declared as capabilities/permissions. A declaration is not itself a grant.
-- The first Vita implementation is compiled into Core as built-in nodes. Separate Git repositories are a development and ownership boundary, not evidence of dynamic loading.
+- The six domain repositories are development workspaces, not independently installable nodes or separately released products. Core remains the only Vita application and the only PSBBV release authority.
+- The Core build must not fetch, build or link a development workspace as an external runtime dependency. Integration means reviewed source is brought into Core and tested as part of the single product.
 - Desktop tools and platform adapters may be added independently, but every platform must declare and test its own capabilities.
 
 ## Current baseline
 
 - Core: Node API 1.0 proposal, JSON Schema, built-in metadata registry and channel-to-node binding.
-- All six node manifests: provisional version 0.1.0, API 1.0, availability `planned`.
+- The six workspace manifests describe development contracts and status only; their versions are not PSBBV product versions and they do not produce official releases.
 - All node repositories carry a pinned copy of the Core manifest schema and a CI validation workflow.
 - Manifest validation passing proves descriptor consistency only. It does not prove a node implementation, permission grant, playback engine, launcher, network integration or hardware compatibility.
 
@@ -42,7 +43,8 @@
 2. Review compatibility impact before updating pinned schema copies.
 3. Update affected node manifests and tests in the same coordinated change window.
 4. Keep all node availability at `planned` until implementation and platform evidence justify a promotion.
-5. Do not merge the Core foundation PR or publish a stable release without explicit approval and completed hardware gates.
+5. Keep all six workspace repositories release-free as PSBBV products. Only the Core repository may publish an official PSBBV release.
+6. Do not merge the Core foundation PR or publish a stable release without explicit approval and completed hardware gates.
 
 ---
 
