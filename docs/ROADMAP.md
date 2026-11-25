@@ -75,13 +75,13 @@
 ## Phase 2 — Give local content a proper home
 
 - [ ] Typed metadata models for games and applications.
-- [x] Read-only installed Games discovery from the fixed `ux0:/app` root, with bounded PARAM.SFO parsing on a worker thread.
-- [x] Games workspace loading, empty, and failure states; no channel is promoted to READY by discovery alone.
-- [x] Explicit Cross-to-retry flow after a failed Games scan, with worker join/reset ordering and host-tested lifecycle transitions.
-- [x] Five-row Games catalogue browser with title sorting, D-pad wraparound, viewport scrolling, and touch selection.
+- [x] Prototype read-only installed Games discovery in the Games development workspace, with bounded PARAM.SFO parsing and host fixtures.
+- [x] Games workspace loading, empty, and failure-state logic in development; no Core channel is promoted to READY by discovery alone.
+- [x] Explicit retry-flow prototype after a failed Games scan, with worker join/reset ordering and host-tested lifecycle transitions in the workspace.
+- [x] Five-row Games catalogue browser prototype with title sorting, D-pad wraparound, viewport scrolling, and touch selection.
 - [x] Keep discovery read-only until launch and return-to-shell lifecycle are implemented.
 
-The Games discovery code is a source-level foundation only. Games remains PLANNED and non-openable until device-side discovery, catalog behavior, and launch/return lifecycle are verified.
+The Games prototype remains in its development workspace and is not fetched, linked or packaged by Core. It must be reviewed and integrated into the Core source tree before it can become a PSBBV feature. Games remains PLANNED and non-openable until device-side discovery, catalogue behavior, and launch/return lifecycle are verified.
 
 - [ ] Applications discovery and metadata model.
 - [ ] Games filtering, favourites, recently used views, and title launch/return lifecycle.
@@ -105,7 +105,7 @@ Every channel needs a real data source, a failure model, and useful offline beha
 - [ ] Compatibility and performance testing on hardware.
 - [ ] Confirm the final VPK Title ID; `SCBV00001` is still provisional.
 - [ ] Release notes, checksums, and reproducible package build.
-- [ ] Complete the release manifest with exact integrated node revisions.
+- [ ] Complete the Core release manifest with exact source provenance for any integrated development-workspace contributions.
 - [ ] Record physical Vita acceptance for the exact release candidate.
 
 ## Phase 4.1 — 0.1.0 release candidate
