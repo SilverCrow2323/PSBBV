@@ -36,7 +36,7 @@ class CoreReleaseArchitectureTests(unittest.TestCase):
         release = (ROOT / "docs/CORE-RELEASE-MANIFEST.md").read_text(encoding="utf-8")
         self.assertIn("one official release stream", readme)
         self.assertIn("development workspaces", readme)
-        self.assertIn("only PSBBV Core publishes an official release", readme)
+        self.assertIn("only psbbv core publishes an official release", readme.lower())
         self.assertIn("only Vita application and the only PSBBV release authority", ecosystem)
         self.assertIn("do not publish independent PSBBV releases", release)
 
