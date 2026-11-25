@@ -22,7 +22,7 @@ PSBBV Core registers six planned node identities: Games, Applications, Network, 
 > **SPDW FACTORY / PROJECT FILE 001**  
 > PSBBN's channel-first spirit. A Vita-native experience. A lot more thought than another icon grid.
 
-## 🧩 Federated module repositories
+## 🧩 Six domain development workspaces
 
 PSBBV is one native Vita product with one official release stream, owned exclusively by this Core repository. The six domain repositories are separate development workspaces used to design, implement and test capabilities before they are deliberately integrated into Core. They are not independently installable Vita modules and do not have independent PSBBV product releases.
 
@@ -72,7 +72,7 @@ PSBBV Core owns the integrated product identity, navigation, node registration, 
 | D-pad, Cross, Circle and Start navigation | **Implemented in source** |
 | Front touchscreen application menu | **Implemented in source; host-tested hitboxes** |
 | About and application menu | **Implemented in source** |
-| Host test suite | **10/10 CTest + 9/9 VPK verifier tests passed** |
+| Host test suite | **8 standalone Core CTest targets; fresh CI pending on this architecture branch** |
 | Node manifest schema and parser | **Automated validation passed** |
 | VitaSDK cross-build and VPK verifier | **Passed on candidate HEAD** |
 | Six channel modules | **Planned metadata only; not openable** |
@@ -82,7 +82,7 @@ PSBBV Core owns the integrated product identity, navigation, node registration, 
 <details><summary><strong>🧯 What does “release candidate” actually mean?</strong></summary>
 The shell can be cross-compiled and packaged into a VPK. The six channel entries are registry metadata only: they are labelled PLANNED and cannot be opened. No domain workspace is fetched or built as a dependency of the Core shell. The channel identities remain planned until their implementation is integrated directly into Core.
 
-The exact candidate passed automated tests and VPK verification. It has not yet been installed or validated on a physical Vita. It is not a stable release.
+The earlier candidate passed its recorded automated tests and VPK verification. This architecture branch changes the build boundary and must pass fresh CI before its results can be considered current. It has not yet been installed or validated on a physical Vita. It is not a stable release.
 </details>
 
 ## 🎛️ First interaction map
