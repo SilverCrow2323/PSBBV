@@ -49,6 +49,7 @@ jobs:
           ctest --test-dir build-host-tests --output-on-failure
           python3 -m unittest discover -s tests -p 'test_verify_vpk.py' -v
           python3 -m unittest discover -s tests -p 'test_release_candidate_manifest.py' -v
+          python3 -m unittest discover -s tests -p 'test_core_release_architecture.py' -v
 
       - name: Validate node manifest schema and fixtures
         run: |
