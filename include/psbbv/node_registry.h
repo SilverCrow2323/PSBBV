@@ -18,7 +18,8 @@ typedef enum {
     PSBBV_NODE_INVALID_ARGUMENT,
     PSBBV_NODE_UNSUPPORTED_API,
     PSBBV_NODE_DUPLICATE_ID,
-    PSBBV_NODE_REGISTRY_FULL
+    PSBBV_NODE_REGISTRY_FULL,
+    PSBBV_NODE_NOT_FOUND
 } psbbv_node_result;
 
 typedef struct {
@@ -44,6 +45,7 @@ psbbv_node_result psbbv_node_registry_add(
 const psbbv_node *psbbv_node_registry_find(
     const psbbv_node_registry *registry,
     const char *id);
+psbbv_node_result psbbv_node_registry_remove(psbbv_node_registry *registry, const char *id);
 psbbv_node_result psbbv_node_registry_set_enabled(
     psbbv_node_registry *registry,
     const char *id,

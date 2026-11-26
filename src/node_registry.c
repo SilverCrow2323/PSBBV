@@ -33,7 +33,7 @@ const psbbv_node *psbbv_node_registry_find(
     const psbbv_node_registry *registry,
     const char *id) {
     size_t i;
-    if (registry == NULL || id == NULL) return NULL;
+    if (registry == NULL || id == NULL || registry->count > PSBBV_NODE_REGISTRY_CAPACITY) return NULL;
     for (i = 0; i < registry->count; ++i) {
         if (strcmp(registry->nodes[i].id, id) == 0) return &registry->nodes[i];
     }
@@ -47,7 +47,7 @@ psbbv_node_result psbbv_node_registry_add(
     uint32_t api_version,
     uint64_t capabilities) {
     psbbv_node candidate;
-    if (registry == NULL || !valid_id(id) ||
+    if (registry == NULL || registry->count > PSBBV_NODE_REGISTRY_CAPACITY || !valid_id(id) ||
         display_name == NULL || display_name[0] == '\0') {
         return PSBBV_NODE_INVALID_ARGUMENT;
     }
@@ -71,7 +71,7 @@ psbbv_node_result psbbv_node_registry_set_enabled(
     const char *id,
     int enabled) {
     size_t i;
-    if (registry == NULL || id == NULL) return PSBBV_NODE_INVALID_ARGUMENT;
+    if (registry == NULL || id == NULL || registry->count > PSBBV_NODE_REGISTRY_CAPACITY) return PSBBV_NODE_INVALID_ARGUMENT;
     for (i = 0; i < registry->count; ++i) {
         if (strcmp(registry->nodes[i].id, id) == 0) {
             registry->nodes[i].enabled = enabled ? 1 : 0;
@@ -79,4 +79,22 @@ psbbv_node_result psbbv_node_registry_set_enabled(
         }
     }
     return PSBBV_NODE_INVALID_ARGUMENT;
+}
+
+psbbv_node_result psbbv_node_registry_remove(psbbv_node_registry *registry, const char *id) {
+    size_t i;
+    if (registry == NULL || id == NULL || id[0] == '\0' ||
+        registry->count > PSBBV_NODE_REGISTRY_CAPACITY) return PSBBV_NODE_INVALID_ARGUMENT;
+    for (i = 0; i < registry->count; ++i) {
+        if (strcmp(registry->nodes[i].id, id) == 0) {
+            if (i + 1 < registry->count) {
+                memmove(&registry->nodes[i], &registry->nodes[i + 1],
+                        (registry->count - i - 1) * sizeof(registry->nodes[0]));
+            }
+            --registry->count;
+            memset(&registry->nodes[registry->count], 0, sizeof(registry->nodes[0]));
+            return PSBBV_NODE_OK;
+        }
+    }
+    return PSBBV_NODE_NOT_FOUND;
 }

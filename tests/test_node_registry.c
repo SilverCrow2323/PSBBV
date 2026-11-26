@@ -23,6 +23,11 @@ int main(void) {
     CHECK(psbbv_node_registry_set_enabled(&registry, "media", 0) == PSBBV_NODE_OK);
     CHECK(psbbv_node_registry_find(&registry, "media")->enabled == 0);
     CHECK(psbbv_node_registry_set_enabled(&registry, "missing", 1) == PSBBV_NODE_INVALID_ARGUMENT);
+    CHECK(psbbv_node_registry_remove(&registry, "media") == PSBBV_NODE_OK);
+    CHECK(psbbv_node_registry_find(&registry, "media") == NULL);
+    CHECK(psbbv_node_registry_remove(&registry, "media") == PSBBV_NODE_NOT_FOUND);
+    CHECK(registry.count == 1 && strcmp(registry.nodes[0].id, "games") == 0);
+    CHECK(psbbv_node_registry_add(&registry, "media", "Media Reloaded", 1, 0x01) == PSBBV_NODE_OK);
 
     for (i = registry.count; i < PSBBV_NODE_REGISTRY_CAPACITY; ++i) {
         (void)snprintf(id, sizeof(id), "node-%zu", i);
