@@ -1,0 +1,19 @@
+name: PSBBV host tests
+on:
+  push:
+    branches: [main, "feat/**"]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  navigation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure portable core
+        run: cmake -S . -B build -DPSBBV_BUILD_HOST_TESTS=ON
+      - name: Build
+        run: cmake --build build --parallel
+      - name: Test navigation state machine
+        run: ctest --test-dir build --output-on-failure

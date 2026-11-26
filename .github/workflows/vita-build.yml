@@ -1,0 +1,38 @@
+name: PSBBV Vita build
+on:
+  push:
+    branches: [main, "feat/**"]
+    paths:
+      - "CMakeLists.txt"
+      - "include/**"
+      - "src/**"
+      - ".github/workflows/vita-build.yml"
+  pull_request:
+    paths:
+      - "CMakeLists.txt"
+      - "include/**"
+      - "src/**"
+      - ".github/workflows/vita-build.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  vita:
+    runs-on: ubuntu-latest
+    container:
+      image: vitasdk/vitasdk:2026.08
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure VitaSDK build
+        run: cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="$VITASDK/share/vita.toolchain.cmake"
+      - name: Build VPK
+        run: cmake --build build --parallel 2
+      - name: Verify package exists
+        run: test -s build/PSBBV.vpk
+      - name: Upload VPK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PSBBV-native-vpk
+          path: build/PSBBV.vpk
+          if-no-files-found: error
+          retention-days: 14
