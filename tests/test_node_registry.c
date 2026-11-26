@@ -3,12 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define CHECK(expression) do { \\
-    if (!(expression)) { \\
-        fprintf(stderr, "CHECK failed at %s:%d: %s\\n", __FILE__, __LINE__, #expression); \\
-        return 1; \\
-    } \\
-} while (0)
+#define CHECK(expression) do { if (!(expression)) { fprintf(stderr, "CHECK failed at %s:%d: %s\\n", __FILE__, __LINE__, #expression); return 1; } } while (0)
 
 int main(void) {
     psbbv_node_registry registry;
