@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.16)
+project(psbbv_core_foundation C)
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+
+add_library(psbbv_node_registry src/node_registry.c)
+target_include_directories(psbbv_node_registry PUBLIC include)
+target_compile_options(psbbv_node_registry PRIVATE -Wall -Wextra -Wpedantic -Werror)
+
+enable_testing()
+add_executable(test_node_registry tests/test_node_registry.c)
+target_link_libraries(test_node_registry PRIVATE psbbv_node_registry)
+target_compile_options(test_node_registry PRIVATE -Wall -Wextra -Wpedantic -Werror)
+add_test(NAME node_registry COMMAND test_node_registry)
