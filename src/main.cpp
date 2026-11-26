@@ -73,7 +73,6 @@ int main() {
         vita2d_swap_buffers();
         sceKernelDelayThread(16000);
     }
-    vita2d_pgf_free(font);
     vita2d_fini();
     sceKernelExitProcess(0);
     return 0;

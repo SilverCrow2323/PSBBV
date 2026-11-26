@@ -6,7 +6,8 @@ void moveSelection(NavigationState& state, int direction) noexcept {
     else state.selected = (state.selected + 1) % Channels.size();
 }
 void openSelected(NavigationState& state) noexcept {
-    if (state.selected < Channels.size()) state.channel_open = true;
+    if (state.selected >= Channels.size()) state.selected = 0;
+    state.channel_open = true;
 }
 void goBack(NavigationState& state) noexcept { state.channel_open = false; }
 const ChannelInfo& selectedChannel(const NavigationState& state) noexcept {
