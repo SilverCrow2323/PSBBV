@@ -11,7 +11,7 @@ The goal is not to recreate PSBBN pixel-for-pixel or to build another convention
 
 ## Project status
 
-PSBBV is in its foundation stage. The repository currently establishes the native application architecture, rendering baseline, input loop, design direction, and Vita build pipeline.
+PSBBV is in its foundation stage. The repository now includes a portable C++17 navigation state machine, a first native libvita2d menu shell, host regression tests and a VitaSDK VPK workflow. The six channel destinations are navigation foundations; their domain features are not yet wired.
 
 The first interface milestone targets the Vita's native **960 × 544** display and provides a navigable set of channel entry points. Channel functionality will be implemented incrementally; entries that are not implemented yet are presentation scaffolding, not claims of working services.
 
@@ -87,11 +87,11 @@ vdpm install libvita2d
 From the repository root:
 
 ~~~sh
-cmake -S . -B build
+cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="$VITASDK/share/vita.toolchain.cmake"
 cmake --build build --parallel
 ~~~
 
-The build produces PSBBV.vpk in the build directory. Install it on a compatible, homebrew-enabled PlayStation Vita for hardware testing.
+The VitaSDK build produces `build/PSBBV.vpk`. A separate host-only CMake build (without VitaSDK) runs the portable navigation tests via `ctest --test-dir build --output-on-failure`. Install it on a compatible, homebrew-enabled PlayStation Vita for hardware testing.
 
 A Docker-based build is also supported by the GitHub Actions workflow. See [VitaSDK documentation](https://vitasdk.org/) for SDK installation, package management, and toolchain details.
 
