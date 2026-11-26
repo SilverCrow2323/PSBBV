@@ -48,7 +48,7 @@ void drawChannel(vita2d_pgf* font, const psbbv::NavigationState& state) {
 int main() {
     sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG);
     vita2d_init();
-    vita2d_pgf* font = vita2d_pgf_load_default();
+    vita2d_pgf* font = vita2d_load_default_pgf();
     if (font == nullptr) { vita2d_fini(); sceKernelExitProcess(1); return 1; }
     psbbv::NavigationState state{};
     std::uint32_t previousButtons = 0;
