@@ -57,6 +57,10 @@ PSBBV is split into a small native Core and independently versioned capability n
 
 The renderer is intentionally small. The project will add dependencies only when they solve a concrete product requirement.
 
+### Native node registry milestone
+
+The host-testable Core registry now supports bounded registration, lookup, enable/disable and safe removal. Removal compacts the registry and clears the vacated slot, allowing a node to be registered again without stale metadata. Invalid registry counts are rejected at public lookup/mutation boundaries. This is the Core registry contract; it does not yet load external code or grant node permissions.
+
 ## Build
 
 ### 1. Install VitaSDK
